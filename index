@@ -667,8 +667,9 @@ const COLOR_PURPOSE = {
     "娯楽": "#E65100", "思索": "#7B1FA2", "癒し": "#00838F", "感動": "#D32F2F"
 };
 
-// 全24問を8択の画像問題として定義し、指定された順序（元データ配列のインデックス順：14番目、13番目、15番目、17番目、16番目、18番目、20番目、19番目、21番目、23番目、22番目、24番目、および1〜12番目の順序）に再配置
-const BASE_QUESTIONS = [
+// 全24問の元データ配列（修正前）
+const RAW_QUESTIONS = [
+    // index 0: STYLE
     {
         q: "どの世界が好き？", category: "STYLE",
         items: [
@@ -678,6 +679,7 @@ const BASE_QUESTIONS = [
             { label: "概念", img: "./images/A7概念.jpg" }, { label: "変容", img: "./images/A8変容.jpg" }
         ]
     },
+    // index 1: MEDIUM
     {
         q: "アイデアを何にしたい？", category: "MEDIUM",
         items: [
@@ -687,6 +689,7 @@ const BASE_QUESTIONS = [
             { label: "映像", img: "./images/B7映像.jpg" }, { label: "体験", img: "./images/B8体験.jpg" }
         ]
     },
+    // index 2: PURPOSE
     {
         q: "何と言われたい？", category: "PURPOSE",
         items: [
@@ -696,6 +699,7 @@ const BASE_QUESTIONS = [
             { label: "癒し", img: "./images/C7癒し.jpg" }, { label: "感動", img: "./images/C8感動.jpg" }
         ]
     },
+    // index 3: STYLE
     {
         q: "何をつくりたい？", category: "STYLE",
         items: [
@@ -705,6 +709,7 @@ const BASE_QUESTIONS = [
             { label: "概念", img: "./images/D7概念.jpg" }, { label: "変容", img: "./images/D8変容.jpg" }
         ]
     },
+    // index 4: MEDIUM
     {
         q: "作品の中で、人に何をしてもらいたい？", category: "MEDIUM",
         items: [
@@ -714,6 +719,7 @@ const BASE_QUESTIONS = [
             { label: "映像", img: "./images/E7映像.jpg" }, { label: "体験", img: "./images/E8体験.jpg" }
         ]
     },
+    // index 5: PURPOSE
     {
         q: "どんな作品がいい？", category: "PURPOSE",
         items: [
@@ -723,6 +729,7 @@ const BASE_QUESTIONS = [
             { label: "癒し", img: "./images/F7癒し.jpg" }, { label: "感動", img: "./images/F8感動.jpg" }
         ]
     },
+    // index 6: STYLE
     {
         q: "古い建物、どうする？", category: "STYLE",
         items: [
@@ -732,6 +739,7 @@ const BASE_QUESTIONS = [
             { label: "概念", img: "./images/G7概念.jpg" }, { label: "変容", img: "./images/G8変容.jpg" }
         ]
     },
+    // index 7: MEDIUM
     {
         q: "作品の中で、人と何をしたい？", category: "MEDIUM",
         items: [
@@ -741,6 +749,7 @@ const BASE_QUESTIONS = [
             { label: "映像", img: "./images/H7映像.jpg" }, { label: "体験", img: "./images/H8体験.jpg" }
         ]
     },
+    // index 8: PURPOSE
     {
         q: "何を残したい？", category: "PURPOSE",
         items: [
@@ -750,6 +759,7 @@ const BASE_QUESTIONS = [
             { label: "癒し", img: "./images/I7癒し.jpg" }, { label: "感動", img: "./images/I8感動.jpg" }
         ]
     },
+    // index 9: STYLE
     {
         q: "作品を見た人に、まず何をしてほしい？", category: "STYLE",
         items: [
@@ -759,6 +769,7 @@ const BASE_QUESTIONS = [
             { label: "概念", img: "./images/J7概念.jpg" }, { label: "変容", img: "./images/J8変容.jpg" }
         ]
     },
+    // index 10: MEDIUM
     {
         q: "作品に何を込める？", category: "MEDIUM",
         items: [
@@ -768,6 +779,7 @@ const BASE_QUESTIONS = [
             { label: "映像", img: "./images/K7映像.jpg" }, { label: "体験", img: "./images/K8体験.jpg" }
         ]
     },
+    // index 11: PURPOSE
     {
         q: "旅の思い出、どう残す？", category: "PURPOSE",
         items: [
@@ -777,6 +789,7 @@ const BASE_QUESTIONS = [
             { label: "癒し", img: "./images/L7癒し.jpg" }, { label: "感動", img: "./images/L8感動.jpg" }
         ]
     },
+    // index 12: STYLE
     {
         q: "好きな絵画は？", category: "STYLE",
         items: [
@@ -786,6 +799,7 @@ const BASE_QUESTIONS = [
             { label: "概念", img: "./images/A7概念.jpg" }, { label: "変容", img: "./images/A8変容.jpg" }
         ]
     },
+    // index 13: MEDIUM (元14番目)
     {
         q: "好きなジャンルは？", category: "MEDIUM",
         items: [
@@ -795,6 +809,7 @@ const BASE_QUESTIONS = [
             { label: "映像", img: "./images/B7映像.jpg" }, { label: "体験", img: "./images/B8体験.jpg" }
         ]
     },
+    // index 14: PURPOSE
     {
         q: "好きなモノは？", category: "PURPOSE",
         items: [
@@ -804,6 +819,7 @@ const BASE_QUESTIONS = [
             { label: "癒し", img: "./images/C7癒し.jpg" }, { label: "感動", img: "./images/C8感動.jpg" }
         ]
     },
+    // index 15: STYLE
     {
         q: "好きな音楽は？", category: "STYLE",
         items: [
@@ -813,6 +829,7 @@ const BASE_QUESTIONS = [
             { label: "概念", img: "./images/D7概念.jpg" }, { label: "変容", img: "./images/D8変容.jpg" }
         ]
     },
+    // index 16: MEDIUM
     {
         q: "好きな文化は？", category: "MEDIUM",
         items: [
@@ -822,6 +839,7 @@ const BASE_QUESTIONS = [
             { label: "映像", img: "./images/E7映像.jpg" }, { label: "体験", img: "./images/E8体験.jpg" }
         ]
     },
+    // index 17: PURPOSE
     {
         q: "好きな本は？", category: "PURPOSE",
         items: [
@@ -831,6 +849,7 @@ const BASE_QUESTIONS = [
             { label: "癒し", img: "./images/F7癒し.jpg" }, { label: "感動", img: "./images/F8感動.jpg" }
         ]
     },
+    // index 18: STYLE
     {
         q: "好きな絵画は？", category: "STYLE",
         items: [
@@ -840,6 +859,7 @@ const BASE_QUESTIONS = [
             { label: "概念", img: "./images/G7概念.jpg" }, { label: "変容", img: "./images/G8変容.jpg" }
         ]
     },
+    // index 19: MEDIUM
     {
         q: "好きな起源は？", category: "MEDIUM",
         items: [
@@ -849,6 +869,7 @@ const BASE_QUESTIONS = [
             { label: "映像", img: "./images/H7映像.jpg" }, { label: "体験", img: "./images/H8体験.jpg" }
         ]
     },
+    // index 20: PURPOSE
     {
         q: "好きな舞台は？", category: "PURPOSE",
         items: [
@@ -858,6 +879,7 @@ const BASE_QUESTIONS = [
             { label: "癒し", img: "./images/I7癒し.jpg" }, { label: "感動", img: "./images/I8感動.jpg" }
         ]
     },
+    // index 21: STYLE
     {
         q: "好きな建築は？", category: "STYLE",
         items: [
@@ -867,6 +889,7 @@ const BASE_QUESTIONS = [
             { label: "概念", img: "./images/J7概念.jpg" }, { label: "変容", img: "./images/J8変容.jpg" }
         ]
     },
+    // index 22: MEDIUM
     {
         q: "好きなジャンルは？", category: "MEDIUM",
         items: [
@@ -876,6 +899,7 @@ const BASE_QUESTIONS = [
             { label: "映像", img: "./images/K7映像.jpg" }, { label: "体験", img: "./images/K8体験.jpg" }
         ]
     },
+    // index 23: PURPOSE
     {
         q: "好きな映像は？", category: "PURPOSE",
         items: [
@@ -887,9 +911,9 @@ const BASE_QUESTIONS = [
     }
 ];
 
-// ご指定の順序に並べ替え（1問目＝14問目[index 13]、2問目＝13問目[index 12]、3問目＝15問目[index 14]、以下 17[16]、16[15]、18[17]、20[19]、19[18]、21[20]、23[22]、22[21]、24[23]、残りの1〜12問目[0〜11]）
+// 1問目に元14番目（index 13：メディウムの項目と画像）が来るように再配置したインデックス順
 const QUESTION_ORDER_INDICES = [13, 12, 14, 16, 15, 17, 19, 18, 20, 22, 21, 23, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11];
-const QUESTIONS = QUESTION_ORDER_INDICES.map(i => BASE_QUESTIONS[i]);
+const QUESTIONS = QUESTION_ORDER_INDICES.map(i => RAW_QUESTIONS[i]);
 
 const DATA_PURPOSE = {
     "美": { catchPhrase: "美を宿す", title: "美をかたちづくる人", text: "世界に、美しいものを存在させることを創作の目的とする傾向。何を伝えるかよりも、まずそれ自体が美しいかを重視する。色、形、構図、素材、空間、音、言葉などを磨き上げ、調和や完成度の高いものを生み出しようとする。", keywords: "美・調和・洗練・完成度・造形・感性" },
@@ -1102,7 +1126,6 @@ function calculateScores() {
             const category = qData.category;
             ansData.forEach((selectedKey, idx) => {
                 if (scoreMap[category][selectedKey]) {
-                    // 配点変更：1位を2点、2位を1点に変更
                     const points = (idx === 0) ? 2 : 1;
                     scoreMap[category][selectedKey].total += points;
                     
