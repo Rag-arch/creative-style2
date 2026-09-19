@@ -212,7 +212,6 @@
             box-shadow: 0 0 0 2px var(--text-main);
         }
 
-        /* 1番目に選んだ場合の番号表示スタイル */
         .grid-item.selected-1::after {
             content: "1";
             position: absolute;
@@ -229,7 +228,6 @@
             font-weight: bold;
         }
 
-        /* 2番目に選んだ場合の番号表示スタイル */
         .grid-item.selected-2::after {
             content: "2";
             position: absolute;
@@ -354,7 +352,6 @@
             letter-spacing: 0.02em;
         }
 
-        /* 3軸の完全な位置合わせグリッド (iPhone幅を考慮) */
         .axes-grid-layout {
             display: grid;
             grid-template-columns: 1fr auto 1fr auto 1fr;
@@ -403,7 +400,6 @@
             word-break: break-all;
         }
 
-        /* 画像エリア (横16：縦9に固定) */
         .image-section {
             width: 100%;
             aspect-ratio: 16 / 9;
@@ -437,7 +433,6 @@
             word-break: break-all;
         }
 
-        /* セクションブロック */
         .section-block {
             margin-bottom: 6px;
             background-color: transparent;
@@ -649,7 +644,7 @@
 </div>
 
 <script>
-// ここにGoogle Apps Script（GAS）で発行したご自身のウェブアプリのURLを設定してください
+// ご自身のGoogle Apps Script（GAS）ウェブアプリのURL
 const GAS_WEB_APP_URL = "https://script.google.com/macros/s/AKfycbw3FEnDk7Q_cC2neeP7wQshupYrUh8SuO-wBKsXRTFlTnD4Dbb0BA6dzZwL8ok-hN2M/exec";
 
 const COLOR_STYLE = {
@@ -667,29 +662,27 @@ const COLOR_PURPOSE = {
     "娯楽": "#E65100", "思索": "#7B1FA2", "癒し": "#00838F", "感動": "#D32F2F"
 };
 
-// 全24問の元データ配列（修正前）
-const RAW_QUESTIONS = [
-    // index 0: STYLE
+// 全24問の質問データ (MEDIUM → STYLE → PURPOSE のルールを8セット、計24問)
+const QUESTIONS = [
+    // 1セット目 (Q1〜Q3)
     {
-        q: "どの世界が好き？", category: "STYLE",
+        q: "どれが好き？", category: "MEDIUM",
         items: [
-            { label: "再現", img: "./images/A1再現.jpg" }, { label: "理想", img: "./images/A2理想.jpg" },
-            { label: "表現", img: "./images/A3表現.jpg" }, { label: "知覚", img: "./images/A4知覚.jpg" },
-            { label: "構成", img: "./images/A5構成.jpg" }, { label: "幻想", img: "./images/A6幻想.jpg" },
-            { label: "概念", img: "./images/A7概念.jpg" }, { label: "変容", img: "./images/A8変容.jpg" }
+            { label: "視覚", img: "./images/A1視覚.jpg" }, { label: "造形", img: "./images/A2造形.jpg" },
+            { label: "空間", img: "./images/A3空間.jpg" }, { label: "音響", img: "./images/A4音響.jpg" },
+            { label: "言語", img: "./images/A5言語.jpg" }, { label: "身体", img: "./images/A6身体.jpg" },
+            { label: "映像", img: "./images/A7映像.jpg" }, { label: "体験", img: "./images/A8体験.jpg" }
         ]
     },
-    // index 1: MEDIUM
     {
-        q: "アイデアを何にしたい？", category: "MEDIUM",
+        q: "どれが好き？", category: "STYLE",
         items: [
-            { label: "視覚", img: "./images/B1視覚.jpg" }, { label: "造形", img: "./images/B2造形.jpg" },
-            { label: "空間", img: "./images/B3空間.jpg" }, { label: "音響", img: "./images/B4音響.jpg" },
-            { label: "言語", img: "./images/B5言語.jpg" }, { label: "身体", img: "./images/B6身体.jpg" },
-            { label: "映像", img: "./images/B7映像.jpg" }, { label: "体験", img: "./images/B8体験.jpg" }
+            { label: "再現", img: "./images/B1再現.jpg" }, { label: "理想", img: "./images/B2理想.jpg" },
+            { label: "表現", img: "./images/B3表現.jpg" }, { label: "知覚", img: "./images/B4知覚.jpg" },
+            { label: "構成", img: "./images/B5構成.jpg" }, { label: "幻想", img: "./images/B6幻想.jpg" },
+            { label: "概念", img: "./images/B7概念.jpg" }, { label: "変容", img: "./images/B8変容.jpg" }
         ]
     },
-    // index 2: PURPOSE
     {
         q: "何と言われたい？", category: "PURPOSE",
         items: [
@@ -699,27 +692,26 @@ const RAW_QUESTIONS = [
             { label: "癒し", img: "./images/C7癒し.jpg" }, { label: "感動", img: "./images/C8感動.jpg" }
         ]
     },
-    // index 3: STYLE
+
+    // 2セット目 (Q4〜Q6)
+    {
+        q: "アイデアを何にしたい？", category: "MEDIUM",
+        items: [
+            { label: "視覚", img: "./images/D1視覚.jpg" }, { label: "造形", img: "./images/D2造形.jpg" },
+            { label: "空間", img: "./images/D3空間.jpg" }, { label: "音響", img: "./images/D4音響.jpg" },
+            { label: "言語", img: "./images/D5言語.jpg" }, { label: "身体", img: "./images/D6身体.jpg" },
+            { label: "映像", img: "./images/D7映像.jpg" }, { label: "体験", img: "./images/D8体験.jpg" }
+        ]
+    },
     {
         q: "何をつくりたい？", category: "STYLE",
         items: [
-            { label: "再現", img: "./images/D1再現.jpg" }, { label: "理想", img: "./images/D2理想.jpg" },
-            { label: "表現", img: "./images/D3表現.jpg" }, { label: "知覚", img: "./images/D4知覚.jpg" },
-            { label: "構成", img: "./images/D5構成.jpg" }, { label: "幻想", img: "./images/D6幻想.jpg" },
-            { label: "概念", img: "./images/D7概念.jpg" }, { label: "変容", img: "./images/D8変容.jpg" }
+            { label: "再現", img: "./images/E1再現.jpg" }, { label: "理想", img: "./images/E2理想.jpg" },
+            { label: "表現", img: "./images/E3表現.jpg" }, { label: "知覚", img: "./images/E4知覚.jpg" },
+            { label: "構成", img: "./images/E5構成.jpg" }, { label: "幻想", img: "./images/E6幻想.jpg" },
+            { label: "概念", img: "./images/E7概念.jpg" }, { label: "変容", img: "./images/E8変容.jpg" }
         ]
     },
-    // index 4: MEDIUM
-    {
-        q: "作品の中で、人に何をしてもらいたい？", category: "MEDIUM",
-        items: [
-            { label: "視覚", img: "./images/E1視覚.jpg" }, { label: "造形", img: "./images/E2造形.jpg" },
-            { label: "空間", img: "./images/E3空間.jpg" }, { label: "音響", img: "./images/E4音響.jpg" },
-            { label: "言語", img: "./images/E5言語.jpg" }, { label: "身体", img: "./images/E6身体.jpg" },
-            { label: "映像", img: "./images/E7映像.jpg" }, { label: "体験", img: "./images/E8体験.jpg" }
-        ]
-    },
-    // index 5: PURPOSE
     {
         q: "どんな作品がいい？", category: "PURPOSE",
         items: [
@@ -729,27 +721,26 @@ const RAW_QUESTIONS = [
             { label: "癒し", img: "./images/F7癒し.jpg" }, { label: "感動", img: "./images/F8感動.jpg" }
         ]
     },
-    // index 6: STYLE
+
+    // 3セット目 (Q7〜Q9)
+    {
+        q: "作品の中で、人に何をしてもらいたい？", category: "MEDIUM",
+        items: [
+            { label: "視覚", img: "./images/G1視覚.jpg" }, { label: "造形", img: "./images/G2造形.jpg" },
+            { label: "空間", img: "./images/G3空間.jpg" }, { label: "音響", img: "./images/G4音響.jpg" },
+            { label: "言語", img: "./images/G5言語.jpg" }, { label: "身体", img: "./images/G6身体.jpg" },
+            { label: "映像", img: "./images/G7映像.jpg" }, { label: "体験", img: "./images/G8体験.jpg" }
+        ]
+    },
     {
         q: "古い建物、どうする？", category: "STYLE",
         items: [
-            { label: "再現", img: "./images/G1再現.jpg" }, { label: "理想", img: "./images/G2理想.jpg" },
-            { label: "表現", img: "./images/G3表現.jpg" }, { label: "知覚", img: "./images/G4知覚.jpg" },
-            { label: "構成", img: "./images/G5構成.jpg" }, { label: "幻想", img: "./images/G6幻想.jpg" },
-            { label: "概念", img: "./images/G7概念.jpg" }, { label: "変容", img: "./images/G8変容.jpg" }
+            { label: "再現", img: "./images/H1再現.jpg" }, { label: "理想", img: "./images/H2理想.jpg" },
+            { label: "表現", img: "./images/H3表現.jpg" }, { label: "知覚", img: "./images/H4知覚.jpg" },
+            { label: "構成", img: "./images/H5構成.jpg" }, { label: "幻想", img: "./images/H6幻想.jpg" },
+            { label: "概念", img: "./images/H7概念.jpg" }, { label: "変容", img: "./images/H8変容.jpg" }
         ]
     },
-    // index 7: MEDIUM
-    {
-        q: "作品の中で、人と何をしたい？", category: "MEDIUM",
-        items: [
-            { label: "視覚", img: "./images/H1視覚.jpg" }, { label: "造形", img: "./images/H2造形.jpg" },
-            { label: "空間", img: "./images/H3空間.jpg" }, { label: "音響", img: "./images/H4音響.jpg" },
-            { label: "言語", img: "./images/H5言語.jpg" }, { label: "身体", img: "./images/H6身体.jpg" },
-            { label: "映像", img: "./images/H7映像.jpg" }, { label: "体験", img: "./images/H8体験.jpg" }
-        ]
-    },
-    // index 8: PURPOSE
     {
         q: "何を残したい？", category: "PURPOSE",
         items: [
@@ -759,27 +750,26 @@ const RAW_QUESTIONS = [
             { label: "癒し", img: "./images/I7癒し.jpg" }, { label: "感動", img: "./images/I8感動.jpg" }
         ]
     },
-    // index 9: STYLE
+
+    // 4セット目 (Q10〜Q12)
+    {
+        q: "作品の中で、人と何をしたい？", category: "MEDIUM",
+        items: [
+            { label: "視覚", img: "./images/J1視覚.jpg" }, { label: "造形", img: "./images/J2造形.jpg" },
+            { label: "空間", img: "./images/J3空間.jpg" }, { label: "音響", img: "./images/J4音響.jpg" },
+            { label: "言語", img: "./images/J5言語.jpg" }, { label: "身体", img: "./images/J6身体.jpg" },
+            { label: "映像", img: "./images/J7映像.jpg" }, { label: "体験", img: "./images/J8体験.jpg" }
+        ]
+    },
     {
         q: "作品を見た人に、まず何をしてほしい？", category: "STYLE",
         items: [
-            { label: "再現", img: "./images/J1再現.jpg" }, { label: "理想", img: "./images/J2理想.jpg" },
-            { label: "表現", img: "./images/J3表現.jpg" }, { label: "知覚", img: "./images/J4知覚.jpg" },
-            { label: "構成", img: "./images/J5構成.jpg" }, { label: "幻想", img: "./images/J6幻想.jpg" },
-            { label: "概念", img: "./images/J7概念.jpg" }, { label: "変容", img: "./images/J8変容.jpg" }
+            { label: "再現", img: "./images/K1再現.jpg" }, { label: "理想", img: "./images/K2理想.jpg" },
+            { label: "表現", img: "./images/K3表現.jpg" }, { label: "知覚", img: "./images/K4知覚.jpg" },
+            { label: "構成", img: "./images/K5構成.jpg" }, { label: "幻想", img: "./images/K6幻想.jpg" },
+            { label: "概念", img: "./images/K7概念.jpg" }, { label: "変容", img: "./images/K8変容.jpg" }
         ]
     },
-    // index 10: MEDIUM
-    {
-        q: "作品に何を込める？", category: "MEDIUM",
-        items: [
-            { label: "視覚", img: "./images/K1視覚.jpg" }, { label: "造形", img: "./images/K2造形.jpg" },
-            { label: "空間", img: "./images/K3空間.jpg" }, { label: "音響", img: "./images/K4音響.jpg" },
-            { label: "言語", img: "./images/K5言語.jpg" }, { label: "身体", img: "./images/K6身体.jpg" },
-            { label: "映像", img: "./images/K7映像.jpg" }, { label: "体験", img: "./images/K8体験.jpg" }
-        ]
-    },
-    // index 11: PURPOSE
     {
         q: "旅の思い出、どう残す？", category: "PURPOSE",
         items: [
@@ -789,7 +779,17 @@ const RAW_QUESTIONS = [
             { label: "癒し", img: "./images/L7癒し.jpg" }, { label: "感動", img: "./images/L8感動.jpg" }
         ]
     },
-    // index 12: STYLE
+
+    // 5セット目 (Q13〜Q15)
+    {
+        q: "好きなジャンルは？", category: "MEDIUM",
+        items: [
+            { label: "視覚", img: "./images/A1視覚.jpg" }, { label: "造形", img: "./images/A2造形.jpg" },
+            { label: "空間", img: "./images/A3空間.jpg" }, { label: "音響", img: "./images/A4音響.jpg" },
+            { label: "言語", img: "./images/A5言語.jpg" }, { label: "身体", img: "./images/A6身体.jpg" },
+            { label: "映像", img: "./images/A7映像.jpg" }, { label: "体験", img: "./images/A8体験.jpg" }
+        ]
+    },
     {
         q: "好きな絵画は？", category: "STYLE",
         items: [
@@ -799,17 +799,6 @@ const RAW_QUESTIONS = [
             { label: "概念", img: "./images/A7概念.jpg" }, { label: "変容", img: "./images/A8変容.jpg" }
         ]
     },
-    // index 13: MEDIUM (元14番目)
-    {
-        q: "好きなジャンルは？", category: "MEDIUM",
-        items: [
-            { label: "視覚", img: "./images/B1視覚.jpg" }, { label: "造形", img: "./images/B2造形.jpg" },
-            { label: "空間", img: "./images/B3空間.jpg" }, { label: "音響", img: "./images/B4音響.jpg" },
-            { label: "言語", img: "./images/B5言語.jpg" }, { label: "身体", img: "./images/B6身体.jpg" },
-            { label: "映像", img: "./images/B7映像.jpg" }, { label: "体験", img: "./images/B8体験.jpg" }
-        ]
-    },
-    // index 14: PURPOSE
     {
         q: "好きなモノは？", category: "PURPOSE",
         items: [
@@ -819,17 +808,8 @@ const RAW_QUESTIONS = [
             { label: "癒し", img: "./images/C7癒し.jpg" }, { label: "感動", img: "./images/C8感動.jpg" }
         ]
     },
-    // index 15: STYLE
-    {
-        q: "好きな音楽は？", category: "STYLE",
-        items: [
-            { label: "再現", img: "./images/D1再現.jpg" }, { label: "理想", img: "./images/D2理想.jpg" },
-            { label: "表現", img: "./images/D3表現.jpg" }, { label: "知覚", img: "./images/D4知覚.jpg" },
-            { label: "構成", img: "./images/D5構成.jpg" }, { label: "幻想", img: "./images/D6幻想.jpg" },
-            { label: "概念", img: "./images/D7概念.jpg" }, { label: "変容", img: "./images/D8変容.jpg" }
-        ]
-    },
-    // index 16: MEDIUM
+
+    // 6セット目 (Q16〜Q18)
     {
         q: "好きな文化は？", category: "MEDIUM",
         items: [
@@ -839,7 +819,15 @@ const RAW_QUESTIONS = [
             { label: "映像", img: "./images/E7映像.jpg" }, { label: "体験", img: "./images/E8体験.jpg" }
         ]
     },
-    // index 17: PURPOSE
+    {
+        q: "好きな音楽は？", category: "STYLE",
+        items: [
+            { label: "再現", img: "./images/D1再現.jpg" }, { label: "理想", img: "./images/D2理想.jpg" },
+            { label: "表現", img: "./images/D3表現.jpg" }, { label: "知覚", img: "./images/D4知覚.jpg" },
+            { label: "構成", img: "./images/D5構成.jpg" }, { label: "幻想", img: "./images/D6幻想.jpg" },
+            { label: "概念", img: "./images/D7概念.jpg" }, { label: "変容", img: "./images/D8変容.jpg" }
+        ]
+    },
     {
         q: "好きな本は？", category: "PURPOSE",
         items: [
@@ -849,17 +837,8 @@ const RAW_QUESTIONS = [
             { label: "癒し", img: "./images/F7癒し.jpg" }, { label: "感動", img: "./images/F8感動.jpg" }
         ]
     },
-    // index 18: STYLE
-    {
-        q: "好きな絵画は？", category: "STYLE",
-        items: [
-            { label: "再現", img: "./images/G1再現.jpg" }, { label: "理想", img: "./images/G2理想.jpg" },
-            { label: "表現", img: "./images/G3表現.jpg" }, { label: "知覚", img: "./images/G4知覚.jpg" },
-            { label: "構成", img: "./images/G5構成.jpg" }, { label: "幻想", img: "./images/G6幻想.jpg" },
-            { label: "概念", img: "./images/G7概念.jpg" }, { label: "変容", img: "./images/G8変容.jpg" }
-        ]
-    },
-    // index 19: MEDIUM
+
+    // 7セット目 (Q19〜Q21)
     {
         q: "好きな起源は？", category: "MEDIUM",
         items: [
@@ -869,7 +848,15 @@ const RAW_QUESTIONS = [
             { label: "映像", img: "./images/H7映像.jpg" }, { label: "体験", img: "./images/H8体験.jpg" }
         ]
     },
-    // index 20: PURPOSE
+    {
+        q: "好きな絵画は？", category: "STYLE",
+        items: [
+            { label: "再現", img: "./images/G1再現.jpg" }, { label: "理想", img: "./images/G2理想.jpg" },
+            { label: "表現", img: "./images/G3表現.jpg" }, { label: "知覚", img: "./images/G4知覚.jpg" },
+            { label: "構成", img: "./images/G5構成.jpg" }, { label: "幻想", img: "./images/G6幻想.jpg" },
+            { label: "概念", img: "./images/G7概念.jpg" }, { label: "変容", img: "./images/G8変容.jpg" }
+        ]
+    },
     {
         q: "好きな舞台は？", category: "PURPOSE",
         items: [
@@ -879,17 +866,8 @@ const RAW_QUESTIONS = [
             { label: "癒し", img: "./images/I7癒し.jpg" }, { label: "感動", img: "./images/I8感動.jpg" }
         ]
     },
-    // index 21: STYLE
-    {
-        q: "好きな建築は？", category: "STYLE",
-        items: [
-            { label: "再現", img: "./images/J1再現.jpg" }, { label: "理想", img: "./images/J2理想.jpg" },
-            { label: "表現", img: "./images/J3表現.jpg" }, { label: "知覚", img: "./images/J4知覚.jpg" },
-            { label: "構成", img: "./images/J5構成.jpg" }, { label: "幻想", img: "./images/J6幻想.jpg" },
-            { label: "概念", img: "./images/J7概念.jpg" }, { label: "変容", img: "./images/J8変容.jpg" }
-        ]
-    },
-    // index 22: MEDIUM
+
+    // 8セット目 (Q22〜Q24)
     {
         q: "好きなジャンルは？", category: "MEDIUM",
         items: [
@@ -899,7 +877,15 @@ const RAW_QUESTIONS = [
             { label: "映像", img: "./images/K7映像.jpg" }, { label: "体験", img: "./images/K8体験.jpg" }
         ]
     },
-    // index 23: PURPOSE
+    {
+        q: "好きな建築は？", category: "STYLE",
+        items: [
+            { label: "再現", img: "./images/J1再現.jpg" }, { label: "理想", img: "./images/J2理想.jpg" },
+            { label: "表現", img: "./images/J3表現.jpg" }, { label: "知覚", img: "./images/J4知覚.jpg" },
+            { label: "構成", img: "./images/J5構成.jpg" }, { label: "幻想", img: "./images/J6幻想.jpg" },
+            { label: "概念", img: "./images/J7概念.jpg" }, { label: "変容", img: "./images/J8変容.jpg" }
+        ]
+    },
     {
         q: "好きな映像は？", category: "PURPOSE",
         items: [
@@ -911,19 +897,15 @@ const RAW_QUESTIONS = [
     }
 ];
 
-// 1問目に元14番目（index 13：メディウムの項目と画像）が来るように再配置したインデックス順
-const QUESTION_ORDER_INDICES = [13, 12, 14, 16, 15, 17, 19, 18, 20, 22, 21, 23, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11];
-const QUESTIONS = QUESTION_ORDER_INDICES.map(i => RAW_QUESTIONS[i]);
-
 const DATA_PURPOSE = {
     "美": { catchPhrase: "美を宿す", title: "美をかたちづくる人", text: "世界に、美しいものを存在させることを創作の目的とする傾向。何を伝えるかよりも、まずそれ自体が美しいかを重視する。色、形、構図、素材、空間、音、言葉などを磨き上げ、調和や完成度の高いものを生み出しようとする。", keywords: "美・調和・洗練・完成度・造形・感性" },
     "探究": { catchPhrase: "未知を拓く", title: "真理を追い求める人", text: "まだ知らないものを発見し、世界への理解を広げることを創作の目的とする傾向。正解をつくるよりも、未知を見つけることに創作の価値を感じる。実験、研究、観察、試行錯誤を通して、既存の常識を問い直す。作品そのものだけでなく、制作の過程で得られる発見を重視することもある。", keywords: "発見・実験・研究・未知・仮説・革新" },
     "伝達": { catchPhrase: "想いを響かせる", title: "メッセージを届ける人", text: "情報、知識、思想、物語などを、他者へ届けることを創作の目的とする傾向。自分が何を感じただけでなく、相手に何が伝わったかを重視する。文章、映像、図解、デザイン、演説、教育など、意味や情報を媒介する表現と相性がよい。伝わることそのものを作品の完成度の一部として捉えやすい。", keywords: "情報・知識・意味・説明・共有・メッセージ" },
-    "共感": { catchPhrase: "心を繋ぐ", title: "感情を分かち合う人", text: "人と人の間に感情的なつながりを生み出すことを創作の目的とする傾向。理解させることより、わかる、同じ気持ちだと感じてもらうことを重視する。自身の経験や感情を作品に込め、それを通して他者との距離を縮めようとする。", keywords: "共鳴・共有・親密さ・感情・人間関係・連帯" },
+    "共感": { catchPhrase: "心を繋ぐ", title: "感情を分かち合う人", text: "人と人の間に感情的なつながりを作り出すことを創作の目的とする傾向。理解させることより、わかる、同じ気持ちだと感じてもらうことを重視する。自身の経験や感情を作品に込め、それを通して他者との距離を縮めようとする。", keywords: "共鳴・共有・親密さ・感情・人間関係・連帯" },
     "娯楽": { catchPhrase: "世界を沸かす", title: "遊び心を演出する人", text: "人を楽しませ、夢中にさせることを目的とする傾向。創作を一種の仕掛けとして捉え、次は何が起こる？どうしたらもっと面白い？と考える。驚き、笑い、スリル、遊び、没入などを意図的に設計する。", keywords: "楽しさ・遊び・驚き・刺激・笑い・没入" },
     "思索": { catchPhrase: "問いを残す", title: "深い思索をもたらす人", text: "作品を通して、見る人・読む人自身に考えるきっかけを与えることを創作の目的とする傾向。答えを与えるより、問いを残すことを重視する。一つの答えに決められない作品や、複数の解釈が成立する作品にも価値を見出す。", keywords: "問い・哲学・解釈・余白・多義性・内省" },
     "癒し": { catchPhrase: "心に灯をともす", title: "安らぎをもたらす人", text: "人の心を穏やかにし、安心や安らぎを与えることを創作の目的とする傾向。強い刺激よりも、ここにいていいと感じられる環境や体験をつくろうとする。柔らかな色、心地よい音、自然、温かい物語、居心地のよい空間などと相性がよい。", keywords: "安心・安らぎ・温もり・休息・心地よさ・回復" },
-    "感動": { catchPhrase: "魂を揺さぶる", title: "感情の波を起こす人", text: "人の心を大きく動かし、記憶に残る体験を生み出すことを創作の目的とする傾向.美しい、面白いだけでなく、忘れられないほど心を動かしたいという欲求が強い。物語の起伏、劇的な演出、壮大さ、意外性、音楽、身体表現などを通して感情のピークをつくる。", keywords: "情動・衝撃・高揚・ドラマ・余韻・記憶" }
+    "感動": { catchPhrase: "魂を揺さぶる", title: "感情の波を起こす人", text: "人の心を大きく動かし、記憶に残る体験を生み出すことを創作の目的とする傾向。美しい、面白いだけでなく、忘れられないほど心を動かしたいという欲求が強い。物語の起伏、劇的な演出、壮大さ、意外性、音楽、身体表現などを通して感情のピークをつくる。", keywords: "情動・衝撃・高揚・ドラマ・余韻・記憶" }
 };
 
 const DATA_MEDIUM = {
@@ -941,9 +923,9 @@ const DATA_STYLE = {
     "再現": { catchPhrase: "現実の写し手", title: "再現 ｜ 世界を写し取る人", text: "目の前にある世界を観察し、その姿や本質を捉えようとする創作傾向。自分がどうつくりたいかよりも、対象はどうなっているのかを重視する。観察、記録、写実、資料性などを通して、対象の特徴やリアリティを掘り下げる。", keywords: "観察・真実・精密さ・忠実さ・記録" },
     "理想": { catchPhrase: "至高の求道者", title: "理想 ｜ あるべき世界を描く人", text: "現実をそのまま写すのではなく、こうあってほしいという姿を追い求める創作傾向。現実に存在するものを超えて、より美しく、より良く、より完成された状態を構想する。建築、プロダクト、未来像、理想都市などにも現れやすい。", keywords: "理想・完成・調和・秩序・可能性" },
     "表現": { catchPhrase: "感情の爆発者", title: "表現 ｜ 自分を形にする人", text: "感情、感性、思想、個性など、自分自身の内側を作品として表す創作傾向。何をつくりたいか以上に、自分は何を感じ、何を考えているかが創作の出発点になる。独自の視点や個性そのものを作品の価値として捉えやすい。", keywords: "個性・感情・自己・独創性・主観" },
-    "知覚": { catchPhrase: "世界の観測者", title: "知覚 ｜ 世界を感じ取る人", text: "世界をどのように感じ、知覚するかを重視する創作傾向。正確に描くよりも、どう見えるか、どう聞こえるか、どう感じるかを大切にする。光、色、音,温度、身体感覚、空間体験などへの関心が強い。", keywords: "感覚・印象・光・身体・体験" },
+    "知覚": { catchPhrase: "世界の観測者", title: "知覚 ｜ 世界を感じ取る人", text: "世界をどのように感じ、知覚するかを重視する創作傾向。正確に描くよりも、どう見えるか、どう聞こえるか、どう感じるかを大切にする。光、色、音、温度、身体感覚、空間体験などへの関心が強い。", keywords: "感覚・印象・光・身体・体験" },
     "構成": { catchPhrase: "万象の構築者", title: "構成 ｜ 世界を組み立てる人", text: "複数の要素を組み合わせ、その関係性から新しい秩序や美を生み出す創作傾向。個々のパーツだけでなく、それらがどう配置され、どう関係するかを重視する。建築、グラフィック、編集、音楽、映像、都市計画などと相性がよい。", keywords: "秩序・構造・配置・関係・バランス" },
-    "幻想": { catchPhrase: "夢幻の創造主", title: "幻想 ｜ 存在しない世界を生み出す人", text: "現実には存在しないことを想像し、新しい世界として成立させる創作傾向。夢、神話、魔法、異世界、童話など,現実とは異なる世界や可能性を創造する。単なる空想ではなく、現実には見えないものを可視化することに価値を見出す。", keywords: "想像・夢・神話・異世界・非現実" },
+    "幻想": { catchPhrase: "夢幻の創造主", title: "幻想 ｜ 存在しない世界を生み出す人", text: "現実には存在しないことを想像し、新しい世界として成立させる創作傾向。夢、神話、魔法、異世界、童話など、現実とは異なる世界や可能性を創造する。単なる空想ではなく、現実には見えないものを可視化することに価値を見出す。", keywords: "想像・夢・神話・異世界・非現実" },
     "概念": { catchPhrase: "常識の異端児", title: "概念 ｜ 見えないものを形にする人", text: "思想、意味、問い、価値観など、目に見えないものを作品として提示する創作傾向。何が美しいかだけでなく、この作品は何を意味するのかを重視する。作品そのものだけでなく、その背景にある考えや問いが創作の核になることも多い。", keywords: "意味・思想・問い・本質・コンセプト" },
     "変容": { catchPhrase: "既成概念の破壊者", title: "変容 ｜ 世界を書き換える人", text: "既存のものを変形・再解釈・融合し、新しい価値へと変える創作傾向。ゼロからつくるだけでなく、すでにあるものを別のものへ変えることに創造性を感じる。異なるジャンルを融合したり、既存の常識を反転させたりすることもある。", keywords: "変化・再解釈・融合・改変・革新" }
 };
