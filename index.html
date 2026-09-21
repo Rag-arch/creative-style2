@@ -616,9 +616,8 @@ const COLOR_PURPOSE = {
     "娯楽": "#FFA94D", "思索": "#B197FC", "癒し": "#20C997", "感動": "#FF6B6B"
 };
 
-// 全26問の質問データ (MEDIUM → STYLE → PURPOSE をベースに、25・26問目として23・24問目を追加)
+// 全26問の質問データ
 const QUESTIONS = [
-    // 1セット目 (Q1〜Q3)
     {
         q: "好きな分野は？", category: "MEDIUM",
         items: [
@@ -646,8 +645,6 @@ const QUESTIONS = [
             { label: "癒し", img: "./images/C7癒し.jpg" }, { label: "感動", img: "./images/C8感動.jpg" }
         ]
     },
-
-    // 2セット目 (Q4〜Q6)
     {
         q: "好きな文化は？", category: "MEDIUM",
         items: [
@@ -675,8 +672,6 @@ const QUESTIONS = [
             { label: "癒し", img: "./images/F7癒し.jpg" }, { label: "感動", img: "./images/F8感動.jpg" }
         ]
     },
-
-    // 3セット目 (Q7〜Q9)
     {
         q: "好きな分野は？", category: "MEDIUM",
         items: [
@@ -704,8 +699,6 @@ const QUESTIONS = [
             { label: "癒し", img: "./images/I7癒し.jpg" }, { label: "感動", img: "./images/I8感動.jpg" }
         ]
     },
-
-    // 4セット目 (Q10〜Q12)
     {
         q: "好きな起源は？", category: "MEDIUM",
         items: [
@@ -733,8 +726,6 @@ const QUESTIONS = [
             { label: "癒し", img: "./images/L7癒し.jpg" }, { label: "感動", img: "./images/L8感動.jpg" }
         ]
     },
-
-    // 5セット目 (Q13〜Q15)
     {
         q: "好きな分野は？", category: "MEDIUM",
         items: [
@@ -762,8 +753,6 @@ const QUESTIONS = [
             { label: "癒し", img: "./images/O7癒し.jpg" }, { label: "感動", img: "./images/O8感動.jpg" }
         ]
     },
-
-    // 6セット目 (Q16〜Q18)
     {
         q: "好きな遊戯は？", category: "MEDIUM",
         items: [
@@ -791,8 +780,6 @@ const QUESTIONS = [
             { label: "癒し", img: "./images/R7癒し.jpg" }, { label: "感動", img: "./images/R8感動.jpg" }
         ]
     },
-
-    // 7セット目 (Q19〜Q21)
     {
         q: "好きな分野は？", category: "MEDIUM",
         items: [
@@ -820,8 +807,6 @@ const QUESTIONS = [
             { label: "癒し", img: "./images/U7癒し.jpg" }, { label: "感動", img: "./images/U8感動.jpg" }
         ]
     },
-
-    // 8セット目 (Q22〜Q24)
     {
         q: "好きな分野は？", category: "MEDIUM",
         items: [
@@ -849,8 +834,6 @@ const QUESTIONS = [
             { label: "癒し", img: "./images/X7癒し.jpg" }, { label: "感動", img: "./images/X8感動.jpg" }
         ]
     },
-
-    // 追加セット (Q25：23問目と同じ、Q26：24問目と同じ)
     {
         q: "好きな音楽は？", category: "STYLE",
         items: [
@@ -948,6 +931,7 @@ function showScreen(screenId) {
 function startQuiz() {
     currentQuestionIndex = 0;
     userAnswers = [];
+    updateLiveCardBackground();
     renderQuestion();
     showScreen('screen-quiz');
 }
@@ -1000,6 +984,34 @@ function renderQuestion() {
     }
 }
 
+// 回答のたびにリアルタイムで診断カードの背景グラデーションを更新する関数
+function updateLiveCardBackground() {
+    const res = calculateScores();
+    const finalStyle = res.style.rank1.key;
+    const finalMedium = res.medium.rank1.key;
+    const finalPurpose = res.purpose.rank1.key;
+
+    const colorS = COLOR_STYLE[finalStyle] || "#ffffff";
+    const colorM = COLOR_MEDIUM[finalMedium] || "#ffffff";
+    const colorP = COLOR_PURPOSE[finalPurpose] || "#ffffff";
+
+    const rgbS = hexToRgb(colorS);
+    const rgbM = hexToRgb(colorM);
+    const rgbP = hexToRgb(colorP);
+
+    // まったく回答がない初期状態は白〜ニュートラルから始まり、答えが進むにつれて色づくように調整
+    const hasAnswers = userAnswers.some(ans => Array.isArray(ans) && ans.length > 0);
+    const alpha = hasAnswers ? "0.15" : "0.03";
+    const alpha2 = hasAnswers ? "0.12" : "0.02";
+
+    const bgVal = `linear-gradient(135deg, 
+        rgba(${rgbM.r}, ${rgbM.g}, ${rgbM.b}, ${alpha}) 0%, 
+        rgba(${rgbS.r}, ${rgbS.g}, ${rgbS.b}, ${alpha2}) 50%, 
+        rgba(${rgbP.r}, ${rgbP.g}, ${rgbP.b}, ${alpha2}) 100%)`;
+
+    document.getElementById('result-card').style.background = bgVal;
+}
+
 function toggleGridItemSelection(label) {
     let currentSelections = userAnswers[currentQuestionIndex];
     if (!Array.isArray(currentSelections)) {
@@ -1019,6 +1031,10 @@ function toggleGridItemSelection(label) {
     }
 
     userAnswers[currentQuestionIndex] = currentSelections;
+    
+    // 答えるたびにグラデーションをリアルタイム反映
+    updateLiveCardBackground();
+    
     renderQuestion();
 
     if (currentSelections.length === 2) {
@@ -1036,6 +1052,7 @@ function toggleGridItemSelection(label) {
 function prevQuestion() {
     if (currentQuestionIndex > 0) {
         currentQuestionIndex--;
+        updateLiveCardBackground();
         renderQuestion();
     }
 }
@@ -1247,7 +1264,6 @@ function calculateAndShowResult() {
     const r2M = res.medium.rank2.key;
     const r2P = res.purpose.rank2.key;
 
-    // 1位とのパーセンテージ（ratio）に応じてフォントサイズを大きく動的に決定
     function getDynamicFontSize(ratio) {
         const minSize = 12;
         const maxSize = 24;
