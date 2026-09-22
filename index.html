@@ -20,13 +20,17 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <style>
         :root {
-            --bg-color: #000000;
-            --card-bg: #111111;
-            --text-main: #ffffff;
-            --text-sub: #aaaaaa;
-            --accent-color: #ffffff;
-            --border-color: #333333;
+            /* 白基調のカラーパレットへ変更 */
+            --bg-color: #ffffff;
+            --card-bg: #ffffff;
+            --text-main: #222222;
+            --text-sub: #666666;
+            --accent-color: #222222;
+            --border-color: #e0e0e0;
             --font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", "Segoe UI", "Hiragino Kaku Gothic ProN", "Hiragino Sans", Meiryo, sans-serif;
+            
+            /* ライブグラデーション用の初期変数 */
+            --live-grad: #ffffff;
         }
 
         * {
@@ -37,7 +41,10 @@
         }
 
         body {
+            /* 基本を白にし、回答の進行・選択に応じてなめらかにグラデーションが変化する背景 */
             background-color: var(--bg-color);
+            background-image: var(--live-grad);
+            background-attachment: fixed;
             color: var(--text-main);
             font-family: var(--font-family);
             display: flex;
@@ -47,6 +54,7 @@
             padding: 12px;
             letter-spacing: 0.05em;
             line-height: 1.5;
+            transition: background-image 0.5s ease;
         }
 
         .container {
@@ -74,7 +82,7 @@
             letter-spacing: 0.2em;
             margin-bottom: 1.5rem;
             text-transform: uppercase;
-            color: #ffffff;
+            color: var(--text-main);
         }
 
         .start-container {
@@ -99,9 +107,9 @@
             display: inline-block;
             width: 100%;
             padding: 14px 24px;
-            background: #ffffff;
-            color: #000000;
-            border: 1px solid #ffffff;
+            background: #222222;
+            color: #ffffff;
+            border: 1px solid #222222;
             font-size: 0.9rem;
             font-weight: 600;
             letter-spacing: 0.1em;
@@ -117,14 +125,14 @@
         }
 
         .btn:hover {
-            background: #000000;
-            color: #ffffff;
-            border-color: #ffffff;
+            background: #ffffff;
+            color: #222222;
+            border-color: #222222;
         }
 
         .btn:disabled {
-            border-color: #444;
-            color: #444;
+            border-color: #cccccc;
+            color: #cccccc;
             cursor: not-allowed;
             background: transparent;
         }
@@ -139,13 +147,13 @@
         .btn-secondary {
             border-color: var(--border-color);
             color: var(--text-main);
-            background: #1a1a1a;
+            background: #f9f9f9;
         }
 
         .btn-secondary:hover {
-            background: #333333;
-            color: #ffffff;
-            border-color: #ffffff;
+            background: #eeeeee;
+            color: #000000;
+            border-color: #bbbbbb;
         }
 
         /* 質問カード共通 */
@@ -162,7 +170,7 @@
             font-size: 0.85rem;
             font-weight: 700;
             letter-spacing: 0.15em;
-            color: #ffffff;
+            color: var(--text-main);
         }
 
         .q-title {
@@ -171,7 +179,7 @@
             margin-bottom: 1.5rem;
             text-align: center;
             line-height: 1.5;
-            color: #ffffff;
+            color: var(--text-main);
         }
 
         /* 8択グリッド用スタイル */
@@ -196,7 +204,7 @@
             cursor: pointer;
             position: relative;
             overflow: hidden;
-            background: #111;
+            background: #f0f0f0;
             border-radius: 0;
             transition: all 0.2s ease;
         }
@@ -212,8 +220,8 @@
         }
 
         .grid-item.selected {
-            border-color: #ffffff;
-            box-shadow: 0 0 0 2px #ffffff;
+            border-color: #222222;
+            box-shadow: 0 0 0 2px #222222;
         }
 
         .grid-item.selected-1::after {
@@ -221,8 +229,8 @@
             position: absolute;
             top: 4px;
             right: 4px;
-            background: #ffffff;
-            color: #000000;
+            background: #222222;
+            color: #ffffff;
             width: 20px;
             height: 20px;
             display: flex;
@@ -263,10 +271,10 @@
             padding: 30px 20px;
             display: block;
             cursor: pointer;
-            background: #111;
+            background: #fafafa;
             border-radius: 0;
             transition: background 0.2s, border 0.2s;
-            color: #ffffff;
+            color: var(--text-main);
         }
 
         .file-label.has-image {
@@ -296,7 +304,7 @@
         .result-card {
             background-color: var(--card-bg);
             border-radius: 0;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
             padding: 16px 16px;
             margin-bottom: 12px;
             border: 1px solid var(--border-color);
@@ -304,7 +312,7 @@
             max-width: 100%;
             transition: background 0.5s ease;
             overflow: hidden;
-            color: #ffffff;
+            color: var(--text-main);
         }
 
         .card-header {
@@ -370,7 +378,7 @@
         .catchphrase {
             font-size: 11px;
             font-weight: bold;
-            color: #ffffff;
+            color: var(--text-main);
             margin-bottom: 10px;
             text-align: center;
             word-break: break-all;
@@ -379,7 +387,7 @@
         .image-section {
             width: 100%;
             aspect-ratio: 16 / 9;
-            background-color: rgba(255, 255, 255, 0.05);
+            background-color: rgba(0, 0, 0, 0.03);
             border-radius: 0;
             display: flex;
             align-items: center;
@@ -410,10 +418,10 @@
         .section-title {
             font-size: 11px;
             font-weight: bold;
-            border-bottom: 2px solid #555555;
+            border-bottom: 2px solid #cccccc;
             padding-bottom: 2px;
             margin-bottom: 6px;
-            color: #ffffff;
+            color: var(--text-main);
         }
 
         .axis-item {
@@ -423,7 +431,7 @@
         .axis-name {
             font-size: 10px;
             font-weight: bold;
-            color: #ffffff;
+            color: var(--text-main);
         }
 
         .axis-desc {
@@ -445,7 +453,7 @@
         }
 
         .another-type {
-            background-color: rgba(255, 255, 255, 0.05);
+            background-color: rgba(0, 0, 0, 0.02);
             padding: 12px 10px;
             border-radius: 0;
             text-align: center;
@@ -616,7 +624,7 @@ const COLOR_PURPOSE = {
     "娯楽": "#FFA94D", "思索": "#B197FC", "癒し": "#20C997", "感動": "#FF6B6B"
 };
 
-// 全30問の質問データ (27・29問目は25問目と同じフォーマット、28・30問目は26問目と同じフォーマット)
+// 全30問の質問データ
 const QUESTIONS = [
     {
         q: "好きな分野は？", category: "MEDIUM",
@@ -852,7 +860,6 @@ const QUESTIONS = [
             { label: "癒し", img: "./images/XC7癒し.jpg" }, { label: "感動", img: "./images/XC8感動.jpg" }
         ]
     },
-    // Q27（Q25と同じフォーマット：style / 絵画）
     {
         q: "好きな写真は？", category: "STYLE",
         items: [
@@ -862,7 +869,6 @@ const QUESTIONS = [
             { label: "概念", img: "./images/YB7概念.jpg" }, { label: "変容", img: "./images/YB8変容.jpg" }
         ]
     },
-    // Q28（Q26と同じフォーマット：purpose / 建築）
     {
         q: "好きな音楽は？", category: "PURPOSE",
         items: [
@@ -872,7 +878,6 @@ const QUESTIONS = [
             { label: "癒し", img: "./images/YC7癒し.jpg" }, { label: "感動", img: "./images/YC8感動.jpg" }
         ]
     },
-    // Q29（Q25と同じフォーマット：style / 絵画）
     {
         q: "好きな絵画は？", category: "STYLE",
         items: [
@@ -882,7 +887,6 @@ const QUESTIONS = [
             { label: "概念", img: "./images/ZB7概念.jpg" }, { label: "変容", img: "./images/ZB8変容.jpg" }
         ]
     },
-    // Q30（Q26と同じフォーマット：purpose / 建築）
     {
         q: "好きな体験は？", category: "PURPOSE",
         items: [
@@ -1024,36 +1028,35 @@ function renderQuestion() {
     }
 }
 
-// 初期状態を白（または非常に薄い白）にし、選択が進むにつれてグラデーションが濃くかかっていくように変更
+// 質問に答えるたびに、白ベースから選択傾向に合わせたグラデーションがなめらかに濃くかかっていく演出
 function updateLiveCardBackground() {
     const res = calculateScores();
     const finalStyle = res.style.rank1.key;
     const finalMedium = res.medium.rank1.key;
     const finalPurpose = res.purpose.rank1.key;
 
-    const colorS = COLOR_STYLE[finalStyle] || "#ffffff";
-    const colorM = COLOR_MEDIUM[finalMedium] || "#ffffff";
-    const colorP = COLOR_PURPOSE[finalPurpose] || "#ffffff";
+    const colorS = COLOR_STYLE[finalStyle] || "#cccccc";
+    const colorM = COLOR_MEDIUM[finalMedium] || "#cccccc";
+    const colorP = COLOR_PURPOSE[finalPurpose] || "#cccccc";
 
     const rgbS = hexToRgb(colorS);
     const rgbM = hexToRgb(colorM);
     const rgbP = hexToRgb(colorP);
 
-    // 回答が進むにつれて不透明度（alpha）が比例して増していくように調整（最大 0.18 まで）
+    // 回答が進むにつれて不透明度（alpha）が上がっていく（最大 0.12 まで）
     const answeredCount = userAnswers.filter(ans => Array.isArray(ans) && ans.length > 0).length;
     const progressRate = answeredCount / QUESTIONS.length;
     
-    // 最初はほぼ純白（白ベース）、進むにつれてカラーのグラデーションがかかる
-    const baseWhiteAlpha = Math.max(0.05, 0.35 * (1 - progressRate));
-    const colorAlpha = 0.03 + (0.15 * progressRate);
+    // ベースは真っ白からスタートし、回答が増えるにつれて各カテゴリカラーが美しく重なる
+    const colorAlpha = 0.01 + (0.11 * progressRate);
 
-    const bgVal = `linear-gradient(135deg, 
-        rgba(255, 255, 255, ${baseWhiteAlpha}) 0%, 
-        rgba(${rgbM.r}, ${rgbM.g}, ${rgbM.b}, ${colorAlpha}) 30%, 
+    const gradVal = `linear-gradient(135deg, 
+        rgba(255, 255, 255, 1) 0%, 
+        rgba(${rgbM.r}, ${rgbM.g}, ${rgbM.b}, ${colorAlpha}) 35%, 
         rgba(${rgbS.r}, ${rgbS.g}, ${rgbS.b}, ${colorAlpha}) 70%, 
         rgba(${rgbP.r}, ${rgbP.g}, ${rgbP.b}, ${colorAlpha}) 100%)`;
 
-    document.getElementById('result-card').style.background = bgVal;
+    document.documentElement.style.setProperty('--live-grad', gradVal);
 }
 
 function toggleGridItemSelection(label) {
@@ -1076,7 +1079,7 @@ function toggleGridItemSelection(label) {
 
     userAnswers[currentQuestionIndex] = currentSelections;
     
-    // 答えるたびにグラデーションをリアルタイム反映
+    // 答えるたびにグラデーションをリアルタイム更新
     updateLiveCardBackground();
     
     renderQuestion();
@@ -1245,9 +1248,9 @@ function calculateAndShowResult() {
     const finalMedium = res.medium.rank1.key;
     const finalPurpose = res.purpose.rank1.key;
 
-    const colorS = COLOR_STYLE[finalStyle] || "#ffffff";
-    const colorM = COLOR_MEDIUM[finalMedium] || "#ffffff";
-    const colorP = COLOR_PURPOSE[finalPurpose] || "#ffffff";
+    const colorS = COLOR_STYLE[finalStyle] || "#222222";
+    const colorM = COLOR_MEDIUM[finalMedium] || "#222222";
+    const colorP = COLOR_PURPOSE[finalPurpose] || "#222222";
 
     const rgbS = hexToRgb(colorS);
     const rgbM = hexToRgb(colorM);
@@ -1255,9 +1258,10 @@ function calculateAndShowResult() {
 
     const resultCard = document.getElementById('result-card');
     resultCard.style.background = `linear-gradient(135deg, 
-        rgba(${rgbM.r}, ${rgbM.g}, ${rgbM.b}, 0.15) 0%, 
-        rgba(${rgbS.r}, ${rgbS.g}, ${rgbS.b}, 0.12) 50%, 
-        rgba(${rgbP.r}, ${rgbP.g}, ${rgbP.b}, 0.12) 100%)`;
+        rgba(255, 255, 255, 1) 0%, 
+        rgba(${rgbM.r}, ${rgbM.g}, ${rgbM.b}, 0.08) 35%, 
+        rgba(${rgbS.r}, ${rgbS.g}, ${rgbS.b}, 0.08) 70%, 
+        rgba(${rgbP.r}, ${rgbP.g}, ${rgbP.b}, 0.08) 100%)`;
 
     document.getElementById('res-axes-grid').innerHTML = `
         <div class="axis-col-1 axis-label-item">[MEDIUM]</div>
@@ -1359,7 +1363,7 @@ function downloadResultImage() {
             finalCanvas.height = targetHeight;
             const ctx = finalCanvas.getContext('2d');
 
-            ctx.fillStyle = "#000000";
+            ctx.fillStyle = "#ffffff";
             ctx.fillRect(0, 0, targetWidth, targetHeight);
 
             const cardBgColor = sourceCard.style.background;
@@ -1406,7 +1410,7 @@ function restart() {
     document.getElementById('file-label-box').classList.remove('has-image');
     document.getElementById('btn-show-result').disabled = true;
     document.getElementById('char-image-input').value = '';
-    document.getElementById('result-card').style.background = 'var(--card-bg)';
+    document.documentElement.style.setProperty('--live-grad', '#ffffff');
     showScreen('screen-start');
 }
 </script>
