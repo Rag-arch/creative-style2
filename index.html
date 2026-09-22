@@ -1027,7 +1027,6 @@ function renderQuestion() {
     }
 }
 
-// 質問に答えるたびに、選択された傾向の色を反映したグラデーションを背景に美しく変化させる関数（より濃く調整）
 function updateLiveCardBackground() {
     const res = calculateScores();
     const finalStyle = res.style.rank1.key;
@@ -1042,7 +1041,6 @@ function updateLiveCardBackground() {
     const rgbM = hexToRgb(colorM);
     const rgbP = hexToRgb(colorP);
 
-    // 回答が進むにつれて色の重なり（不透明度）が増していく演出（濃さをアップ）
     const answeredCount = userAnswers.filter(ans => Array.isArray(ans) && ans.length > 0).length;
     const progressRate = answeredCount / QUESTIONS.length;
     const colorAlpha = 0.05 + (0.22 * progressRate);
@@ -1076,9 +1074,7 @@ function toggleGridItemSelection(label) {
 
     userAnswers[currentQuestionIndex] = currentSelections;
     
-    // 答えるたびにグラデーションをリアルタイム更新
     updateLiveCardBackground();
-    
     renderQuestion();
 
     if (currentSelections.length === 2) {
@@ -1253,7 +1249,6 @@ function calculateAndShowResult() {
     const rgbM = hexToRgb(colorM);
     const rgbP = hexToRgb(colorP);
 
-    // 診断結果カードにも美しいグラデーションを適用（不透明度を上げてより濃く鮮やかに）
     const resultCard = document.getElementById('result-card');
     resultCard.style.background = `linear-gradient(135deg, 
         rgba(255, 255, 255, 1) 0%, 
