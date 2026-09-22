@@ -1027,7 +1027,7 @@ function renderQuestion() {
     }
 }
 
-// 質問に答えるたびに、選択された傾向の色を反映したグラデーションを背景に美しく変化させる関数
+// 質問に答えるたびに、選択された傾向の色を反映したグラデーションを背景に美しく変化させる関数（より濃く調整）
 function updateLiveCardBackground() {
     const res = calculateScores();
     const finalStyle = res.style.rank1.key;
@@ -1042,10 +1042,10 @@ function updateLiveCardBackground() {
     const rgbM = hexToRgb(colorM);
     const rgbP = hexToRgb(colorP);
 
-    // 回答が進むにつれて色の重なり（不透明度）が増していく演出
+    // 回答が進むにつれて色の重なり（不透明度）が増していく演出（濃さをアップ）
     const answeredCount = userAnswers.filter(ans => Array.isArray(ans) && ans.length > 0).length;
     const progressRate = answeredCount / QUESTIONS.length;
-    const colorAlpha = 0.02 + (0.13 * progressRate);
+    const colorAlpha = 0.05 + (0.22 * progressRate);
 
     const gradVal = `linear-gradient(135deg, 
         rgba(255, 255, 255, 1) 0%, 
@@ -1253,13 +1253,13 @@ function calculateAndShowResult() {
     const rgbM = hexToRgb(colorM);
     const rgbP = hexToRgb(colorP);
 
-    // 診断結果カードにも美しいグラデーションを適用
+    // 診断結果カードにも美しいグラデーションを適用（不透明度を上げてより濃く鮮やかに）
     const resultCard = document.getElementById('result-card');
     resultCard.style.background = `linear-gradient(135deg, 
         rgba(255, 255, 255, 1) 0%, 
-        rgba(${rgbM.r}, ${rgbM.g}, ${rgbM.b}, 0.08) 35%, 
-        rgba(${rgbS.r}, ${rgbS.g}, ${rgbS.b}, 0.08) 70%, 
-        rgba(${rgbP.r}, ${rgbP.g}, ${rgbP.b}, 0.08) 100%)`;
+        rgba(${rgbM.r}, ${rgbM.g}, ${rgbM.b}, 0.16) 35%, 
+        rgba(${rgbS.r}, ${rgbS.g}, ${rgbS.b}, 0.16) 70%, 
+        rgba(${rgbP.r}, ${rgbP.g}, ${rgbP.b}, 0.16) 100%)`;
 
     document.getElementById('res-axes-grid').innerHTML = `
         <div class="axis-col-1 axis-label-item">[MEDIUM]</div>
@@ -1415,3 +1415,4 @@ function restart() {
 
 </body>
 </html>
+```[cite: 8]
