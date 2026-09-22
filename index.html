@@ -20,7 +20,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <style>
         :root {
-            /* 白基調のカラーパレットへ変更 */
+            /* 白基調のカラーパレット */
             --bg-color: #ffffff;
             --card-bg: #ffffff;
             --text-main: #222222;
@@ -41,7 +41,6 @@
         }
 
         body {
-            /* 基本を白にし、回答の進行・選択に応じてなめらかにグラデーションが変化する背景 */
             background-color: var(--bg-color);
             background-image: var(--live-grad);
             background-attachment: fixed;
@@ -292,7 +291,7 @@
             border-radius: 0;
         }
 
-        /* ----- 最終結果カード (全画面フルサイズ対応・iPhone崩れ防止) ----- */
+        /* ----- 最終結果カード ----- */
         .result-card-container {
             display: flex;
             justify-content: center;
@@ -575,7 +574,7 @@
                     <div id="res-axis-details"></div>
                 </div>
 
-                <!-- ⑥ もう一つのあなた（3軸解説の下に移動） -->
+                <!-- ⑥ もう一つのあなた -->
                 <div class="another-type">
                     <h4>もう一つのあなた</h4>
                     <p id="res-sub-axes">視覚 × 理想 × 探究</p>
@@ -610,7 +609,7 @@
 const GAS_WEB_APP_URL = "https://script.google.com/macros/s/AKfycbw3FEnDk7Q_cC2neeP7wQshupYrUh8SuO-wBKsXRTFlTnD4Dbb0BA6dzZwL8ok-hN2M/exec";
 
 const COLOR_STYLE = {
-    "再現": "#FF6B6B", "理想": "#FFA94D", "表現": "#F06595", "知觉": "#FCC419",
+    "再現": "#FF6B6B", "理想": "#FFA94D", "表現": "#F06595", "知覚": "#FCC419",
     "構成": "#748FFC", "幻想": "#B197FC", "概念": "#4DABF7", "変容": "#38D9A9"
 };
 
@@ -1028,7 +1027,7 @@ function renderQuestion() {
     }
 }
 
-// 質問に答えるたびに、白ベースから選択傾向に合わせたグラデーションがなめらかに濃くかかっていく演出
+// 質問に答えるたびに、選択された傾向の色を反映したグラデーションを背景に美しく変化させる関数
 function updateLiveCardBackground() {
     const res = calculateScores();
     const finalStyle = res.style.rank1.key;
@@ -1043,12 +1042,10 @@ function updateLiveCardBackground() {
     const rgbM = hexToRgb(colorM);
     const rgbP = hexToRgb(colorP);
 
-    // 回答が進むにつれて不透明度（alpha）が上がっていく（最大 0.12 まで）
+    // 回答が進むにつれて色の重なり（不透明度）が増していく演出
     const answeredCount = userAnswers.filter(ans => Array.isArray(ans) && ans.length > 0).length;
     const progressRate = answeredCount / QUESTIONS.length;
-    
-    // ベースは真っ白からスタートし、回答が増えるにつれて各カテゴリカラーが美しく重なる
-    const colorAlpha = 0.01 + (0.11 * progressRate);
+    const colorAlpha = 0.02 + (0.13 * progressRate);
 
     const gradVal = `linear-gradient(135deg, 
         rgba(255, 255, 255, 1) 0%, 
@@ -1256,6 +1253,7 @@ function calculateAndShowResult() {
     const rgbM = hexToRgb(colorM);
     const rgbP = hexToRgb(colorP);
 
+    // 診断結果カードにも美しいグラデーションを適用
     const resultCard = document.getElementById('result-card');
     resultCard.style.background = `linear-gradient(135deg, 
         rgba(255, 255, 255, 1) 0%, 
