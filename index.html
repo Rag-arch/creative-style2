@@ -588,7 +588,7 @@ const COLOR_PURPOSE = {
     "娯楽": "#FFA94D", "思索": "#B197FC", "癒し": "#20C997", "感動": "#FF6B6B"
 };
 
-// 全36問の質問データ（画像ファイル名のプレフィックスをA〜Hに修正）
+// 全36問の質問データ（命名規則 A〜H ＋ a〜d に完全準拠）
 const QUESTIONS = [
     /* Q1 (A) */ { q: "好きな分野は？", category: "MEDIUM", items: [
         { label: "視覚", img: "./images/A1視覚.jpg" }, { label: "造形", img: "./images/A2造形.jpg" },
@@ -596,29 +596,29 @@ const QUESTIONS = [
         { label: "言語", img: "./images/A5言語.jpg" }, { label: "身体", img: "./images/A6身体.jpg" },
         { label: "映像", img: "./images/A7映像.jpg" }, { label: "体験", img: "./images/A8体験.jpg" }
     ]},
-    /* Q2 (A) */ { q: "好きな絵画は？", category: "STYLE", items: [
+    /* Q2 (Aa) */ { q: "好きな絵画は？", category: "STYLE", items: [
         { label: "再現", img: "./images/Aa1再現.jpg" }, { label: "理想", img: "./images/Aa2理想.jpg" },
         { label: "表現", img: "./images/Aa3表現.jpg" }, { label: "知覚", img: "./images/Aa4知覚.jpg" },
         { label: "構成", img: "./images/Aa5構成.jpg" }, { label: "幻想", img: "./images/Aa6幻想.jpg" },
         { label: "概念", img: "./images/Aa7概念.jpg" }, { label: "変容", img: "./images/Aa8変容.jpg" }
     ]},
-    /* Q3 (A) */ { q: "好きな絵画は？", category: "STYLE", items: [
-        { label: "再現", img: "./images/A1再現.jpg" }, { label: "理想", img: "./images/A2理想.jpg" },
-        { label: "表現", img: "./images/A3表現.jpg" }, { label: "知覚", img: "./images/A4知覚.jpg" },
-        { label: "構成", img: "./images/A5構成.jpg" }, { label: "幻想", img: "./images/A6幻想.jpg" },
-        { label: "概念", img: "./images/A7概念.jpg" }, { label: "変容", img: "./images/A8変容.jpg" }
+    /* Q3 (Ab) */ { q: "好きな絵画は？", category: "STYLE", items: [
+        { label: "再現", img: "./images/Ab1再現.jpg" }, { label: "理想", img: "./images/Ab2理想.jpg" },
+        { label: "表現", img: "./images/Ab3表現.jpg" }, { label: "知覚", img: "./images/Ab4知覚.jpg" },
+        { label: "構成", img: "./images/Ab5構成.jpg" }, { label: "幻想", img: "./images/Ab6幻想.jpg" },
+        { label: "概念", img: "./images/Ab7概念.jpg" }, { label: "変容", img: "./images/Ab8変容.jpg" }
     ]},
-    /* Q4 (A) */ { q: "好きな版画は？", category: "STYLE", items: [
-        { label: "再現", img: "./images/A1再現.jpg" }, { label: "理想", img: "./images/A2理想.jpg" },
-        { label: "表現", img: "./images/A3表現.jpg" }, { label: "知覚", img: "./images/A4知覚.jpg" },
-        { label: "構成", img: "./images/A5構成.jpg" }, { label: "幻想", img: "./images/A6幻想.jpg" },
-        { label: "概念", img: "./images/A7概念.jpg" }, { label: "変容", img: "./images/A8変容.jpg" }
+    /* Q4 (Ac) */ { q: "好きな版画は？", category: "STYLE", items: [
+        { label: "再現", img: "./images/Ac1再現.jpg" }, { label: "理想", img: "./images/Ac2理想.jpg" },
+        { label: "表現", img: "./images/Ac3表現.jpg" }, { label: "知覚", img: "./images/Ac4知覚.jpg" },
+        { label: "構成", img: "./images/Ac5構成.jpg" }, { label: "幻想", img: "./images/Ac6幻想.jpg" },
+        { label: "概念", img: "./images/Ac7概念.jpg" }, { label: "変容", img: "./images/Ac8変容.jpg" }
     ]},
-    /* Q5 (A) */ { q: "好きなグラフィックは？", category: "PURPOSE", items: [
-        { label: "美", img: "./images/A1美.jpg" }, { label: "探究", img: "./images/A2探求.jpg" },
-        { label: "伝達", img: "./images/A3伝達.jpg" }, { label: "共感", img: "./images/A4共感.jpg" },
-        { label: "娯楽", img: "./images/A5娯楽.jpg" }, { label: "思索", img: "./images/A6思索.jpg" },
-        { label: "癒し", img: "./images/A7癒し.jpg" }, { label: "感動", img: "./images/A8感動.jpg" }
+    /* Q5 (Ad) */ { q: "好きなグラフィックは？", category: "PURPOSE", items: [
+        { label: "美", img: "./images/Ad1美.jpg" }, { label: "探究", img: "./images/Ad2探求.jpg" },
+        { label: "伝達", img: "./images/Ad3伝達.jpg" }, { label: "共感", img: "./images/Ad4共感.jpg" },
+        { label: "娯楽", img: "./images/Ad5娯楽.jpg" }, { label: "思索", img: "./images/Ad6思索.jpg" },
+        { label: "癒し", img: "./images/Ad7癒し.jpg" }, { label: "感動", img: "./images/Ad8感動.jpg" }
     ]},
     /* Q6 (B) */ { q: "好きな分野は？", category: "MEDIUM", items: [
         { label: "視覚", img: "./images/B1視覚.jpg" }, { label: "造形", img: "./images/B2造形.jpg" },
@@ -626,29 +626,29 @@ const QUESTIONS = [
         { label: "言語", img: "./images/B5言語.jpg" }, { label: "身体", img: "./images/B6身体.jpg" },
         { label: "映像", img: "./images/B7映像.jpg" }, { label: "体験", img: "./images/B8体験.jpg" }
     ]},
-    /* Q7 (B) */ { q: "好きな彫刻は？", category: "STYLE", items: [
-        { label: "再現", img: "./images/B1再現.jpg" }, { label: "理想", img: "./images/B2理想.jpg" },
-        { label: "表現", img: "./images/B3表現.jpg" }, { label: "知覚", img: "./images/B4知覚.jpg" },
-        { label: "構成", img: "./images/B5構成.jpg" }, { label: "幻想", img: "./images/B6幻想.jpg" },
-        { label: "概念", img: "./images/B7概念.jpg" }, { label: "変容", img: "./images/B8変容.jpg" }
+    /* Q7 (Ba) */ { q: "好きな彫刻は？", category: "STYLE", items: [
+        { label: "再現", img: "./images/Ba1再現.jpg" }, { label: "理想", img: "./images/Ba2理想.jpg" },
+        { label: "表現", img: "./images/Ba3表現.jpg" }, { label: "知覚", img: "./images/Ba4知覚.jpg" },
+        { label: "構成", img: "./images/Ba5構成.jpg" }, { label: "幻想", img: "./images/Ba6幻想.jpg" },
+        { label: "概念", img: "./images/Ba7概念.jpg" }, { label: "変容", img: "./images/Ba8変容.jpg" }
     ]},
-    /* Q8 (B) */ { q: "好きな工芸品は？", category: "PURPOSE", items: [
-        { label: "美", img: "./images/B1美.jpg" }, { label: "探究", img: "./images/B2探求.jpg" },
-        { label: "伝達", img: "./images/B3伝達.jpg" }, { label: "共感", img: "./images/B4共感.jpg" },
-        { label: "娯楽", img: "./images/B5娯楽.jpg" }, { label: "思索", img: "./images/B6思索.jpg" },
-        { label: "癒し", img: "./images/B7癒し.jpg" }, { label: "感動", img: "./images/B8感動.jpg" }
+    /* Q8 (Bb) */ { q: "好きな工芸品は？", category: "PURPOSE", items: [
+        { label: "美", img: "./images/Bb1美.jpg" }, { label: "探究", img: "./images/Bb2探求.jpg" },
+        { label: "伝達", img: "./images/Bb3伝達.jpg" }, { label: "共感", img: "./images/Bb4共感.jpg" },
+        { label: "娯楽", img: "./images/Bb5娯楽.jpg" }, { label: "思索", img: "./images/Bb6思索.jpg" },
+        { label: "癒し", img: "./images/Bb7癒し.jpg" }, { label: "感動", img: "./images/Bb8感動.jpg" }
     ]},
-    /* Q9 (B) */ { q: "好きな工業製品は？", category: "PURPOSE", items: [
-        { label: "美", img: "./images/B1美.jpg" }, { label: "探究", img: "./images/B2探求.jpg" },
-        { label: "伝達", img: "./images/B3伝達.jpg" }, { label: "共感", img: "./images/B4共感.jpg" },
-        { label: "娯楽", img: "./images/B5娯楽.jpg" }, { label: "思索", img: "./images/B6思索.jpg" },
-        { label: "癒し", img: "./images/B7癒し.jpg" }, { label: "感動", img: "./images/B8感動.jpg" }
+    /* Q9 (Bc) */ { q: "好きな工業製品は？", category: "PURPOSE", items: [
+        { label: "美", img: "./images/Bc1美.jpg" }, { label: "探究", img: "./images/Bc2探求.jpg" },
+        { label: "伝達", img: "./images/Bc3伝達.jpg" }, { label: "共感", img: "./images/Bc4共感.jpg" },
+        { label: "娯楽", img: "./images/Bc5娯楽.jpg" }, { label: "思索", img: "./images/Bc6思索.jpg" },
+        { label: "癒し", img: "./images/Bc7癒し.jpg" }, { label: "感動", img: "./images/Bc8感動.jpg" }
     ]},
-    /* Q10 (B) */ { q: "好きなファッションは？", category: "PURPOSE", items: [
-        { label: "美", img: "./images/B1美.jpg" }, { label: "探究", img: "./images/B2探求.jpg" },
-        { label: "伝達", img: "./images/B3伝達.jpg" }, { label: "共感", img: "./images/B4共感.jpg" },
-        { label: "娯楽", img: "./images/B5娯楽.jpg" }, { label: "思索", img: "./images/B6思索.jpg" },
-        { label: "癒し", img: "./images/B7癒し.jpg" }, { label: "感動", img: "./images/B8感動.jpg" }
+    /* Q10 (Bd) */ { q: "好きなファッションは？", category: "PURPOSE", items: [
+        { label: "美", img: "./images/Bd1美.jpg" }, { label: "探究", img: "./images/Bd2探求.jpg" },
+        { label: "伝達", img: "./images/Bd3伝達.jpg" }, { label: "共感", img: "./images/Bd4共感.jpg" },
+        { label: "娯楽", img: "./images/Bd5娯楽.jpg" }, { label: "思索", img: "./images/Bd6思索.jpg" },
+        { label: "癒し", img: "./images/Bd7癒し.jpg" }, { label: "感動", img: "./images/Bd8感動.jpg" }
     ]},
     /* Q11 (C) */ { q: "好きな遊戯は？", category: "MEDIUM", items: [
         { label: "視覚", img: "./images/C1視覚.jpg" }, { label: "造形", img: "./images/C2造形.jpg" },
@@ -656,23 +656,23 @@ const QUESTIONS = [
         { label: "言語", img: "./images/C5言語.jpg" }, { label: "身体", img: "./images/C6身体.jpg" },
         { label: "映像", img: "./images/C7映像.jpg" }, { label: "体験", img: "./images/C8体験.jpg" }
     ]},
-    /* Q12 (C) */ { q: "好きな建築は？", category: "STYLE", items: [
-        { label: "再現", img: "./images/C1再現.jpg" }, { label: "理想", img: "./images/C2理想.jpg" },
-        { label: "表現", img: "./images/C3表現.jpg" }, { label: "知覚", img: "./images/C4知覚.jpg" },
-        { label: "構成", img: "./images/C5構成.jpg" }, { label: "幻想", img: "./images/C6幻想.jpg" },
-        { label: "概念", img: "./images/C7概念.jpg" }, { label: "変容", img: "./images/C8変容.jpg" }
+    /* Q12 (Ca) */ { q: "好きな建築は？", category: "STYLE", items: [
+        { label: "再現", img: "./images/Ca1再現.jpg" }, { label: "理想", img: "./images/Ca2理想.jpg" },
+        { label: "表現", img: "./images/Ca3表現.jpg" }, { label: "知覚", img: "./images/Ca4知覚.jpg" },
+        { label: "構成", img: "./images/Ca5構成.jpg" }, { label: "幻想", img: "./images/Ca6幻想.jpg" },
+        { label: "概念", img: "./images/Ca7概念.jpg" }, { label: "変容", img: "./images/Ca8変容.jpg" }
     ]},
-    /* Q13 (C) */ { q: "好きな建築は？", category: "PURPOSE", items: [
-        { label: "美", img: "./images/C1美.jpg" }, { label: "探究", img: "./images/C2探求.jpg" },
-        { label: "伝達", img: "./images/C3伝達.jpg" }, { label: "共感", img: "./images/C4共感.jpg" },
-        { label: "娯楽", img: "./images/C5娯楽.jpg" }, { label: "思索", img: "./images/C6思索.jpg" },
-        { label: "癒し", img: "./images/C7癒し.jpg" }, { label: "感動", img: "./images/C8感動.jpg" }
+    /* Q13 (Cb) */ { q: "好きな建築は？", category: "PURPOSE", items: [
+        { label: "美", img: "./images/Cb1美.jpg" }, { label: "探究", img: "./images/Cb2探求.jpg" },
+        { label: "伝達", img: "./images/Cb3伝達.jpg" }, { label: "共感", img: "./images/Cb4共感.jpg" },
+        { label: "娯楽", img: "./images/Cb5娯楽.jpg" }, { label: "思索", img: "./images/Cb6思索.jpg" },
+        { label: "癒し", img: "./images/Cb7癒し.jpg" }, { label: "感動", img: "./images/Cb8感動.jpg" }
     ]},
-    /* Q14 (C) */ { q: "好きな空間は？", category: "PURPOSE", items: [
-        { label: "美", img: "./images/C1美.jpg" }, { label: "探究", img: "./images/C2探求.jpg" },
-        { label: "伝達", img: "./images/C3伝達.jpg" }, { label: "共感", img: "./images/C4共感.jpg" },
-        { label: "娯楽", img: "./images/C5娯楽.jpg" }, { label: "思索", img: "./images/C6思索.jpg" },
-        { label: "癒し", img: "./images/C7癒し.jpg" }, { label: "感動", img: "./images/C8感動.jpg" }
+    /* Q14 (Cc) */ { q: "好きな空間は？", category: "PURPOSE", items: [
+        { label: "美", img: "./images/Cc1美.jpg" }, { label: "探究", img: "./images/Cc2探求.jpg" },
+        { label: "伝達", img: "./images/Cc3伝達.jpg" }, { label: "共感", img: "./images/Cc4共感.jpg" },
+        { label: "娯楽", img: "./images/Cc5娯楽.jpg" }, { label: "思索", img: "./images/Cc6思索.jpg" },
+        { label: "癒し", img: "./images/Cc7癒し.jpg" }, { label: "感動", img: "./images/Cc8感動.jpg" }
     ]},
     /* Q15 (D) */ { q: "好きな分野は？", category: "MEDIUM", items: [
         { label: "視覚", img: "./images/D1視覚.jpg" }, { label: "造形", img: "./images/D2造形.jpg" },
@@ -680,13 +680,13 @@ const QUESTIONS = [
         { label: "言語", img: "./images/D5言語.jpg" }, { label: "身体", img: "./images/D6身体.jpg" },
         { label: "映像", img: "./images/D7映像.jpg" }, { label: "体験", img: "./images/D8体験.jpg" }
     ]},
-    /* Q16 (D) */ { q: "好きな音楽は？", category: "STYLE", items: [
+    /* Q16 (Da) */ { q: "好きな音楽は？", category: "STYLE", items: [
         { label: "再現", img: "./images/Da1再現.jpg" }, { label: "理想", img: "./images/Da2理想.jpg" },
         { label: "表現", img: "./images/Da3表現.jpg" }, { label: "知覚", img: "./images/Da4知覚.jpg" },
         { label: "構成", img: "./images/Da5構成.jpg" }, { label: "幻想", img: "./images/Da6幻想.jpg" },
         { label: "概念", img: "./images/Da7概念.jpg" }, { label: "変容", img: "./images/Da8変容.jpg" }
     ]},
-    /* Q17 (D) */ { q: "好きな音楽は？", category: "PURPOSE", items: [
+    /* Q17 (Db) */ { q: "好きな音楽は？", category: "PURPOSE", items: [
         { label: "美", img: "./images/Db1美.jpg" }, { label: "探究", img: "./images/Db2探求.jpg" },
         { label: "伝達", img: "./images/Db3伝達.jpg" }, { label: "共感", img: "./images/Db4共感.jpg" },
         { label: "娯楽", img: "./images/Db5娯楽.jpg" }, { label: "思索", img: "./images/Db6思索.jpg" },
@@ -698,25 +698,25 @@ const QUESTIONS = [
         { label: "言語", img: "./images/E5言語.jpg" }, { label: "身体", img: "./images/E6身体.jpg" },
         { label: "映像", img: "./images/E7映像.jpg" }, { label: "体験", img: "./images/E8体験.jpg" }
     ]},
-    /* Q19 (E) */ { q: "好きな大衆文学は？", category: "STYLE", items: [
+    /* Q19 (Ea) */ { q: "好きな大衆文学は？", category: "STYLE", items: [
         { label: "再現", img: "./images/Ea1再現.jpg" }, { label: "理想", img: "./images/Ea2理想.jpg" },
         { label: "表現", img: "./images/Ea3表現.jpg" }, { label: "知覚", img: "./images/Ea4知覚.jpg" },
         { label: "構成", img: "./images/Ea5構成.jpg" }, { label: "幻想", img: "./images/Ea6幻想.jpg" },
         { label: "概念", img: "./images/Ea7概念.jpg" }, { label: "変容", img: "./images/Ea8変容.jpg" }
     ]},
-    /* Q20 (E) */ { q: "好きな大衆文学は？", category: "PURPOSE", items: [
+    /* Q20 (Eb) */ { q: "好きな大衆文学は？", category: "PURPOSE", items: [
         { label: "美", img: "./images/Eb1美.jpg" }, { label: "探究", img: "./images/Eb2探求.jpg" },
         { label: "伝達", img: "./images/Eb3伝達.jpg" }, { label: "共感", img: "./images/Eb4共感.jpg" },
         { label: "娯楽", img: "./images/Eb5娯楽.jpg" }, { label: "思索", img: "./images/Eb6思索.jpg" },
         { label: "癒し", img: "./images/Eb7癒し.jpg" }, { label: "感動", img: "./images/Eb8感動.jpg" }
     ]},
-    /* Q21 (E) */ { q: "好きな純文学は？", category: "STYLE", items: [
+    /* Q21 (Ec) */ { q: "好きな純文学は？", category: "STYLE", items: [
         { label: "再現", img: "./images/Ec1再現.jpg" }, { label: "理想", img: "./images/Ec2理想.jpg" },
         { label: "表現", img: "./images/Ec3表現.jpg" }, { label: "知覚", img: "./images/Ec4知覚.jpg" },
         { label: "構成", img: "./images/Ec5構成.jpg" }, { label: "幻想", img: "./images/Ec6幻想.jpg" },
         { label: "概念", img: "./images/Ec7概念.jpg" }, { label: "変容", img: "./images/Ec8変容.jpg" }
     ]},
-    /* Q22 (E) */ { q: "好きな純文学は？", category: "PURPOSE", items: [
+    /* Q22 (Ed) */ { q: "好きな純文学は？", category: "PURPOSE", items: [
         { label: "美", img: "./images/Ed1美.jpg" }, { label: "探究", img: "./images/Ed2探求.jpg" },
         { label: "伝達", img: "./images/Ed3伝達.jpg" }, { label: "共感", img: "./images/Ed4共感.jpg" },
         { label: "娯楽", img: "./images/Ed5娯楽.jpg" }, { label: "思索", img: "./images/Ed6思索.jpg" },
@@ -728,23 +728,23 @@ const QUESTIONS = [
         { label: "言語", img: "./images/F5言語.jpg" }, { label: "身体", img: "./images/F6身体.jpg" },
         { label: "映像", img: "./images/F7映像.jpg" }, { label: "体験", img: "./images/F8体験.jpg" }
     ]},
-    /* Q24 (F) */ { q: "好きな演劇は？", category: "STYLE", items: [
-        { label: "再現", img: "./images/F1再現.jpg" }, { label: "理想", img: "./images/F2理想.jpg" },
-        { label: "表現", img: "./images/F3表現.jpg" }, { label: "知覚", img: "./images/F4知覚.jpg" },
-        { label: "構成", img: "./images/F5構成.jpg" }, { label: "幻想", img: "./images/F6幻想.jpg" },
-        { label: "概念", img: "./images/F7概念.jpg" }, { label: "変容", img: "./images/F8変容.jpg" }
+    /* Q24 (Fa) */ { q: "好きな演劇は？", category: "STYLE", items: [
+        { label: "再現", img: "./images/Fa1再現.jpg" }, { label: "理想", img: "./images/Fa2理想.jpg" },
+        { label: "表現", img: "./images/Fa3表現.jpg" }, { label: "知覚", img: "./images/Fa4知覚.jpg" },
+        { label: "構成", img: "./images/Fa5構成.jpg" }, { label: "幻想", img: "./images/Fa6幻想.jpg" },
+        { label: "概念", img: "./images/Fa7概念.jpg" }, { label: "変容", img: "./images/Fa8変容.jpg" }
     ]},
-    /* Q25 (F) */ { q: "好きなダンスは？", category: "STYLE", items: [
-        { label: "再現", img: "./images/F1再現.jpg" }, { label: "理想", img: "./images/F2理想.jpg" },
-        { label: "表現", img: "./images/F3表現.jpg" }, { label: "知覚", img: "./images/F4知覚.jpg" },
-        { label: "構成", img: "./images/F5構成.jpg" }, { label: "幻想", img: "./images/F6幻想.jpg" },
-        { label: "概念", img: "./images/F7概念.jpg" }, { label: "変容", img: "./images/F8変容.jpg" }
+    /* Q25 (Fb) */ { q: "好きなダンスは？", category: "STYLE", items: [
+        { label: "再現", img: "./images/Fb1再現.jpg" }, { label: "理想", img: "./images/Fb2理想.jpg" },
+        { label: "表現", img: "./images/Fb3表現.jpg" }, { label: "知覚", img: "./images/Fb4知覚.jpg" },
+        { label: "構成", img: "./images/Fb5構成.jpg" }, { label: "幻想", img: "./images/Fb6幻想.jpg" },
+        { label: "概念", img: "./images/Fb7概念.jpg" }, { label: "変容", img: "./images/Fb8変容.jpg" }
     ]},
-    /* Q26 (F) */ { q: "好きな舞台は？", category: "PURPOSE", items: [
-        { label: "美", img: "./images/F1美.jpg" }, { label: "探究", img: "./images/F2探求.jpg" },
-        { label: "伝達", img: "./images/F3伝達.jpg" }, { label: "共感", img: "./images/F4共感.jpg" },
-        { label: "娯楽", img: "./images/F5娯楽.jpg" }, { label: "思索", img: "./images/F6思索.jpg" },
-        { label: "癒し", img: "./images/F7癒し.jpg" }, { label: "感動", img: "./images/F8感動.jpg" }
+    /* Q26 (Fc) */ { q: "好きな舞台は？", category: "PURPOSE", items: [
+        { label: "美", img: "./images/Fc1美.jpg" }, { label: "探究", img: "./images/Fc2探求.jpg" },
+        { label: "伝達", img: "./images/Fc3伝達.jpg" }, { label: "共感", img: "./images/Fc4共感.jpg" },
+        { label: "娯楽", img: "./images/Fc5娯楽.jpg" }, { label: "思索", img: "./images/Fc6思索.jpg" },
+        { label: "癒し", img: "./images/Fc7癒し.jpg" }, { label: "感動", img: "./images/Fc8感動.jpg" }
     ]},
     /* Q27 (G) */ { q: "好きな分野は？", category: "MEDIUM", items: [
         { label: "視覚", img: "./images/G1視覚.jpg" }, { label: "造形", img: "./images/G2造形.jpg" },
@@ -752,29 +752,29 @@ const QUESTIONS = [
         { label: "言語", img: "./images/G5言語.jpg" }, { label: "身体", img: "./images/G6身体.jpg" },
         { label: "映像", img: "./images/G7映像.jpg" }, { label: "体験", img: "./images/G8体験.jpg" }
     ]},
-    /* Q28 (G) */ { q: "好きな映画は？", category: "STYLE", items: [
-        { label: "再現", img: "./images/G1再現.jpg" }, { label: "理想", img: "./images/G2理想.jpg" },
-        { label: "表現", img: "./images/G3表現.jpg" }, { label: "知覚", img: "./images/G4知覚.jpg" },
-        { label: "構成", img: "./images/G5構成.jpg" }, { label: "幻想", img: "./images/G6幻想.jpg" },
-        { label: "概念", img: "./images/G7概念.jpg" }, { label: "変容", img: "./images/G8変容.jpg" }
+    /* Q28 (Ga) */ { q: "好きな映画は？", category: "STYLE", items: [
+        { label: "再現", img: "./images/Ga1再現.jpg" }, { label: "理想", img: "./images/Ga2理想.jpg" },
+        { label: "表現", img: "./images/Ga3表現.jpg" }, { label: "知覚", img: "./images/Ga4知覚.jpg" },
+        { label: "構成", img: "./images/Ga5構成.jpg" }, { label: "幻想", img: "./images/Ga6幻想.jpg" },
+        { label: "概念", img: "./images/Ga7概念.jpg" }, { label: "変容", img: "./images/Ga8変容.jpg" }
     ]},
-    /* Q29 (G) */ { q: "好きな写真は？", category: "STYLE", items: [
-        { label: "再現", img: "./images/G1再現.jpg" }, { label: "理想", img: "./images/G2理想.jpg" },
-        { label: "表現", img: "./images/G3表現.jpg" }, { label: "知覚", img: "./images/G4知覚.jpg" },
-        { label: "構成", img: "./images/G5構成.jpg" }, { label: "幻想", img: "./images/G6幻想.jpg" },
-        { label: "概念", img: "./images/G7概念.jpg" }, { label: "変容", img: "./images/G8変容.jpg" }
+    /* Q29 (Gb) */ { q: "好きな写真は？", category: "STYLE", items: [
+        { label: "再現", img: "./images/Gb1再現.jpg" }, { label: "理想", img: "./images/Gb2理想.jpg" },
+        { label: "表現", img: "./images/Gb3表現.jpg" }, { label: "知覚", img: "./images/Gb4知覚.jpg" },
+        { label: "構成", img: "./images/Gb5構成.jpg" }, { label: "幻想", img: "./images/Gb6幻想.jpg" },
+        { label: "概念", img: "./images/Gb7概念.jpg" }, { label: "変容", img: "./images/Gb8変容.jpg" }
     ]},
-    /* Q30 (G) */ { q: "好きな映像は？", category: "PURPOSE", items: [
-        { label: "美", img: "./images/G1美.jpg" }, { label: "探究", img: "./images/G2探求.jpg" },
-        { label: "伝達", img: "./images/G3伝達.jpg" }, { label: "共感", img: "./images/G4共感.jpg" },
-        { label: "娯楽", img: "./images/G5娯楽.jpg" }, { label: "思索", img: "./images/G6思索.jpg" },
-        { label: "癒し", img: "./images/G7癒し.jpg" }, { label: "感動", img: "./images/G8感動.jpg" }
+    /* Q30 (Gc) */ { q: "好きな映像は？", category: "PURPOSE", items: [
+        { label: "美", img: "./images/Gc1美.jpg" }, { label: "探究", img: "./images/Gc2探求.jpg" },
+        { label: "伝達", img: "./images/Gc3伝達.jpg" }, { label: "共感", img: "./images/Gc4共感.jpg" },
+        { label: "娯楽", img: "./images/Gc5娯楽.jpg" }, { label: "思索", img: "./images/Gc6思索.jpg" },
+        { label: "癒し", img: "./images/Gc7癒し.jpg" }, { label: "感動", img: "./images/Gc8感動.jpg" }
     ]},
-    /* Q31 (G) */ { q: "好きな体験は？", category: "PURPOSE", items: [
-        { label: "美", img: "./images/G1美.jpg" }, { label: "探究", img: "./images/G2探求.jpg" },
-        { label: "伝達", img: "./images/G3伝達.jpg" }, { label: "共感", img: "./images/G4共感.jpg" },
-        { label: "娯楽", img: "./images/G5娯楽.jpg" }, { label: "思索", img: "./images/G6思索.jpg" },
-        { label: "癒し", img: "./images/G7癒し.jpg" }, { label: "感動", img: "./images/G8感動.jpg" }
+    /* Q31 (Gd) */ { q: "好きな体験は？", category: "PURPOSE", items: [
+        { label: "美", img: "./images/Gd1美.jpg" }, { label: "探究", img: "./images/Gd2探求.jpg" },
+        { label: "伝達", img: "./images/Gd3伝達.jpg" }, { label: "共感", img: "./images/Gd4共感.jpg" },
+        { label: "娯楽", img: "./images/Gd5娯楽.jpg" }, { label: "思索", img: "./images/Gd6思索.jpg" },
+        { label: "癒し", img: "./images/Gd7癒し.jpg" }, { label: "感動", img: "./images/Gd8感動.jpg" }
     ]},
     /* Q32 (H) */ { q: "好きな文化は？", category: "MEDIUM", items: [
         { label: "視覚", img: "./images/H1視覚.jpg" }, { label: "造形", img: "./images/H2造形.jpg" },
@@ -782,25 +782,25 @@ const QUESTIONS = [
         { label: "言語", img: "./images/H5言語.jpg" }, { label: "身体", img: "./images/H6身体.jpg" },
         { label: "映像", img: "./images/H7映像.jpg" }, { label: "体験", img: "./images/H8体験.jpg" }
     ]},
-    /* Q33 (H) */ { q: "好きな平面は？", category: "PURPOSE", items: [
+    /* Q33 (Ha) */ { q: "好きな平面は？", category: "PURPOSE", items: [
         { label: "美", img: "./images/Ha1美.jpg" }, { label: "探究", img: "./images/Ha2探求.jpg" },
         { label: "伝達", img: "./images/Ha3伝達.jpg" }, { label: "共感", img: "./images/Ha4共感.jpg" },
         { label: "娯楽", img: "./images/Ha5娯楽.jpg" }, { label: "思索", img: "./images/Ha6思索.jpg" },
         { label: "癒し", img: "./images/Ha7癒し.jpg" }, { label: "感動", img: "./images/Ha8感動.jpg" }
     ]},
-    /* Q34 (H) */ { q: "好きな立体は？", category: "PURPOSE", items: [
+    /* Q34 (Hb) */ { q: "好きな立体は？", category: "PURPOSE", items: [
         { label: "美", img: "./images/Hb1美.jpg" }, { label: "探究", img: "./images/Hb2探求.jpg" },
         { label: "伝達", img: "./images/Hb3伝達.jpg" }, { label: "共感", img: "./images/Hb4共感.jpg" },
         { label: "娯楽", img: "./images/Hb5娯楽.jpg" }, { label: "思索", img: "./images/Hb6思索.jpg" },
         { label: "癒し", img: "./images/Hb7癒し.jpg" }, { label: "感動", img: "./images/Hb8感動.jpg" }
     ]},
-    /* Q35 (H) */ { q: "好きな空間は？", category: "STYLE", items: [
+    /* Q35 (Hc) */ { q: "好きな空間は？", category: "STYLE", items: [
         { label: "再現", img: "./images/Hc1再現.jpg" }, { label: "理想", img: "./images/Hc2理想.jpg" },
         { label: "表現", img: "./images/Hc3表現.jpg" }, { label: "知覚", img: "./images/Hc4知覚.jpg" },
         { label: "構成", img: "./images/Hc5構成.jpg" }, { label: "幻想", img: "./images/Hc6幻想.jpg" },
         { label: "概念", img: "./images/Hc7概念.jpg" }, { label: "変容", img: "./images/Hc8変容.jpg" }
     ]},
-    /* Q36 (H) */ { q: "好きな舞台は？", category: "STYLE", items: [
+    /* Q36 (Hd) */ { q: "好きな舞台は？", category: "STYLE", items: [
         { label: "再現", img: "./images/Hd1再現.jpg" }, { label: "理想", img: "./images/Hd2理想.jpg" },
         { label: "表現", img: "./images/Hd3表現.jpg" }, { label: "知覚", img: "./images/Hd4知覚.jpg" },
         { label: "構成", img: "./images/Hd5構成.jpg" }, { label: "幻想", img: "./images/Hd6幻想.jpg" },
