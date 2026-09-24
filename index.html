@@ -649,14 +649,14 @@ const COLOR_PURPOSE = {
 // 全36問の質問データ (全項目に1〜8の番号を付与済み)
 const QUESTIONS = [
     { q: "好きな分野は？", category: "MEDIUM", items: [
-        { label: "視覚", img: "./images/A1視覚.jpg", caption: "1" }, 
-        { label: "造形", img: "./images/A2造形.jpg", caption: "2" },
-        { label: "空間", img: "./images/A3空間.jpg", caption: "3" }, 
-        { label: "音響", img: "./images/A4音響.jpg", caption: "4" },
-        { label: "言語", img: "./images/A5言語.jpg", caption: "5" }, 
-        { label: "身体", img: "./images/A6身体.jpg", caption: "6" },
-        { label: "映像", img: "./images/A7映像.jpg", caption: "7" }, 
-        { label: "体験", img: "./images/A8体験.jpg", caption: "8" }
+        { label: "視覚", img: "./images/A1視覚.jpg", caption: "絵画" }, 
+        { label: "造形", img: "./images/A2造形.jpg", caption: "彫刻" },
+        { label: "空間", img: "./images/A3空間.jpg", caption: "建築" }, 
+        { label: "音響", img: "./images/A4音響.jpg", caption: "音楽" },
+        { label: "言語", img: "./images/A5言語.jpg", caption: "戯曲" }, 
+        { label: "身体", img: "./images/A6身体.jpg", caption: "演劇" },
+        { label: "映像", img: "./images/A7映像.jpg", caption: "映画" }, 
+        { label: "体験", img: "./images/A8体験.jpg", caption: "AR" }
     ]},
     { q: "好きな絵画は？", category: "STYLE", items: [
         { label: "再現", img: "./images/Aa1再現.jpg", caption: "写実主義" }, 
@@ -690,23 +690,23 @@ const QUESTIONS = [
     ]},
     { q: "好きなグラフィックは？", category: "PURPOSE", items: [
         { label: "美", img: "./images/Ad1美.jpg", caption: "スイス・スタイル" }, 
-        { label: "探究", img: "./images/Ad2探求.jpg", caption: "バウハウス・コンストラクティビズム" },
-        { label: "伝達", img: "./images/Ad3伝達.jpg", caption: "ISOTYPEスタイル" }, 
+        { label: "探究", img: "./images/Ad2探求.jpg", caption: "バウハウス抽象構成" },
+        { label: "伝達", img: "./images/Ad3伝達.jpg", caption: "ISOTYPEインフォ" }, 
         { label: "共感", img: "./images/Ad4共感.jpg", caption: "シルクスクリーン・ポスター" },
         { label: "娯楽", img: "./images/Ad5娯楽.jpg", caption: "ミッドセンチュリー・ポップ" }, 
-        { label: "思索", img: "./images/Ad6思索.jpg", caption: "シュールレアリスム・エディトリアル" },
+        { label: "思索", img: "./images/Ad6思索.jpg", caption: "シュールレアリスム" },
         { label: "癒し", img: "./images/Ad7癒し.jpg", caption: "北欧ミニマリズム" }, 
-        { label: "感動", img: "./images/Ad8感動.jpg", caption: "ポーランド・ポスター派" }
+        { label: "感動", img: "./images/Ad8感動.jpg", caption: "ポーランド・ポスター" }
     ]},
     { q: "好きな分野は？", category: "MEDIUM", items: [
-        { label: "視覚", img: "./images/B1視覚.jpg", caption: "1" }, 
-        { label: "造形", img: "./images/B2造形.jpg", caption: "2" },
-        { label: "空間", img: "./images/B3空間.jpg", caption: "3" }, 
-        { label: "音響", img: "./images/B4音響.jpg", caption: "4. 音響" },
-        { label: "言語", img: "./images/B5言語.jpg", caption: "5. 言語" }, 
-        { label: "身体", img: "./images/B6身体.jpg", caption: "6. 身体" },
-        { label: "映像", img: "./images/B7映像.jpg", caption: "7. 映像" }, 
-        { label: "体験", img: "./images/B8体験.jpg", caption: "8. 体験" }
+        { label: "視覚", img: "./images/B1視覚.jpg", caption: "版画" }, 
+        { label: "造形", img: "./images/B2造形.jpg", caption: "工芸" },
+        { label: "空間", img: "./images/B3空間.jpg", caption: "ランドスケープ" }, 
+        { label: "音響", img: "./images/B4音響.jpg", caption: "ピアノ" },
+        { label: "言語", img: "./images/B5言語.jpg", caption: "物語" }, 
+        { label: "身体", img: "./images/B6身体.jpg", caption: "バレエ" },
+        { label: "映像", img: "./images/B7映像.jpg", caption: "写真" }, 
+        { label: "体験", img: "./images/B8体験.jpg", caption: "UI/UX" }
     ]},
     { q: "好きな彫刻は？", category: "STYLE", items: [
         { label: "再現", img: "./images/Ba1再現.jpg", caption: "写実主義" }, 
@@ -731,7 +731,7 @@ const QUESTIONS = [
     { q: "好きな工業製品は？", category: "PURPOSE", items: [
         { label: "美", img: "./images/Bc1美.jpg", caption: "ドローンフレームの部品" }, 
         { label: "探究", img: "./images/Bc2探求.jpg", caption: "ネックレス型デバイス" },
-        { label: "伝達", img: "./images/Bc3伝達.jpg", caption: "削り出し宇宙工学ハイエンド時計" }, 
+        { label: "伝達", img: "./images/Bc3伝達.jpg", caption: "削出し宇宙工学ハイエンド時計" }, 
         { label: "共感", img: "./images/Bc4共感.jpg", caption: "麻繊維サステナブルモビリティ" },
         { label: "娯楽", img: "./images/Bc5娯楽.jpg", caption: "ARロータリーコントローラー" }, 
         { label: "思索", img: "./images/Bc6思索.jpg", caption: "廃棄物コンセプチュアル照明" },
@@ -749,14 +749,14 @@ const QUESTIONS = [
         { label: "感動", img: "./images/Bd8感動.jpg", caption: "真紅のオーガンジードレープ" }
     ]},
     { q: "好きな遊戯は？", category: "MEDIUM", items: [
-        { label: "視覚", img: "./images/C1視覚.jpg", caption: "1. 視覚" }, 
-        { label: "造形", img: "./images/C2造形.jpg", caption: "2. 造形" },
-        { label: "空間", img: "./images/C3空間.jpg", caption: "3. 空間" }, 
-        { label: "音響", img: "./images/C4音響.jpg", caption: "4. 音響" },
-        { label: "言語", img: "./images/C5言語.jpg", caption: "5. 言語" }, 
-        { label: "身体", img: "./images/C6身体.jpg", caption: "6. 身体" },
-        { label: "映像", img: "./images/C7映像.jpg", caption: "7. 映像" }, 
-        { label: "体験", img: "./images/C8体験.jpg", caption: "8. 体験" }
+        { label: "視覚", img: "./images/C1視覚.jpg", caption: "お絵かき" }, 
+        { label: "造形", img: "./images/C2造形.jpg", caption: "粘土" },
+        { label: "空間", img: "./images/C3空間.jpg", caption: "積み木" }, 
+        { label: "音響", img: "./images/C4音響.jpg", caption: "合奏" },
+        { label: "言語", img: "./images/C5言語.jpg", caption: "いろはかるた" }, 
+        { label: "身体", img: "./images/C6身体.jpg", caption: "お遊戯会" },
+        { label: "映像", img: "./images/C7映像.jpg", caption: "紙芝居" }, 
+        { label: "体験", img: "./images/C8体験.jpg", caption: "宝探し" }
     ]},
     { q: "好きな建築は？", category: "STYLE", items: [
         { label: "再現", img: "./images/Ca1再現.jpg", caption: "古典主義のオーダー模倣" }, 
@@ -769,24 +769,24 @@ const QUESTIONS = [
         { label: "変容", img: "./images/Ca8変容.jpg", caption: "チタン製うねりの脱構築主義" }
     ]},
     { q: "好きな建築は？", category: "PURPOSE", items: [
-        { label: "美", img: "./images/Cb1美.jpg", caption: "独自の幾何学による有機的ゴシック" }, 
+        { label: "美", img: "./images/Cb1美.jpg", caption: "未完の有機的構造" }, 
         { label: "探究", img: "./images/Cb2探求.jpg", caption: "北欧古典主義" },
         { label: "伝達", img: "./images/Cb3伝達.jpg", caption: "極限のハイテック" }, 
         { label: "共感", img: "./images/Cb4共感.jpg", caption: "有機的ヴィンヤード" },
-        { label: "娯楽", img: "./images/Cb5娯楽.jpg", caption: "モダニストの有機的モザイク空間" }, 
+        { label: "娯楽", img: "./images/Cb5娯楽.jpg", caption: "破砕タイルの有機的地形" }, 
         { label: "思索", img: "./images/Cb6思索.jpg", caption: "有機的モダニズムの螺旋" },
         { label: "癒し", img: "./images/Cb7癒し.jpg", caption: "ミニマル・ブルータリズム" }, 
         { label: "感動", img: "./images/Cb8感動.jpg", caption: "古代ローマの完全な幾何学" }
     ]},
     { q: "好きな空間は？", category: "PURPOSE", items: [
-        { label: "美", img: "./images/Cc1美.jpg", caption: "ストイックな引き算ミニマリズム" }, 
-        { label: "探究", img: "./images/Cc2探求.jpg", caption: "再生素材のパラメトリック建築" },
-        { label: "伝達", img: "./images/Cc3伝達.jpg", caption: "アポセカリー調のブランド演出" }, 
-        { label: "共感", img: "./images/Cc4共感.jpg", caption: "鉄板サークルがつなぐ共有農園" },
-        { label: "娯楽", img: "./images/Cc5娯楽.jpg", caption: "仕掛け満載のファンタジー空間" }, 
-        { label: "思索", img: "./images/Cc6思索.jpg", caption: "水鏡と白砂のモダン禅ガーデン" },
-        { label: "癒し", img: "./images/Cc7癒し.jpg", caption: "地形を活かすバイオフィリック浴" }, 
-        { label: "感動", img: "./images/Cc8感動.jpg", caption: "絶景を切り取る北欧キャンチレバー" }
+        { label: "美", img: "./images/Cc1美.jpg", caption: "ストイックなミニマリズム" }, 
+        { label: "探究", img: "./images/Cc2探求.jpg", caption: "再生素材パラメトリック" },
+        { label: "伝達", img: "./images/Cc3伝達.jpg", caption: "アポセカリーブランド演出" }, 
+        { label: "共感", img: "./images/Cc4共感.jpg", caption: "コルテン鋼コミュニティ菜園" },
+        { label: "娯楽", img: "./images/Cc5娯楽.jpg", caption: "ファンタジー特化型空間" }, 
+        { label: "思索", img: "./images/Cc6思索.jpg", caption: "水鏡と白砂のモダン禅" },
+        { label: "癒し", img: "./images/Cc7癒し.jpg", caption: "バイオフィリック・スパ" }, 
+        { label: "感動", img: "./images/Cc8感動.jpg", caption: "北欧風キャンチレバー展望" }
     ]},
     { q: "好きな分野は？", category: "MEDIUM", items: [
         { label: "視覚", img: "./images/D1視覚.jpg", caption: "1. 視覚" }, 
