@@ -7,7 +7,7 @@
 
     <!-- ▼▼▼ OGP・X用カード設定 ▼▼▼ -->
     <meta property="og:title" content="私という作風 - 創作の傾向診断">
-    <meta property="og:description" content="全36問の質問と画像選択から、あなたの「創作の傾向（3軸の組み合わせ）」を診断します。">
+    <meta property="og:description" content="全39問の質問と画像選択から、あなたの「創作の傾向（3軸の組み合わせ）」を診断します。">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://rag-arch.github.io/creative-style">
     <meta property="og:image" content="https://rag-arch.github.io/creative-style/ogp-v3.png">
@@ -541,7 +541,7 @@
                 あなたは、何を美しいと思い、<br>
                 何を通して表現し、<br>
                 何を誰かにもたらしたい人？<br><br>
-                全36問の質問から、あなたの「創作の傾向」を診断します。<br><br>
+                全39問の質問から、あなたの「創作の傾向」を診断します。<br><br>
                 <span style="font-size: 0.75rem; color: var(--text-sub);">※本診断で使用している画像はAIによって生成されています。</span>
             </p>
             <button class="btn btn-start" onclick="startQuiz()">診断を開始する</button>
@@ -551,7 +551,7 @@
     <!-- QUIZ SCREEN -->
     <div id="screen-quiz" class="screen">
         <div class="q-header">
-            <span class="q-number" id="q-number">Q1 / 36</span>
+            <span class="q-number" id="q-number">Q1 / 39</span>
         </div>
         <div class="q-title" id="q-title">質問タイトル</div>
         <div id="q-content-area"></div>
@@ -647,7 +647,7 @@ const COLOR_PURPOSE = {
     "娯楽": "#FFA94D", "思索": "#B197FC", "癒し": "#20C997", "感動": "#FF6B6B"
 };
 
-// 全36問の質問データ (全項目に1〜8の番号を付与済み)
+// 全39問の質問データ (全項目に1〜8の番号を付与済み)
 const QUESTIONS = [
     { q: "好きな分野は？", category: "MEDIUM", items: [
         { label: "視覚", img: "./images/A1視覚.jpg", caption: "絵画" }, 
@@ -789,6 +789,17 @@ const QUESTIONS = [
         { label: "癒し", img: "./images/Cc7癒し.jpg", caption: "バイオフィリック・スパ" }, 
         { label: "感動", img: "./images/Cc8感動.jpg", caption: "北欧風キャンチレバー展望" }
     ]},
+    /* ▼▼▼ 新規追加: 15問目 (14問目をコピー) ▼▼▼ */
+    { q: "好きな空間は？", category: "PURPOSE", items: [
+        { label: "美", img: "./images/Cc1美.jpg", caption: "ストイックなミニマリズム" }, 
+        { label: "探究", img: "./images/Cc2探求.jpg", caption: "再生素材パラメトリック" },
+        { label: "伝達", img: "./images/Cc3伝達.jpg", caption: "アポセカリーブランド演出" }, 
+        { label: "共感", img: "./images/Cc4共感.jpg", caption: "コルテン鋼コミュニティ菜園" },
+        { label: "娯楽", img: "./images/Cc5娯楽.jpg", caption: "ファンタジー特化型空間" }, 
+        { label: "思索", img: "./images/Cc6思索.jpg", caption: "水鏡と白砂のモダン禅" },
+        { label: "癒し", img: "./images/Cc7癒し.jpg", caption: "バイオフィリック・スパ" }, 
+        { label: "感動", img: "./images/Cc8感動.jpg", caption: "北欧風キャンチレバー展望" }
+    ]},
     { q: "好きな分野は？", category: "MEDIUM", items: [
         { label: "視覚", img: "./images/D1視覚.jpg", caption: "グラフィック" }, 
         { label: "造形", img: "./images/D2造形.jpg", caption: "インダストリアル" },
@@ -819,6 +830,17 @@ const QUESTIONS = [
         { label: "概念", img: "./images/Da7概念.jpg", caption: "アンビエント" }, 
         { label: "変容", img: "./images/Da8変容.jpg", caption: "パンク・ロック" }
     ]},
+    { q: "好きな大衆音楽は？", category: "PURPOSE", items: [
+        { label: "美", img: "./images/Db1美.jpg", caption: "オペラ" }, 
+        { label: "探究", img: "./images/Db2探求.jpg", caption: "ジャズ" },
+        { label: "伝達", img: "./images/Db3伝達.jpg", caption: "フォーク" }, 
+        { label: "共感", img: "./images/Db4共感.jpg", caption: "ソウル/R&B" },
+        { label: "娯楽", img: "./images/Db5娯楽.jpg", caption: "ダンスミュージック/ディスコ" }, 
+        { label: "思索", img: "./images/Db6思索.jpg", caption: "プログレッシブ・ロック" },
+        { label: "癒し", img: "./images/Db7癒し.jpg", caption: "ヒーリング・ミュージック" }, 
+        { label: "感動", img: "./images/Db8感動.jpg", caption: "ゴスペル" }
+    ]},
+    /* ▼▼▼ 新規追加: 19問目 (18問目をコピー) ▼▼▼ */
     { q: "好きな大衆音楽は？", category: "PURPOSE", items: [
         { label: "美", img: "./images/Db1美.jpg", caption: "オペラ" }, 
         { label: "探究", img: "./images/Db2探求.jpg", caption: "ジャズ" },
@@ -899,6 +921,17 @@ const QUESTIONS = [
         { label: "概念", img: "./images/Fb7概念.jpg", caption: "7. 概念" }, 
         { label: "変容", img: "./images/Fb8変容.jpg", caption: "8. 変容" }
     ]},
+    { q: "好きな舞台は？", category: "PURPOSE", items: [
+        { label: "美", img: "./images/Fc1美.jpg", caption: "1. 美" }, 
+        { label: "探究", img: "./images/Fc2探求.jpg", caption: "2. 探求" },
+        { label: "伝達", img: "./images/Fc3伝達.jpg", caption: "3. 伝達" }, 
+        { label: "共感", img: "./images/Fc4共感.jpg", caption: "4. 共感" },
+        { label: "娯楽", img: "./images/Fc5娯楽.jpg", caption: "5. 娯楽" }, 
+        { label: "思索", img: "./images/Fc6思索.jpg", caption: "6. 思索" },
+        { label: "癒し", img: "./images/Fc7癒し.jpg", caption: "7. 癒し" }, 
+        { label: "感動", img: "./images/Fc8感動.jpg", caption: "8. 感動" }
+    ]},
+    /* ▼▼▼ 新規追加: 27問目 (26問目をコピー) ▼▼▼ */
     { q: "好きな舞台は？", category: "PURPOSE", items: [
         { label: "美", img: "./images/Fc1美.jpg", caption: "1. 美" }, 
         { label: "探究", img: "./images/Fc2探求.jpg", caption: "2. 探求" },
