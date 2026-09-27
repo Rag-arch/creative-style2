@@ -232,9 +232,8 @@
             user-select: none;
         }
 
-        /* 各画像の下に個別のキャプションをつけるスタイル */
         .item-caption {
-            display: none; /* データは残したまま画面非表示に設定[cite: 1] */
+            display: none;
             font-size: 0.5rem;
             color: var(--text-sub);
             text-align: center;
@@ -316,7 +315,7 @@
             border-radius: 0;
         }
 
-        /* ----- 最終結果カード ----- */
+        /* ----- 最終結果カード (iPhone風フレーム) ----- */
         .result-card-container {
             display: flex;
             justify-content: center;
@@ -327,25 +326,57 @@
 
         .result-card {
             background-color: var(--card-bg);
-            border-radius: 0;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-            padding: 16px 16px;
+            /* アイフォンのような黒い縁と丸み */
+            border: 16px solid #111111;
+            border-top-width: 45px;
+            border-bottom-width: 75px;
+            border-radius: 44px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            padding: 16px 14px;
             margin-bottom: 12px;
-            border: 1px solid var(--border-color);
             width: 100%;
-            max-width: 100%;
+            max-width: 380px;
+            aspect-ratio: 1 / 1.7; /* 縁を太くした分少し縦長に */
             transition: background 0.5s ease;
-            overflow: hidden;
+            overflow: visible; /* ::beforeと::afterを枠線上に表示するため */
             color: var(--text-main);
+            position: relative;
+        }
+
+        /* 上部のスピーカー穴風 */
+        .result-card::before {
+            content: '';
+            position: absolute;
+            top: -28px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 50px;
+            height: 6px;
+            background-color: #222222;
+            border-radius: 4px;
+        }
+
+        /* 下部の丸ボタン風 */
+        .result-card::after {
+            content: '';
+            position: absolute;
+            bottom: -62px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 46px;
+            height: 46px;
+            border: 2px solid #333333;
+            border-radius: 50%;
+            box-sizing: border-box;
         }
 
         .card-header {
             text-align: center;
-            margin-bottom: 8px;
+            margin-bottom: 6px;
         }
 
         .app-title {
-            font-size: 9px;
+            font-size: 8px;
             color: var(--text-sub);
             letter-spacing: 0.1em;
             margin: 0 0 1px 0;
@@ -357,7 +388,7 @@
             align-items: baseline;
             justify-items: center;
             max-width: 100%;
-            margin: 0 auto 10px auto;
+            margin: 0 auto 8px auto;
             overflow-x: auto;
         }
 
@@ -368,7 +399,7 @@
         .axis-col-3 { grid-column: 5; }
 
         .axis-label-item {
-            font-size: 7.5px;
+            font-size: 7px;
             color: var(--text-sub);
             letter-spacing: 0.05em;
             font-weight: bold;
@@ -377,7 +408,7 @@
         }
 
         .axis-val-item {
-            font-size: clamp(16px, 5vw, 21px);
+            font-size: clamp(14px, 4.5vw, 19px);
             font-weight: 900;
             letter-spacing: 0.03em;
             white-space: nowrap;
@@ -386,15 +417,15 @@
         .axis-separator {
             color: var(--text-sub);
             font-weight: normal;
-            font-size: 14px;
+            font-size: 12px;
             padding: 0 2px;
         }
 
         .catchphrase {
-            font-size: 11px;
+            font-size: 10px;
             font-weight: bold;
             color: var(--text-main);
-            margin-bottom: 10px;
+            margin-bottom: 8px;
             text-align: center;
             word-break: break-all;
         }
@@ -403,49 +434,46 @@
             width: 100%;
             aspect-ratio: 16 / 9;
             background-color: rgba(0, 0, 0, 0.03);
-            border-radius: 0;
+            border-radius: 4px;
             display: flex;
             align-items: center;
             justify-content: center;
             color: var(--text-sub);
-            margin-bottom: 10px;
+            margin-bottom: 8px;
             border: none;
             position: relative;
             overflow: hidden;
             text-align: center;
-            font-size: 0.75rem;
+            font-size: 0.7rem;
         }
 
         .image-section img {
             width: 100%;
             height: 100%;
             object-fit: cover;
-            border-radius: 0;
+            border-radius: 4px;
         }
 
         .section-block {
-            margin-bottom: 10px;
+            margin-bottom: 8px;
             background-color: transparent;
-            padding: 4px 0;
+            padding: 2px 0;
             border: none;
         }
 
         .axis-item {
-            margin-bottom: 6px;
+            margin-bottom: 4px;
         }
 
         .axis-name {
-            font-size: 10px;
+            font-size: 9px;
             font-weight: bold;
             color: var(--text-main);
         }
 
+        /* 内部データは保持しつつ、説明文の表示をなしにする */
         .axis-desc {
-            font-size: 8.5px;
-            color: var(--text-sub);
-            margin-top: 2px;
-            line-height: 1.4;
-            min-height: 2.8em;
+            display: none;
         }
 
         .desc-sentence {
@@ -454,23 +482,23 @@
 
         .desc-keywords {
             display: block;
-            font-size: 7.5px;
+            font-size: 7px;
             color: #888888;
-            margin-top: 2px;
+            margin-top: 1px;
         }
 
         /* グラフ化表示エリアのスタイル（3等分横並びレイアウト） */
         .all-scores-graph-section {
             background-color: transparent;
-            padding: 6px 0;
-            margin-bottom: 10px;
+            padding: 4px 0;
+            margin-bottom: 6px;
             border-top: 1px dashed var(--border-color);
         }
 
         .graphs-wrapper {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
-            gap: 8px;
+            gap: 6px;
             align-items: start;
         }
 
@@ -479,10 +507,10 @@
         }
 
         .graph-category-title {
-            font-size: 8px;
+            font-size: 7.5px;
             font-weight: bold;
             color: var(--text-sub);
-            margin: 6px 0 4px 0;
+            margin: 4px 0 2px 0;
             letter-spacing: 0.02em;
             text-align: center;
             white-space: nowrap;
@@ -493,23 +521,23 @@
         .graph-row {
             display: flex;
             align-items: center;
-            margin-bottom: 2.5px;
-            font-size: 7.5px;
+            margin-bottom: 2px;
+            font-size: 7px;
         }
 
         .graph-label {
-            width: 22px;
+            width: 20px;
             font-weight: bold;
             text-align: right;
             margin-right: 2px;
             flex-shrink: 0;
-            font-size: 7px;
+            font-size: 6.5px;
         }
 
         .graph-bar-container {
             flex-grow: 1;
             background-color: #f0f0f0;
-            height: 6px;
+            height: 5px;
             position: relative;
             overflow: hidden;
         }
@@ -520,10 +548,10 @@
         }
 
         .graph-score-text {
-            width: 24px;
+            width: 20px;
             text-align: right;
             margin-left: 2px;
-            font-size: 6.5px;
+            font-size: 6px;
             color: var(--text-sub);
             flex-shrink: 0;
         }
@@ -587,13 +615,13 @@
                 <!-- ① タイトル -->
                 <div class="card-header">
                     <p class="app-title">512 TYPES</p>
-                    <h2 style="margin:0; font-size: 15px;">私という作風</h2>
+                    <h2 style="margin:0; font-size: 14px;">私という作風</h2>
                 </div>
 
                 <!-- ② 3軸グリッド ([MEDIUM] × [STYLE] × [PURPOSE]) -->
                 <div class="axes-grid-layout" id="res-axes-grid"></div>
 
-                <!-- ③ キャッチコピー ([PURPOSE]、[STYLE]) -->
+                <!-- ③ キャッチコピー -->
                 <div class="catchphrase" id="res-catchphrase"></div>
 
                 <!-- ④ あなたを象徴する一枚 -->
@@ -602,7 +630,7 @@
                     <span id="res-image-placeholder">[ あなたを象徴する一枚 (16:9) ]<br>画像をここに配置</span>
                 </div>
 
-                <!-- ⑤ 3軸の解説 -->
+                <!-- ⑤ 3軸の解説（内部データは残しつつ表示を隠す） -->
                 <div class="section-block">
                     <div id="res-axis-details"></div>
                 </div>
@@ -1415,16 +1443,16 @@ function calculateAndShowResult() {
 
     const dataP = DATA_PURPOSE[finalPurpose];
     const dataS = DATA_STYLE[finalStyle];
+    const dataMed = DATA_MEDIUM[finalMedium];
     
-    document.getElementById('res-catchphrase').textContent = `${dataP.catchPhrase}、${dataS.catchPhrase}`;
+    // MEDIUMのキャッチフレーズを正しく結合する形に修正
+    document.getElementById('res-catchphrase').textContent = `${dataP.catchPhrase}、${dataS.catchPhrase}${dataMed.catchPhrase}`;
 
     const resImg = document.getElementById('res-image');
     resImg.src = uploadedImageData;
     resImg.style.display = 'block';
     document.getElementById('res-image-placeholder').style.display = 'none';
 
-    const dataMed = DATA_MEDIUM[finalMedium];
-    
     const formattedDescS = formatDescWithLineBreaks(dataS.text, dataS.keywords);
     const formattedDescMed = formatDescWithLineBreaks(dataMed.text, dataMed.keywords);
     const formattedDescP = formatDescWithLineBreaks(dataP.text, dataP.keywords);
@@ -1557,10 +1585,8 @@ function restart() {
     document.getElementById('preview-img').style.display = 'none';
     document.getElementById('preview-img').src = '';
     document.getElementById('file-label-text').textContent = "画像ファイルを選択 (ローカル処理)";
-    document.getElementById('file-label-box').classList.remove('has-image');
     document.getElementById('btn-show-result').disabled = true;
-    document.getElementById('char-image-input').value = '';
-    document.documentElement.style.setProperty('--live-grad', '#ffffff');
+    document.getElementById('file-label-box').classList.remove('has-image');
     showScreen('screen-start');
 }
 </script>
