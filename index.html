@@ -569,7 +569,7 @@
                 あなたは、何を美しいと思い、<br>
                 何を通して表現し、<br>
                 何を誰かにもたらしたい人？<br><br>
-                全37問の質問から、あなたの「創作の傾向」を診断します。<br><br>
+                全38問の質問から、あなたの「創作の傾向」を診断します。<br><br>
                 <span style="font-size: 0.75rem; color: var(--text-sub);">※本診断で使用している画像はAIによって生成されています。</span>
             </p>
             <button class="btn btn-start" onclick="startQuiz()">診断を開始する</button>
@@ -579,7 +579,7 @@
     <!-- QUIZ SCREEN -->
     <div id="screen-quiz" class="screen">
         <div class="q-header">
-            <span class="q-number" id="q-number">Q1 / 37</span>
+            <span class="q-number" id="q-number">Q1 / 38</span>
         </div>
         <div class="q-title" id="q-title">質問タイトル</div>
         <div id="q-content-area"></div>
@@ -675,7 +675,7 @@ const COLOR_PURPOSE = {
     "娯楽": "#FFA94D", "思索": "#B197FC", "癒し": "#20C997", "感動": "#FF6B6B"
 };
 
-// 全37問の質問データ
+// 全38問の質問データ
 const QUESTIONS = [
     { q: "好きな分野は？", category: "MEDIUM", items: [
         { label: "視覚", img: "./images/A1視覚.jpg", caption: "絵画" }, 
@@ -897,6 +897,18 @@ const QUESTIONS = [
         { label: "癒し", img: "./images/Eb7癒し.jpg", caption: "テグジュペリ『星の王子さま』" }, 
         { label: "感動", img: "./images/Eb8感動.jpg", caption: "ブロンテ『嵐が丘』" }
     ]},
+    // ▼▼▼ ここに22問目（好きな文学は？）をコピーして追加 ▼▼▼
+    { q: "好きな文学は？", category: "PURPOSE", items: [
+        { label: "美", img: "./images/Eb1美.jpg", caption: "川端康成『雪国』" }, 
+        { label: "探究", img: "./images/Eb2探求.jpg", caption: "フランツ・カフカ『変身』" },
+        { label: "伝達", img: "./images/Eb3伝達.jpg", caption: "トールキン『指輪物語』" }, 
+        { label: "共感", img: "./images/Eb4共感.jpg", caption: "太宰治『人間失格』" },
+        { label: "娯楽", img: "./images/Eb5娯楽.jpg", caption: "ドイル『シャーロック・ホームズ』" }, 
+        { label: "思索", img: "./images/Eb6思索.jpg", caption: "シェイクスピア『ハムレット』" },
+        { label: "癒し", img: "./images/Eb7癒し.jpg", caption: "テグジュペリ『星の王子さま』" }, 
+        { label: "感動", img: "./images/Eb8感動.jpg", caption: "ブロンテ『嵐が丘』" }
+    ]},
+    // ▲▲▲ 追加ここまで ▲▲▲
     { q: "好きな大衆文学は？", category: "PURPOSE", items: [
         { label: "美", img: "./images/Ec1美.jpg", caption: "純文学" }, 
         { label: "探究", img: "./images/Ec2探求.jpg", caption: "冒険小説" },
