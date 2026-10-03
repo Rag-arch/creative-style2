@@ -7,7 +7,7 @@
 
     <!-- ▼▼▼ OGP・X用カード設定 ▼▼▼ -->
     <meta property="og:title" content="私という作風 - 創作の傾向診断">
-    <meta property="og:description" content="全37問の質問と画像選択から、あなたの「創作の傾向（3軸の組み合わせ）」を診断します。">
+    <meta property="og:description" content="全33問の質問と画像選択から、あなたの「創作の傾向（3軸の組み合わせ）」を診断します。">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://rag-arch.github.io/creative-style">
     <meta property="og:image" content="https://rag-arch.github.io/creative-style/ogp-v3.png">
@@ -471,7 +471,6 @@
             color: var(--text-main);
         }
 
-        /* 内部データは保持しつつ、説明文の表示をなしにする */
         .axis-desc {
             display: none;
         }
@@ -487,7 +486,6 @@
             margin-top: 1px;
         }
 
-        /* グラフ化表示エリアのスタイル（3等分横並びレイアウト） */
         .all-scores-graph-section {
             background-color: transparent;
             padding: 4px 0;
@@ -569,8 +567,8 @@
                 あなたは、何を美しいと思い、<br>
                 何を通して表現し、<br>
                 何を誰かにもたらしたい人？<br><br>
-                全37問の質問から、あなたの「創作の傾向」を診断します。<br><br>
-                <span style="font-size: 0.75rem; color: var(--text-sub);">※本診断で使用している画像はAIによって生成されています。</span>
+                全32問の質問から、あなたの「創作の傾向」を診断します。<br><br>
+                <span style="font-size: 0.5rem; color: var(--text-sub);">※本診断で使用している画像はAIによって生成されています。</span>
             </p>
             <button class="btn btn-start" onclick="startQuiz()">診断を開始する</button>
         </div>
@@ -579,7 +577,7 @@
     <!-- QUIZ SCREEN -->
     <div id="screen-quiz" class="screen">
         <div class="q-header">
-            <span class="q-number" id="q-number">Q1 / 37</span>
+            <span class="q-number" id="q-number">Q1 / 32</span>
         </div>
         <div class="q-title" id="q-title">質問タイトル</div>
         <div id="q-content-area"></div>
@@ -618,7 +616,7 @@
                     <h2 style="margin:0; font-size: 14px;">私という作風</h2>
                 </div>
 
-                <!-- ② 3軸グリッド ([MEDIUM] × [STYLE] × [PURPOSE]) -->
+                <!-- ② 3軸グリッド -->
                 <div class="axes-grid-layout" id="res-axes-grid"></div>
 
                 <!-- ③ キャッチコピー -->
@@ -630,12 +628,12 @@
                     <span id="res-image-placeholder">[ あなたを象徴する一枚 (16:9) ]<br>画像をここに配置</span>
                 </div>
 
-                <!-- ⑤ 3軸の解説（内部データは残しつつ表示を隠す） -->
+                <!-- ⑤ 3軸の解説 -->
                 <div class="section-block">
                     <div id="res-axis-details"></div>
                 </div>
 
-                <!-- ⑥ 全項目のスコアグラフ表示（3等分横並び） -->
+                <!-- ⑥ 全項目のスコアグラフ表示 -->
                 <div class="all-scores-graph-section" id="res-all-scores-graph"></div>
 
             </div>
@@ -675,7 +673,7 @@ const COLOR_PURPOSE = {
     "娯楽": "#FFA94D", "思索": "#B197FC", "癒し": "#20C997", "感動": "#FF6B6B"
 };
 
-// 全37問の質問データ
+// 全32問の質問データ（33~37問目を削除）
 const QUESTIONS = [
     { q: "好きな分野は？", category: "MEDIUM", items: [
         { label: "視覚", img: "./images/A1視覚.jpg", caption: "絵画" }, 
@@ -791,7 +789,7 @@ const QUESTIONS = [
         { label: "再現", img: "./images/Ca1再現.jpg", caption: "古典主義のオーダー模倣" }, 
         { label: "理想", img: "./images/Ca2理想.jpg", caption: "ルネサンスの幾何学調和" },
         { label: "表現", img: "./images/Ca3表現.jpg", caption: "色彩豊かなモダニズム" }, 
-        { label: "知覚", img: "./images/Ca4知覚.jpg", caption: "彫刻的表現主義" },
+        { label: "知覚", img: "./images/Ca4知覚.jpg", caption: "彫刻적表現主義" },
         { label: "構成", img: "./images/Ca5構成.jpg", caption: "モダニズムの鉄とガラス" }, 
         { label: "幻想", img: "./images/Ca6幻想.jpg", caption: "アール・ヌーヴォーの空間" },
         { label: "概念", img: "./images/Ca7概念.jpg", caption: "ユニバーサル・スペース" }, 
@@ -996,56 +994,6 @@ const QUESTIONS = [
         { label: "身体", img: "./images/I6身体.jpg", caption: "モーションキャプチャ" },
         { label: "映像", img: "./images/I7映像.jpg", caption: "マルチチャンネル" }, 
         { label: "体験", img: "./images/I8体験.jpg", caption: "水銀テーブル型UX" }
-    ]},
-    { q: "好きな文化は？", category: "MEDIUM", items: [
-        { label: "視覚", img: "./images/H1視覚.jpg", caption: "1. 視覚" }, 
-        { label: "造形", img: "./images/H2造形.jpg", caption: "2. 造形" },
-        { label: "空間", img: "./images/H3空間.jpg", caption: "3. 空間" }, 
-        { label: "音響", img: "./images/H4音響.jpg", caption: "4. 音響" },
-        { label: "言語", img: "./images/H5言語.jpg", caption: "5. 言語" }, 
-        { label: "身体", img: "./images/H6身体.jpg", caption: "6. 身体" },
-        { label: "映像", img: "./images/H7映像.jpg", caption: "7. 映像" }, 
-        { label: "体験", img: "./images/H8体験.jpg", caption: "8. 体験" }
-    ]},
-    { q: "好きな和画は？", category: "STYLE", items: [
-        { label: "再現", img: "./images/Ha1再現.jpg", caption: "1. 再現" }, 
-        { label: "理想", img: "./images/Ha2理想.jpg", caption: "2. 理想" },
-        { label: "表現", img: "./images/Ha3表現.jpg", caption: "3. 表現" }, 
-        { label: "知覚", img: "./images/Ha4知覚.jpg", caption: "4. 知覚" },
-        { label: "構成", img: "./images/Ha5構成.jpg", caption: "5. 構成" }, 
-        { label: "幻想", img: "./images/Ha6幻想.jpg", caption: "6. 幻想" },
-        { label: "概念", img: "./images/Ha7概念.jpg", caption: "7. 概念" }, 
-        { label: "変容", img: "./images/Ha8変容.jpg", caption: "8. 変容" }
-    ]},
-    { q: "好きな伝統工芸は？", category: "PURPOSE", items: [
-        { label: "美", img: "./images/Hb1美.jpg", caption: "1. 美" }, 
-        { label: "探究", img: "./images/Hb2探求.jpg", caption: "2. 探求" },
-        { label: "伝達", img: "./images/Hb3伝達.jpg", caption: "3. 伝達" }, 
-        { label: "共感", img: "./images/Hb4共感.jpg", caption: "4. 共感" },
-        { label: "娯楽", img: "./images/Hb5娯楽.jpg", caption: "5. 娯楽" }, 
-        { label: "思索", img: "./images/Hb6思索.jpg", caption: "6. 思索" },
-        { label: "癒し", img: "./images/Hb7癒し.jpg", caption: "7. 癒し" }, 
-        { label: "感動", img: "./images/Hb8感動.jpg", caption: "8. 感動" }
-    ]},
-    { q: "好きな日本建築は？", category: "STYLE", items: [
-        { label: "再現", img: "./images/Hc1再現.jpg", caption: "1. 再現" }, 
-        { label: "理想", img: "./images/Hc2理想.jpg", caption: "2. 理想" },
-        { label: "表現", img: "./images/Hc3表現.jpg", caption: "3. 表現" }, 
-        { label: "知覚", img: "./images/Hc4知覚.jpg", caption: "4. 知覚" },
-        { label: "構成", img: "./images/Hc5構成.jpg", caption: "5. 構成" }, 
-        { label: "幻想", img: "./images/Hc6幻想.jpg", caption: "6. 幻想" },
-        { label: "概念", img: "./images/Hc7概念.jpg", caption: "7. 概念" }, 
-        { label: "変容", img: "./images/Hc8変容.jpg", caption: "8. 変容" }
-    ]},
-    { q: "好きな伝統芸能は？", category: "PURPOSE", items: [
-        { label: "美", img: "./images/Hd1美.jpg", caption: "1. 美" }, 
-        { label: "探究", img: "./images/Hd2探求.jpg", caption: "2. 探求" },
-        { label: "伝達", img: "./images/Hd3伝達.jpg", caption: "3. 伝達" }, 
-        { label: "共感", img: "./images/Hd4共感.jpg", caption: "4. 共感" },
-        { label: "娯楽", img: "./images/Hd5娯楽.jpg", caption: "5. 娯楽" }, 
-        { label: "思索", img: "./images/Hd6思索.jpg", caption: "6. 思索" },
-        { label: "癒し", img: "./images/Hd7癒し.jpg", caption: "7. 癒し" }, 
-        { label: "感動", img: "./images/Hd8感動.jpg", caption: "8. 感動" }
     ]}
 ];
 
@@ -1557,22 +1505,38 @@ function downloadResultImage() {
 
             finalCanvas.toBlob(blob => {
                 const file = new File([blob], `creative-style-result.png`, { type: 'image/png' });
+                
+                // Android等におけるシェア機能のフォールバック対応
+                let sharedSuccessfully = false;
                 if (navigator.canShare && navigator.canShare({ files: [file] })) {
                     navigator.share({
                         files: [file],
                         title: '私という作風',
                         text: '私の創作診断結果です！'
-                    }).catch(() => {}).finally(() => { isDownloading = false; });
+                    }).then(() => {
+                        sharedSuccessfully = true;
+                    }).catch(() => {
+                        // シェアキャンセルやエラー時は通常のダウンロードにフォールバック
+                    }).finally(() => {
+                        if (!sharedSuccessfully) {
+                            triggerDownload(blob);
+                        }
+                        isDownloading = false;
+                    });
                 } else {
-                    const link = document.createElement('a');
-                    link.download = `creative-style-result.png`;
-                    link.href = URL.createObjectURL(blob);
-                    link.click();
+                    triggerDownload(blob);
                     setTimeout(() => { isDownloading = false; }, 500);
                 }
             }, 'image/png');
         }).catch(() => { isDownloading = false; });
     });
+}
+
+function triggerDownload(blob) {
+    const link = document.createElement('a');
+    link.download = `creative-style-result.png`;
+    link.href = URL.createObjectURL(blob);
+    link.click();
 }
 
 function restart() {
