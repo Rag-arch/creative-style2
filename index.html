@@ -1593,21 +1593,21 @@ function calculateAndShowResult() {
 
     document.getElementById('result-card').style.background = gradVal;
 
-    // 3軸グリッド表示
+    // 3軸グリッド表示 (STYLE / MEDIUM / PURPOSE 表記)
     const axesGridEl = document.getElementById('res-axes-grid');
     axesGridEl.innerHTML = `
         <div class="axis-col-1" style="text-align:center;">
-            <div class="axis-label-item">手法</div>
+            <div class="axis-label-item">STYLE</div>
             <div class="axis-val-item" style="color:${colorS};">${finalStyle}</div>
         </div>
         <div class="axis-sep-1 axis-separator">/</div>
         <div class="axis-col-2" style="text-align:center;">
-            <div class="axis-label-item">媒介</div>
+            <div class="axis-label-item">MEDIUM</div>
             <div class="axis-val-item" style="color:${colorM};">${finalMedium}</div>
         </div>
         <div class="axis-sep-2 axis-separator">/</div>
         <div class="axis-col-3" style="text-align:center;">
-            <div class="axis-label-item">目的</div>
+            <div class="axis-label-item">PURPOSE</div>
             <div class="axis-val-item" style="color:${colorP};">${finalPurpose}</div>
         </div>
     `;
@@ -1628,15 +1628,15 @@ function calculateAndShowResult() {
     const detailsEl = document.getElementById('res-axis-details');
     detailsEl.innerHTML = `
         <div class="axis-item">
-            <div class="axis-name" style="color:${colorS};">■ 手法：${styleData.title}</div>
+            <div class="axis-name" style="color:${colorS};">■ STYLE：${styleData.title}</div>
             <div class="axis-desc">${formatDescWithLineBreaks(styleData.text, styleData.keywords)}</div>
         </div>
         <div class="axis-item">
-            <div class="axis-name" style="color:${colorM};">■ 媒介：${mediumData.title}</div>
+            <div class="axis-name" style="color:${colorM};">■ MEDIUM：${mediumData.title}</div>
             <div class="axis-desc">${formatDescWithLineBreaks(mediumData.text, mediumData.keywords)}</div>
         </div>
         <div class="axis-item">
-            <div class="axis-name" style="color:${colorP};">■ 目的：${purposeData.title}</div>
+            <div class="axis-name" style="color:${colorP};">■ PURPOSE：${purposeData.title}</div>
             <div class="axis-desc">${formatDescWithLineBreaks(purposeData.text, purposeData.keywords)}</div>
         </div>
     `;
@@ -1677,9 +1677,9 @@ function renderAllScoresGraphs(res) {
 
     graphSection.innerHTML = `
         <div class="graphs-wrapper">
-            ${createCategoryHtml('手法 (STYLE)', res.style.all, COLOR_STYLE)}
-            ${createCategoryHtml('媒介 (MEDIUM)', res.medium.all, COLOR_MEDIUM)}
-            ${createCategoryHtml('目的 (PURPOSE)', res.purpose.all, COLOR_PURPOSE)}
+            ${createCategoryHtml('STYLE', res.style.all, COLOR_STYLE)}
+            ${createCategoryHtml('MEDIUM', res.medium.all, COLOR_MEDIUM)}
+            ${createCategoryHtml('PURPOSE', res.purpose.all, COLOR_PURPOSE)}
         </div>
     `;
 }
