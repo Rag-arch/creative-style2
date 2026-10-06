@@ -25,7 +25,7 @@
             --text-main: #1a1a1a;
             --text-sub: #666666;
             --accent-color: #1a1a1a;
-            --border-color: #e5e5e5;
+            --border-color: #1a1a1a;
             --font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", "Segoe UI", "Hiragino Kaku Gothic ProN", "Hiragino Sans", Meiryo, sans-serif;
             --live-grad: #ffffff;
         }
@@ -95,111 +95,18 @@
             padding: 20px 0;
         }
 
-        /* 浮遊するアートギャラリーオーブ群 */
-        .floating-orbs-stage {
-            position: relative;
-            width: 100%;
-            height: 160px;
-            margin-bottom: 2rem;
-            perspective: 1000px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-
-        .floating-orb {
-            position: absolute;
-            width: 70px;
-            height: 70px;
-            border-radius: 16px;
-            overflow: hidden;
-            box-shadow: 0 12px 30px rgba(0,0,0,0.08);
-            border: 2px solid rgba(255,255,255,0.8);
-            background: #f5f5f5;
-            transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.3s ease;
-            cursor: pointer;
-        }
-
-        .floating-orb img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            pointer-events: none;
-            transition: transform 0.5s ease;
-        }
-
-        .floating-orb:hover {
-            transform: scale(1.15) translateY(-8px) rotate(3deg) !important;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.15);
-            z-index: 20;
-        }
-
-        .floating-orb:hover img {
-            transform: scale(1.1);
-        }
-
-        /* 個別の浮遊アニメーション定義 */
-        .orb-1 {
-            width: 85px;
-            height: 85px;
-            left: 15%;
-            top: 10px;
-            animation: floatSlow 7s ease-in-out infinite;
-        }
-        .orb-2 {
-            width: 65px;
-            height: 65px;
-            right: 15%;
-            top: 20px;
-            animation: floatFast 5s ease-in-out infinite 0.5s;
-        }
-        .orb-3 {
-            width: 75px;
-            height: 75px;
-            left: 32%;
-            bottom: 5px;
-            animation: floatMedium 6s ease-in-out infinite 1s;
-        }
-        .orb-4 {
-            width: 60px;
-            height: 60px;
-            right: 30%;
-            bottom: 10px;
-            animation: floatSlow 8s ease-in-out infinite 1.5s;
-        }
-
-        @keyframes floatSlow {
-            0%, 100% { transform: translateY(0px) rotate(0deg); }
-            50% { transform: translateY(-12px) rotate(4deg); }
-        }
-        @keyframes floatMedium {
-            0%, 100% { transform: translateY(0px) rotate(0deg); }
-            50% { transform: translateY(-16px) rotate(-5deg); }
-        }
-        @keyframes floatFast {
-            0%, 100% { transform: translateY(0px) rotate(0deg); }
-            50% { transform: translateY(-10px) rotate(6deg); }
-        }
-
-        /* タイトルデザインの洗練 */
         h1.main-title {
             font-size: 2.6rem;
             font-weight: 900;
             text-align: center;
             letter-spacing: 0.25em;
-            margin-bottom: 0.8rem;
+            margin-bottom: 1.5rem;
             color: var(--text-main);
             position: relative;
             display: inline-block;
             background: linear-gradient(135deg, #111111 30%, #555555 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            animation: titlePulse 4s ease-in-out infinite;
-        }
-
-        @keyframes titlePulse {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.02); }
         }
 
         .subtitle {
@@ -209,18 +116,6 @@
             margin-bottom: 2rem;
             line-height: 1.9;
             width: 100%;
-            background: rgba(255, 255, 255, 0.7);
-            backdrop-filter: blur(10px);
-            padding: 18px;
-            border-radius: 16px;
-            border: 1px solid rgba(229, 229, 229, 0.6);
-            box-shadow: 0 8px 30px rgba(0,0,0,0.03);
-            transition: all 0.3s ease;
-        }
-
-        .subtitle:hover {
-            box-shadow: 0 12px 35px rgba(0,0,0,0.06);
-            border-color: rgba(180,180,180,0.6);
         }
 
         .btn {
@@ -237,8 +132,7 @@
             transition: all 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
             text-align: center;
             text-decoration: none;
-            border-radius: 14px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            border-radius: 0;
             position: relative;
             overflow: hidden;
         }
@@ -260,12 +154,6 @@
 
         .btn-start {
             width: 100%;
-            animation: btnGlow 3s infinite;
-        }
-
-        @keyframes btnGlow {
-            0%, 100% { box-shadow: 0 10px 25px rgba(0,0,0,0.1); }
-            50% { box-shadow: 0 10px 30px rgba(0,0,0,0.25), 0 0 20px rgba(100,100,100,0.15); }
         }
 
         .btn:hover {
@@ -273,7 +161,6 @@
             color: #1a1a1a;
             border-color: #1a1a1a;
             transform: translateY(-2px);
-            box-shadow: 0 15px 30px rgba(0,0,0,0.15);
         }
 
         .btn:disabled {
@@ -281,7 +168,6 @@
             color: #cccccc;
             cursor: not-allowed;
             background: transparent;
-            box-shadow: none;
             transform: none;
         }
 
@@ -301,17 +187,14 @@
             border-color: var(--border-color);
             color: var(--text-main);
             background: #fafafa;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.02);
-            border-radius: 14px;
         }
 
         .btn-secondary:hover {
             background: #f0f0f0;
             color: #000000;
-            border-color: #999999;
+            border-color: #1a1a1a;
         }
 
-        /* 質問カード共通 */
         .q-header {
             display: flex;
             justify-content: space-between;
@@ -337,7 +220,6 @@
             color: var(--text-main);
         }
 
-        /* 8択グリッド用スタイル */
         .grid-instruction {
             font-size: 0.85rem;
             text-align: center;
@@ -374,13 +256,12 @@
             position: relative;
             overflow: hidden;
             background: #f0f0f0;
-            border-radius: 10px;
             transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
 
         .grid-item:hover {
             transform: scale(1.05);
-            border-color: #888888;
+            border-color: #1a1a1a;
         }
 
         .grid-item img {
@@ -389,7 +270,6 @@
             object-fit: cover;
             display: block;
             pointer-events: none;
-            -webkit-user-drag: none;
             user-select: none;
         }
 
@@ -399,8 +279,6 @@
             color: var(--text-sub);
             text-align: center;
             margin-top: 4px;
-            line-height: 1.2;
-            word-break: break-all;
         }
 
         .grid-item.selected {
@@ -423,8 +301,6 @@
             justify-content: center;
             font-size: 0.75rem;
             font-weight: bold;
-            border-radius: 50%;
-            animation: popBadge 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
 
         .grid-item.selected-2::after {
@@ -441,17 +317,8 @@
             justify-content: center;
             font-size: 0.75rem;
             font-weight: bold;
-            border-radius: 50%;
-            animation: popBadge 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
 
-        @keyframes popBadge {
-            0% { transform: scale(0); }
-            80% { transform: scale(1.2); }
-            100% { transform: scale(1); }
-        }
-
-        /* 画像アップロード画面 */
         .file-upload-wrapper {
             margin-bottom: 1.5rem;
             text-align: center;
@@ -467,7 +334,6 @@
             display: block;
             cursor: pointer;
             background: #fafafa;
-            border-radius: 16px;
             transition: all 0.2s;
             color: var(--text-main);
         }
@@ -489,8 +355,6 @@
             margin: 10px auto 0;
             display: none;
             object-fit: cover;
-            border-radius: 12px;
-            box-shadow: 0 8px 20px rgba(0,0,0,0.1);
         }
 
         .result-card-container {
@@ -507,48 +371,54 @@
             100% { opacity: 1; transform: translateY(0) scale(1); }
         }
 
-        .result-card {
-            background-color: var(--card-bg);
-            border: 16px solid #111111;
-            border-top-width: 45px;
-            border-bottom-width: 75px;
-            border-radius: 44px;
-            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.25);
-            padding: 16px 14px;
-            margin-bottom: 12px;
+        /* ▼▼▼ iPhone風モックアップの忠実な再現 (ベゼル・スピーカー・ホームボタン) ▼▼▼ */
+        .iphone-frame {
+            background-color: #111111;
+            border-radius: 46px;
+            padding: 42px 14px 68px 14px;
+            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.3);
             width: 100%;
-            max-width: 380px;
-            aspect-ratio: 1 / 1.7;
-            transition: background 0.5s ease;
-            overflow: visible;
-            color: var(--text-main);
+            max-width: 390px;
             position: relative;
+            margin-bottom: 12px;
         }
 
-        .result-card::before {
-            content: '';
+        /* 上部スピーカーのバー */
+        .iphone-speaker {
             position: absolute;
-            top: -28px;
+            top: 18px;
             left: 50%;
             transform: translateX(-50%);
-            width: 50px;
-            height: 6px;
-            background-color: #222222;
-            border-radius: 4px;
+            width: 56px;
+            height: 5px;
+            background-color: #333333;
+            border-radius: 3px;
         }
 
-        .result-card::after {
-            content: '';
+        /* 下部ホームボタン */
+        .iphone-home-btn {
             position: absolute;
-            bottom: -62px;
+            bottom: 14px;
             left: 50%;
             transform: translateX(-50%);
-            width: 46px;
-            height: 46px;
+            width: 40px;
+            height: 40px;
             border: 2px solid #333333;
             border-radius: 50%;
             box-sizing: border-box;
         }
+
+        .result-card {
+            background-color: #ffffff;
+            border-radius: 8px;
+            padding: 16px 12px;
+            width: 100%;
+            transition: background 0.5s ease;
+            overflow: hidden;
+            color: var(--text-main);
+            position: relative;
+        }
+        /* ▲▲▲ iPhone風モックアップここまで ▲▲▲ */
 
         .card-header {
             text-align: center;
@@ -569,7 +439,6 @@
             justify-items: center;
             max-width: 100%;
             margin: 0 auto 8px auto;
-            overflow-x: auto;
         }
 
         .axis-col-1 { grid-column: 1; }
@@ -620,8 +489,6 @@
             justify-content: center;
             color: var(--text-sub);
             margin-bottom: 8px;
-            border: none;
-            position: relative;
             overflow: hidden;
             text-align: center;
             font-size: 0.7rem;
@@ -636,9 +503,6 @@
 
         .section-block {
             margin-bottom: 8px;
-            background-color: transparent;
-            padding: 2px 0;
-            border: none;
         }
 
         .axis-item {
@@ -649,21 +513,6 @@
             font-size: 9px;
             font-weight: bold;
             color: var(--text-main);
-        }
-
-        .axis-desc {
-            display: none;
-        }
-
-        .desc-sentence {
-            display: block;
-        }
-
-        .desc-keywords {
-            display: block;
-            font-size: 7px;
-            color: #888888;
-            margin-top: 1px;
         }
 
         .all-scores-graph-section {
@@ -718,14 +567,14 @@
             height: 5px;
             position: relative;
             overflow: hidden;
-            border-radius: 3px;
+            border-radius: 2px;
         }
 
         .graph-bar-fill {
             height: 100%;
             width: 0%;
             transition: width 0.8s cubic-bezier(0.1, 0.9, 0.2, 1);
-            border-radius: 3px;
+            border-radius: 2px;
         }
 
         .graph-score-text {
@@ -747,13 +596,6 @@
     <!-- START SCREEN -->
     <div id="screen-start" class="screen active">
         <div class="start-container">
-            <div class="floating-orbs-stage" id="orbsStage">
-                <div class="floating-orb orb-1" data-speed="15"><img src="./images/A1視覚.jpg" alt="Visual" onerror="this.src='https://placehold.co/100x100/eee/333?text=Art1'"></div>
-                <div class="floating-orb orb-2" data-speed="-20"><img src="./images/A3空間.jpg" alt="Space" onerror="this.src='https://placehold.co/100x100/eee/333?text=Art2'"></div>
-                <div class="floating-orb orb-3" data-speed="25"><img src="./images/A4音響.jpg" alt="Sound" onerror="this.src='https://placehold.co/100x100/eee/333?text=Art3'"></div>
-                <div class="floating-orb orb-4" data-speed="-15"><img src="./images/A8体験.jpg" alt="UX" onerror="this.src='https://placehold.co/100x100/eee/333?text=Art4'"></div>
-            </div>
-
             <h1 class="main-title">私という作風2</h1>
             <p class="subtitle">
                 あなたは、何を美しいと思い、<br>
@@ -800,28 +642,33 @@
     <!-- RESULT SCREEN -->
     <div id="screen-result" class="screen">
         <div class="result-card-container">
-            <div class="result-card" id="result-card">
+            <!-- iPhone風モックアップの構造をHTML要素化し、html2canvasできれいにキャプチャできるように修正 -->
+            <div class="iphone-frame" id="iphone-frame">
+                <div class="iphone-speaker"></div>
                 
-                <div class="card-header">
-                    <p class="app-title">512 TYPES</p>
-                    <h2 style="margin:0; font-size: 14px;">私という作風2</h2>
+                <div class="result-card" id="result-card">
+                    <div class="card-header">
+                        <p class="app-title">512 TYPES</p>
+                        <h2 style="margin:0; font-size: 14px;">私という作風</h2>
+                    </div>
+
+                    <div class="axes-grid-layout" id="res-axes-grid"></div>
+
+                    <div class="catchphrase" id="res-catchphrase"></div>
+
+                    <div class="image-section" id="imageDropZone">
+                        <img id="res-image" src="" alt="Character" style="display:none;">
+                        <span id="res-image-placeholder">[ あなたを象徴する一枚 (16:9) ]<br>画像をここに配置</span>
+                    </div>
+
+                    <div class="section-block">
+                        <div id="res-axis-details"></div>
+                    </div>
+
+                    <div class="all-scores-graph-section" id="res-all-scores-graph"></div>
                 </div>
 
-                <div class="axes-grid-layout" id="res-axes-grid"></div>
-
-                <div class="catchphrase" id="res-catchphrase"></div>
-
-                <div class="image-section" id="imageDropZone">
-                    <img id="res-image" src="" alt="Character" style="display:none;">
-                    <span id="res-image-placeholder">[ あなたを象徴する一枚 (16:9) ]<br>画像をここに配置</span>
-                </div>
-
-                <div class="section-block">
-                    <div id="res-axis-details"></div>
-                </div>
-
-                <div class="all-scores-graph-section" id="res-all-scores-graph"></div>
-
+                <div class="iphone-home-btn"></div>
             </div>
         </div>
 
@@ -1180,36 +1027,36 @@ const QUESTIONS = [
 ];
 
 const DATA_PURPOSE = {
-    "美": { catchPhrase: "美に狂い", title: "美をかたちづくる人", text: "世界に、美しいものを存在させることを創作の目的とする傾向。何を伝えるかよりも、まずそれ自体が美しいかを重視する。色, 形, 構図, 素材, 空間, 音, 言葉などを磨き上げ, 調和や完成度の高いものを生み出しようとする。", keywords: "美・調和・洗練・完成度・造形・感性" },
-    "探究": { catchPhrase: "問いの奴隷となり", title: "真理を追い求める人", text: "まだ知らないものを発見し、世界への理解を広げることを創作の目的とする傾向。正解をつくるよりも、未知を見つけることに創作の価値を感じる。実験, 研究, 観察, 試行錯誤を通して、既存の常識を問い直す。作品そのものだけでなく、制作の過程で得られる発見を重視することもある。", keywords: "発見・実験・研究・未知・仮説・革新" },
-    "伝達": { catchPhrase: "真実を言い触らし", title: "メッセージを届ける人", text: "情報, 知識, 思想, 物語などを、他者へ届けることを創作の目的とする傾向。自分が何を感じただけでなく、相手に何が伝わったかを重視する。文章, 映像, 図解, デザイン, 演説, 教育など, 意味や情報を媒介する表現と相性がよい。伝わることそのものを作品の完成度の一部として捉えやすい。", keywords: "情報・知識・意味・説明・共有・メッセージ" },
-    "共感": { catchPhrase: "孤独を解剖し", title: "感情を分かち合う人", text: "人と人の間に感情的なつながりを作り出すことを創作の目的とする傾向。理解させることより、わかる, 同じ気持ちだと感じてもらうことを重視する。自身の経験や感情を作品に込め, それを通して他者との距離を縮めようとする。", keywords: "共鳴・共有・親密さ・感情・人間関係・連帯" },
-    "娯楽": { catchPhrase: "退屈を煽り", title: "遊び心を演出する人", text: "人を楽しませ, 夢中にさせることを目的とする傾向。創作を一種の仕掛けとして捉え, 次は何が起こる？どうしたらもっと面白い？と考える。驚き, 笑い, スリル, 遊び, 没入などを意図的に設計する。", keywords: "楽しさ・遊び・驚き・刺激・笑い・没入" },
-    "思索": { catchPhrase: "常識を斜めに眺め", title: "深い思索をもたらす人", text: "作品を通して, 見る人・読む人自身に考えるきっかけを与えることを創作の目的とする傾向。答えを与えるより, 問いを残すことを重視する。一つの答えに決められない作品や, 複数の解釈が成立する作品にも価値を見出す。", keywords: "問い・哲学・解釈・余白・多義性・内省" },
-    "癒し": { catchPhrase: "絶望を撫で回し", title: "安らぎをもたらす人", text: "人の心を穏やかにし, 安心や安らぎを与えることを創作の目的とする傾向。強い刺激よりも, ここにいていいと感じられる環境や体験をつくろうとする。柔らかな色, 心地よい音, 自然, 温かい物語, 居心地のよい空間などと相性がよい。", keywords: "安心・安らぎ・温もり・休息・心地よさ・回復" },
-    "感動": { catchPhrase: "感情をかき乱し", title: "感情の波を起こす人", text: "人の心を大きく動かし, 記憶に残る体験を生み出すことを創作の目的とする傾向。美しい, おもしろいだけでなく, 忘れられないほど心を動かしたいという欲求が強い。物語の起伏, 劇的な演出, 壮大さ, 意外性, 音楽, 身体表現などを通して感情のピークをつくる。", keywords: "情動・衝撃・高揚・ドラマ・余韻・記憶" }
+    "美": { catchPhrase: "美に狂い", title: "美をかたちづくる人", text: "世界に、美しいものを存在させることを創作の目的とする傾向。" },
+    "探究": { catchPhrase: "問いの奴隷となり", title: "真理を追い求める人", text: "まだ知らないものを発見し、世界への理解を広げることを創作の目的とする傾向。" },
+    "伝達": { catchPhrase: "真実を言い触らし", title: "メッセージを届ける人", text: "情報、知識、思想、物語などを、他者へ届けることを創作の目的とする傾向。" },
+    "共感": { catchPhrase: "孤独を解剖し", title: "感情を分かち合う人", text: "人と人の間に感情的なつながりを作り出すことを創作の目的とする傾向。" },
+    "娯楽": { catchPhrase: "退屈を煽り", title: "遊び心を演出する人", text: "人を楽しませ、夢中にさせることを目的とする傾向。" },
+    "思索": { catchPhrase: "常識を斜めに眺め", title: "深い思索をもたらす人", text: "作品を通して、見る人・読む人自身に考えるきっかけを与えることを創作の目的とする傾向。" },
+    "癒し": { catchPhrase: "絶望を撫で回し", title: "安らぎをもたらす人", text: "人の心を穏やかにし、安心や安らぎを与えることを創作の目的とする傾向。" },
+    "感動": { catchPhrase: "感情をかき乱し", title: "感情の波を起こす人", text: "人の心を大きく動かし、記憶に残る体験を生み出すことを創作の目的とする傾向。" }
 };
 
 const DATA_MEDIUM = {
-    "視覚": { catchPhrase: "描き散らかす人", title: "視覚 ｜ 目に映るものを通して表現する", text: "色・形・光・構図など, 目に見えるものを通して表現する。", keywords: "絵画・イラスト・グラフィック・絵本" },
-    "造形": { catchPhrase: "こねくり回す人", title: "造形 ｜ 物そのものを通して表現する", text: "素材・形・立体など, 触れることのできる物を組み合わせて表現する。", keywords: "彫刻・工芸・プロダクト・ファッション" },
-    "空間": { catchPhrase: "でっちあげる人", title: "空間 ｜ 場を通して表現する", text: "建築・場所・配置など, 人が身を置く環境そのものをつくる。", keywords: "建築・インテリア・庭園・展示空間" },
-    "音響": { catchPhrase: "かき鳴らす人", title: "音響 ｜ 音を通して表現する", text: "音・声・リズム・響きなど, 耳で感じるものを通して表現する。", keywords: "作曲・演奏・歌唱・サウンド" },
-    "言語": { catchPhrase: "綴り散らかす人", title: "言語 ｜ 言葉を通して表現する", text: "言葉・文章・物語・概念など, 意味を組み立てることによって表現する。", keywords: "詩・小説・脚本・コピー・評論" },
-    "身体": { catchPhrase: "踊り狂う人", title: "身体 ｜ 身体そのものを通して表現する", text: "動き・演技・所作・存在など, 自らの身体を通して表現する。", keywords: "演劇・ダンス・パフォーマンス・舞台芸術" },
-    "映像": { catchPhrase: "幻覚を見てる人", title: "映像 ｜ 時間と動きを通して表現する", text: "時間・動き・光・編集など, 移ろうイメージを通して表現する。", keywords: "映画・アニメ・動画・フォト" },
-    "体験": { catchPhrase: "引きずりこむ人", title: "体験 ｜ 体験そのものを通して表現する", text: "参加・交流・選択・出来事など, 人が実際に経験することそのものをつくる。", keywords: "ゲーム・アトラクション・インタラクティブアート・イベント" }
+    "視覚": { catchPhrase: "描き散らかす人", title: "視覚 ｜ 目に映るものを通して表現する" },
+    "造形": { catchPhrase: "こねくり回す人", title: "造形 ｜ 物そのものを通して表現する" },
+    "空間": { catchPhrase: "でっちあげる人", title: "空間 ｜ 場を通して表現する" },
+    "音響": { catchPhrase: "かき鳴らす人", title: "音響 ｜ 音を通して表現する" },
+    "言語": { catchPhrase: "綴り散らかす人", title: "言語 ｜ 言葉を通して表現する" },
+    "身体": { catchPhrase: "踊り狂う人", title: "身体 ｜ 身体そのものを通して表現する" },
+    "映像": { catchPhrase: "幻覚を見てる人", title: "映像 ｜ 時間と動きを通して表現する" },
+    "体験": { catchPhrase: "引きずりこむ人", title: "体験 ｜ 体験そのものを通して表現する" }
 };
 
 const DATA_STYLE = {
-    "再現": { catchPhrase: "寸分狂わぬ模造で", title: "再現 ｜ 世界を写し取る人", text: "目の前にある世界を観察し, その姿や本質を捉えようとする創作傾向。自分がどうつくりたいかよりも, 対象はどうなっているのかを重視する。観察, 記録, 写実, 資料性などを通して, 対象の特徴やリアリティを掘り下げる。", keywords: "観察・真実・精密さ・忠実さ・記録" },
-    "理想": { catchPhrase: "あつらえた幻影で", title: "理想 ｜ あるべき世界を描く人", text: "現実をそのまま写すのではなく, こうあってほしいという姿を追い求める創作傾向。現実に存在するものを超えて, より美しく, より良く, より完成された状態を構想する。建築, プロダクト, 未来像, 理想都市などにも現れやすい。", keywords: "理想・完成・調和・秩序・可能性" },
-    "表現": { catchPhrase: "垂れ流す自我で", title: "表現 ｜ 自分を形にする人", text: "感情, 感性, 思想, 個性など, 自分自身の内側を作品として表す創作傾向。何をつくりたいか以上に, 自分は何を感じ, 何を考えているかが創作の出発点になる。独自の視点や個性そのものを作品の価値として捉えやすい。", keywords: "個性・感情・自己・独創性・主観" },
-    "知覚": { catchPhrase: "歪んだレンズ越しに", title: "知覚 ｜ 世界を感じ取る人", text: "世界をどのように感じ, 知覚するかを重視する創作傾向。正確に描くよりも, どう見えるか, どう聞こえるか, どう感じるかを大切にする。光, 色, 音, 温度, 身体感覚, 空間体験などへの関心が強い。", keywords: "感覚・印象・光・身体・体験" },
-    "構成": { catchPhrase: "屁理屈の結晶で", title: "構成 ｜ 世界を組み立てる人", text: "複数の要素を組み合わせ, その関係性から新しい秩序や美を生み出す創作傾向。個々のパーツだけでなく, それらがどう配置され, どう関係するかを重視する。建築, グラフィック, 編集, 音楽, 映像, 都市計画などと相性がよい。", keywords: "秩序・構造・配置・関係・バランス" },
-    "幻想": { catchPhrase: "白昼夢の詭弁で", title: "幻想 ｜ 存在しない世界を生み出す人", text: "現実には存在しないことを想像し, 新しい世界として成立させる創作傾向。夢, 神話, 魔法, 異世界, 童話など, 現実とは異なる世界や可能性を創造する。単なる空想ではなく, 現実には見えないことを可視化することに価値を見出す。", keywords: "想像・夢・神話・異世界・非現実" },
-    "概念": { catchPhrase: "こじらせた思想で", title: "概念 ｜ 見えないものを形にする人", text: "思想, 意味, 問い, 価値観など, 目に見えないものを作品として提示する創作傾向。何が美しいかだけでなく, この作品は何を意味するのかを重視する。作品そのものだけでなく, その背景にある考えや問いが創作の核になることも多い。", keywords: "意味・思想・問い・本質・コンセプト" },
-    "変容": { catchPhrase: "境界を溶かしまぜて", title: "変容 ｜ 世界を書き換える人", text: "既存のものを変形・再解釈・融合し, 新しい価値へと変える創作傾向。ゼロからつくるだけでなく, すでにいるものを別のものへ変えることに創造性を感じる。異なるジャンルを融合したり, 既存の常識を反転させたりすることもある。", keywords: "変化・再解釈・融合・改変・革新" }
+    "再現": { catchPhrase: "寸分狂わぬ模造で", title: "再現 ｜ 世界を写し取る人" },
+    "理想": { catchPhrase: "あつらえた幻影で", title: "理想 ｜ あるべき世界を描く人" },
+    "表現": { catchPhrase: "垂れ流す自我で", title: "表現 ｜ 自分を形にする人" },
+    "知覚": { catchPhrase: "歪んだレンズ越しに", title: "知覚 ｜ 世界を感じ取る人" },
+    "構成": { catchPhrase: "屁理屈の結晶で", title: "構成 ｜ 世界を組み立てる人" },
+    "幻想": { catchPhrase: "白昼夢の詭弁で", title: "幻想 ｜ 存在しない世界を生み出す人" },
+    "概念": { catchPhrase: "こじらせた思想で", title: "概念 ｜ 見えないものを形にする人" },
+    "変容": { catchPhrase: "境界を溶かしまぜて", title: "変容 ｜ 世界を書き換える人" }
 };
 
 const STYLE_ORDER = ["再現", "理想", "表現", "知覚", "構成", "幻想", "概念", "変容"];
@@ -1219,11 +1066,9 @@ const PURPOSE_ORDER = ["美", "探究", "伝達", "共感", "娯楽", "思索", 
 let currentQuestionIndex = 0;
 let userAnswers = [];
 let uploadedImageData = null;
-let calculatedResultsData = null;
 
 window.addEventListener('DOMContentLoaded', () => {
     initParticleCanvas();
-    initMouseParallax();
 });
 
 function initParticleCanvas() {
@@ -1240,9 +1085,7 @@ function initParticleCanvas() {
     resize();
 
     class Particle {
-        constructor() {
-            this.reset();
-        }
+        constructor() { this.reset(); }
         reset() {
             this.x = Math.random() * width;
             this.y = Math.random() * height;
@@ -1254,9 +1097,7 @@ function initParticleCanvas() {
         update() {
             this.x += this.speedX;
             this.y += this.speedY;
-            if (this.x < 0 || this.x > width || this.y < 0 || this.y > height) {
-                this.reset();
-            }
+            if (this.x < 0 || this.x > width || this.y < 0 || this.y > height) this.reset();
         }
         draw() {
             ctx.fillStyle = `rgba(120, 120, 120, ${this.alpha})`;
@@ -1266,60 +1107,21 @@ function initParticleCanvas() {
         }
     }
 
-    for (let i = 0; i < 45; i++) {
-        particles.push(new Particle());
-    }
+    for (let i = 0; i < 45; i++) particles.push(new Particle());
 
     function animate() {
         ctx.clearRect(0, 0, width, height);
-        particles.forEach(p => {
-            p.update();
-            p.draw();
-        });
+        particles.forEach(p => { p.update(); p.draw(); });
         requestAnimationFrame(animate);
     }
     animate();
 }
 
-function initMouseParallax() {
-    const stage = document.getElementById('orbsStage');
-    if (!stage) return;
-    const orbs = stage.querySelectorAll('.floating-orb');
-
-    document.addEventListener('mousemove', (e) => {
-        const x = (e.clientX / window.innerWidth - 0.5) * 20;
-        const y = (e.clientY / window.innerHeight - 0.5) * 20;
-
-        orbs.forEach((orb, index) => {
-            const factor = (index + 1) * 0.4;
-            orb.style.transform = `translate(${x * factor}px, ${y * factor}px)`;
-        });
-    });
-}
-
 function hexToRgb(hex) {
     let cleanHex = hex.replace('#', '');
-    if (cleanHex.length === 3) {
-        cleanHex = cleanHex.split('').map(char => char + char).join('');
-    }
+    if (cleanHex.length === 3) cleanHex = cleanHex.split('').map(char => char + char).join('');
     const num = parseInt(cleanHex, 16);
-    return {
-        r: (num >> 16) & 255,
-        g: (num >> 8) & 255,
-        b: num & 255
-    };
-}
-
-function formatDescWithLineBreaks(text, keywords) {
-    const sentences = text.split('。').filter(s => s.trim().length > 0).map(s => s + '。');
-    let html = '';
-    sentences.forEach(s => {
-        html += `<span class="desc-sentence">${s}</span>`;
-    });
-    if (keywords) {
-        html += `<span class="desc-keywords">[${keywords}]</span>`;
-    }
-    return html;
+    return { r: (num >> 16) & 255, g: (num >> 8) & 255, b: num & 255 };
 }
 
 function showScreen(screenId) {
@@ -1357,10 +1159,7 @@ function renderQuestion() {
     const optionsGrid = document.createElement('div');
     optionsGrid.className = 'options-grid';
 
-    let currentSelections = userAnswers[currentQuestionIndex];
-    if (!Array.isArray(currentSelections)) {
-        currentSelections = [];
-    }
+    let currentSelections = userAnswers[currentQuestionIndex] || [];
 
     qData.items.forEach((itemData) => {
         const gridCell = document.createElement('div');
@@ -1371,8 +1170,7 @@ function renderQuestion() {
         
         const selectionIndex = currentSelections.indexOf(itemData.label);
         if (selectionIndex > -1) {
-            gridItem.classList.add('selected');
-            gridItem.classList.add(`selected-${selectionIndex + 1}`);
+            gridItem.classList.add('selected', `selected-${selectionIndex + 1}`);
         }
 
         gridItem.innerHTML = `<img src="${itemData.img}" alt="${itemData.label}" draggable="false" onerror="this.src='https://placehold.co/150x150/eee/333?text=${itemData.label}'">`;
@@ -1417,7 +1215,7 @@ function updateLiveCardBackground() {
 
     const answeredCount = userAnswers.filter(ans => Array.isArray(ans) && ans.length > 0).length;
     const progressRate = answeredCount / QUESTIONS.length;
-    const colorAlpha = 0.15 + (0.45 * progressRate);
+    const colorAlpha = 0.08 + (0.22 * progressRate); // 明るさを維持しつつグラデーションを反映
 
     const gradVal = `linear-gradient(135deg, 
         rgba(255, 255, 255, 1) 0%, 
@@ -1429,10 +1227,7 @@ function updateLiveCardBackground() {
 }
 
 function toggleGridItemSelection(label) {
-    let currentSelections = userAnswers[currentQuestionIndex];
-    if (!Array.isArray(currentSelections)) {
-        currentSelections = [];
-    }
+    let currentSelections = userAnswers[currentQuestionIndex] || [];
 
     const index = currentSelections.indexOf(label);
     if (index > -1) {
@@ -1447,7 +1242,6 @@ function toggleGridItemSelection(label) {
     }
 
     userAnswers[currentQuestionIndex] = currentSelections;
-    
     updateLiveCardBackground();
     renderQuestion();
 
@@ -1512,29 +1306,21 @@ function handleImageUpload(event) {
 function calculateScores() {
     const scoreMap = { STYLE: {}, MEDIUM: {}, PURPOSE: {} };
     
-    STYLE_ORDER.forEach(k => scoreMap.STYLE[k] = { total: 0, mainCount: 0, subCount: 0, grid1Count: 0, grid2Count: 0 });
-    MEDIUM_ORDER.forEach(k => scoreMap.MEDIUM[k] = { total: 0, mainCount: 0, subCount: 0, grid1Count: 0, grid2Count: 0 });
-    PURPOSE_ORDER.forEach(k => scoreMap.PURPOSE[k] = { total: 0, mainCount: 0, subCount: 0, grid1Count: 0, grid2Count: 0 });
+    STYLE_ORDER.forEach(k => scoreMap.STYLE[k] = { total: 0, grid1Count: 0, grid2Count: 0 });
+    MEDIUM_ORDER.forEach(k => scoreMap.MEDIUM[k] = { total: 0, grid1Count: 0, grid2Count: 0 });
+    PURPOSE_ORDER.forEach(k => scoreMap.PURPOSE[k] = { total: 0, grid1Count: 0, grid2Count: 0 });
 
     userAnswers.forEach((ansData, qIdx) => {
-        if (ansData === undefined) return;
+        if (!Array.isArray(ansData)) return;
         const qData = QUESTIONS[qIdx];
-
-        if (Array.isArray(ansData)) {
-            const category = qData.category;
-            ansData.forEach((selectedKey, idx) => {
-                if (scoreMap[category][selectedKey]) {
-                    const points = (idx === 0) ? 2 : 1;
-                    scoreMap[category][selectedKey].total += points;
-                    
-                    if (idx === 0) {
-                        scoreMap[category][selectedKey].grid1Count += 1;
-                    } else {
-                        scoreMap[category][selectedKey].grid2Count += 1;
-                    }
-                }
-            });
-        }
+        ansData.forEach((selectedKey, idx) => {
+            if (scoreMap[qData.category][selectedKey]) {
+                const points = (idx === 0) ? 2 : 1;
+                scoreMap[qData.category][selectedKey].total += points;
+                if (idx === 0) scoreMap[qData.category][selectedKey].grid1Count += 1;
+                else scoreMap[qData.category][selectedKey].grid2Count += 1;
+            }
+        });
     });
 
     function getRankings(categoryKey, orderList) {
@@ -1550,12 +1336,7 @@ function calculateScores() {
             return b.grid2 - a.grid2;
         });
 
-        return {
-            rank1: sorted[0],
-            rank2: sorted[1],
-            rank3: sorted[2],
-            all: sorted
-        };
+        return { rank1: sorted[0], rank2: sorted[1], rank3: sorted[2], all: sorted };
     }
 
     return {
@@ -1566,8 +1347,7 @@ function calculateScores() {
 }
 
 function calculateAndShowResult() {
-    calculatedResultsData = calculateScores();
-    const res = calculatedResultsData;
+    const res = calculateScores();
 
     const finalStyle = res.style.rank1.key;
     const finalMedium = res.medium.rank1.key;
@@ -1585,34 +1365,34 @@ function calculateAndShowResult() {
     const rgbM = hexToRgb(colorM);
     const rgbP = hexToRgb(colorP);
 
+    // 最後に暗くなりすぎないようアルファ値を調整した上品な明るいグラデーション
     const gradVal = `linear-gradient(135deg, 
         rgba(255, 255, 255, 1) 0%, 
-        rgba(${rgbM.r}, ${rgbM.g}, ${rgbM.b}, 0.35) 35%, 
-        rgba(${rgbS.r}, ${rgbS.g}, ${rgbS.b}, 0.35) 70%, 
-        rgba(${rgbP.r}, ${rgbP.g}, ${rgbP.b}, 0.35) 100%)`;
+        rgba(${rgbM.r}, ${rgbM.g}, ${rgbM.b}, 0.22) 35%, 
+        rgba(${rgbS.r}, ${rgbS.g}, ${rgbS.b}, 0.22) 70%, 
+        rgba(${rgbP.r}, ${rgbP.g}, ${rgbP.b}, 0.22) 100%)`;
 
     document.getElementById('result-card').style.background = gradVal;
 
-    // 3軸グリッド表示 (STYLE / MEDIUM / PURPOSE 表記)
     const axesGridEl = document.getElementById('res-axes-grid');
     axesGridEl.innerHTML = `
         <div class="axis-col-1" style="text-align:center;">
-            <div class="axis-label-item">STYLE</div>
-            <div class="axis-val-item" style="color:${colorS};">${finalStyle}</div>
-        </div>
-        <div class="axis-sep-1 axis-separator">/</div>
-        <div class="axis-col-2" style="text-align:center;">
-            <div class="axis-label-item">MEDIUM</div>
+            <div class="axis-label-item">[MEDIUM]</div>
             <div class="axis-val-item" style="color:${colorM};">${finalMedium}</div>
         </div>
-        <div class="axis-sep-2 axis-separator">/</div>
+        <div class="axis-sep-1 axis-separator">×</div>
+        <div class="axis-col-2" style="text-align:center;">
+            <div class="axis-label-item">[STYLE]</div>
+            <div class="axis-val-item" style="color:${colorS};">${finalStyle}</div>
+        </div>
+        <div class="axis-sep-2 axis-separator">×</div>
         <div class="axis-col-3" style="text-align:center;">
-            <div class="axis-label-item">PURPOSE</div>
+            <div class="axis-label-item">[PURPOSE]</div>
             <div class="axis-val-item" style="color:${colorP};">${finalPurpose}</div>
         </div>
     `;
 
-    document.getElementById('res-catchphrase').textContent = `「${purposeData.catchPhrase}、${styleData.catchPhrase}${mediumData.catchPhrase}」`;
+    document.getElementById('res-catchphrase').textContent = `${purposeData.catchPhrase}、${styleData.catchPhrase}${mediumData.catchPhrase}`;
 
     const resImg = document.getElementById('res-image');
     const resPlaceholder = document.getElementById('res-image-placeholder');
@@ -1628,16 +1408,13 @@ function calculateAndShowResult() {
     const detailsEl = document.getElementById('res-axis-details');
     detailsEl.innerHTML = `
         <div class="axis-item">
-            <div class="axis-name" style="color:${colorS};">■ STYLE：${styleData.title}</div>
-            <div class="axis-desc">${formatDescWithLineBreaks(styleData.text, styleData.keywords)}</div>
+            <div class="axis-name" style="color:${colorM};">MEDIUM：${mediumData.title}</div>
         </div>
         <div class="axis-item">
-            <div class="axis-name" style="color:${colorM};">■ MEDIUM：${mediumData.title}</div>
-            <div class="axis-desc">${formatDescWithLineBreaks(mediumData.text, mediumData.keywords)}</div>
+            <div class="axis-name" style="color:${colorS};">STYLE：${styleData.title}</div>
         </div>
         <div class="axis-item">
-            <div class="axis-name" style="color:${colorP};">■ PURPOSE：${purposeData.title}</div>
-            <div class="axis-desc">${formatDescWithLineBreaks(purposeData.text, purposeData.keywords)}</div>
+            <div class="axis-name" style="color:${colorP};">PURPOSE：${purposeData.title}</div>
         </div>
     `;
 
@@ -1662,7 +1439,7 @@ function renderAllScoresGraphs(res) {
                     <div class="graph-bar-container">
                         <div class="graph-bar-fill" style="width: ${percentage}%; background-color: ${barColor};"></div>
                     </div>
-                    <div class="graph-score-text">${item.total}pt</div>
+                    <div class="graph-score-text">${item.total}</div>
                 </div>
             `;
         });
@@ -1677,17 +1454,17 @@ function renderAllScoresGraphs(res) {
 
     graphSection.innerHTML = `
         <div class="graphs-wrapper">
-            ${createCategoryHtml('STYLE', res.style.all, COLOR_STYLE)}
             ${createCategoryHtml('MEDIUM', res.medium.all, COLOR_MEDIUM)}
+            ${createCategoryHtml('STYLE', res.style.all, COLOR_STYLE)}
             ${createCategoryHtml('PURPOSE', res.purpose.all, COLOR_PURPOSE)}
         </div>
     `;
 }
 
 function downloadResultImage() {
-    const card = document.getElementById('result-card');
-    
-    html2canvas(card, {
+    // iPhoneモックアップ全体（黒い枠・スピーカー・ホームボタン含む）を対象に指定
+    const frame = document.getElementById('iphone-frame');
+    html2canvas(frame, {
         scale: 2,
         useCORS: true,
         backgroundColor: null
