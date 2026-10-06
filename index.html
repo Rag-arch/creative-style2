@@ -32,8 +32,10 @@
             /* ライブグラデーション用の初期変数 */
             --live-grad: #ffffff;
             
-            /* ゴールド系グラデーション */
+            /* ゴールド系・シルバー系グラデーション */
             --gold-grad: linear-gradient(135deg, #b8860b 0%, #d4af37 50%, #996515 100%);
+            --gold-badge: linear-gradient(135deg, #ffd700 0%, #d4af37 100%);
+            --silver-badge: linear-gradient(135deg, #e0e0e0 0%, #a0a0a0 100%);
         }
 
         * {
@@ -110,7 +112,6 @@
             font-family: "Hiragino Mincho ProN", "Yu Mincho", "游明朝", serif;
         }
 
-        /* 装飾用の金色の幾何学ライン＆サークル */
         .ogp-start-card::before {
             content: '';
             position: absolute;
@@ -388,9 +389,15 @@
             word-break: break-all;
         }
 
+        /* 1位・2位 選択時の金・銀スタイル設定 */
         .grid-item.selected {
-            border-color: #222222;
-            box-shadow: 0 0 0 2px #222222;
+            border-color: #d4af37;
+            box-shadow: 0 0 0 2px #d4af37;
+        }
+
+        .grid-item.selected-1 {
+            border-color: #d4af37;
+            box-shadow: 0 0 0 2px #d4af37;
         }
 
         .grid-item.selected-1::after {
@@ -398,15 +405,22 @@
             position: absolute;
             top: 4px;
             right: 4px;
-            background: #222222;
-            color: #ffffff;
-            width: 20px;
-            height: 20px;
+            background: var(--gold-badge);
+            color: #222222;
+            width: 22px;
+            height: 22px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 0.75rem;
+            font-size: 0.8rem;
             font-weight: bold;
+            box-shadow: 0 1px 4px rgba(0,0,0,0.3);
+            border: 1px solid #ffffff;
+        }
+
+        .grid-item.selected-2 {
+            border-color: #a0a0a0;
+            box-shadow: 0 0 0 2px #a0a0a0;
         }
 
         .grid-item.selected-2::after {
@@ -414,15 +428,17 @@
             position: absolute;
             top: 4px;
             right: 4px;
-            background: #777777;
-            color: #ffffff;
-            width: 20px;
-            height: 20px;
+            background: var(--silver-badge);
+            color: #222222;
+            width: 22px;
+            height: 22px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 0.75rem;
+            font-size: 0.8rem;
             font-weight: bold;
+            box-shadow: 0 1px 4px rgba(0,0,0,0.3);
+            border: 1px solid #ffffff;
         }
 
         /* 画像アップロード画面 */
@@ -461,7 +477,7 @@
             border-radius: 0;
         }
 
-        /* ----- 最終結果カード (iPhone風フレーム) ----- */
+        /* ----- 最終結果カード (iPhone風フレーム調整) ----- */
         .result-card-container {
             display: flex;
             justify-content: center;
@@ -472,45 +488,45 @@
 
         .result-card {
             background-color: var(--card-bg);
-            /* アイフォンのような黒い縁と丸み */
-            border: 16px solid #111111;
-            border-top-width: 45px;
-            border-bottom-width: 75px;
-            border-radius: 44px;
+            border: 12px solid #111111;
+            border-top-width: 36px;
+            border-bottom-width: 56px;
+            border-radius: 36px;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-            padding: 16px 14px;
+            padding: 10px 10px 6px 10px;
             margin-bottom: 12px;
             width: 100%;
-            max-width: 380px;
-            aspect-ratio: 1 / 1.7; /* 縁を太くした分少し縦長に */
+            max-width: 360px;
+            aspect-ratio: 1 / 1.7;
             transition: background 0.5s ease;
-            overflow: visible; /* ::beforeと::afterを枠線上に表示するため */
+            overflow: visible;
             color: var(--text-main);
             position: relative;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
         }
 
-        /* 上部のスピーカー穴風 */
         .result-card::before {
             content: '';
             position: absolute;
-            top: -28px;
+            top: -22px;
             left: 50%;
             transform: translateX(-50%);
-            width: 50px;
-            height: 6px;
+            width: 42px;
+            height: 5px;
             background-color: #222222;
             border-radius: 4px;
         }
 
-        /* 下部の丸ボタン風 */
         .result-card::after {
             content: '';
             position: absolute;
-            bottom: -62px;
+            bottom: -46px;
             left: 50%;
             transform: translateX(-50%);
-            width: 46px;
-            height: 46px;
+            width: 36px;
+            height: 36px;
             border: 2px solid #333333;
             border-radius: 50%;
             box-sizing: border-box;
@@ -518,14 +534,14 @@
 
         .card-header {
             text-align: center;
-            margin-bottom: 6px;
+            margin-bottom: 2px;
         }
 
         .app-title {
-            font-size: 8px;
+            font-size: 7px;
             color: var(--text-sub);
             letter-spacing: 0.1em;
-            margin: 0 0 1px 0;
+            margin: 0;
         }
 
         .axes-grid-layout {
@@ -534,8 +550,7 @@
             align-items: baseline;
             justify-items: center;
             max-width: 100%;
-            margin: 0 auto 8px auto;
-            overflow-x: auto;
+            margin: 0 auto 4px auto;
         }
 
         .axis-col-1 { grid-column: 1; }
@@ -545,16 +560,16 @@
         .axis-col-3 { grid-column: 5; }
 
         .axis-label-item {
-            font-size: 7px;
+            font-size: 6.5px;
             color: var(--text-sub);
             letter-spacing: 0.05em;
             font-weight: bold;
-            margin-bottom: 2px;
+            margin-bottom: 1px;
             white-space: nowrap;
         }
 
         .axis-val-item {
-            font-size: clamp(14px, 4.5vw, 19px);
+            font-size: clamp(12px, 3.8vw, 16px);
             font-weight: 900;
             letter-spacing: 0.03em;
             white-space: nowrap;
@@ -563,86 +578,94 @@
         .axis-separator {
             color: var(--text-sub);
             font-weight: normal;
-            font-size: 12px;
-            padding: 0 2px;
+            font-size: 10px;
+            padding: 0 1px;
         }
 
         .catchphrase {
-            font-size: 10px;
+            font-size: 8.5px;
             font-weight: bold;
             color: var(--text-main);
-            margin-bottom: 8px;
+            margin-bottom: 4px;
             text-align: center;
             word-break: break-all;
+            line-height: 1.25;
         }
 
         .image-section {
             width: 100%;
             aspect-ratio: 16 / 9;
             background-color: rgba(0, 0, 0, 0.03);
-            border-radius: 4px;
+            border-radius: 3px;
             display: flex;
             align-items: center;
             justify-content: center;
             color: var(--text-sub);
-            margin-bottom: 8px;
+            margin-bottom: 4px;
             border: none;
             position: relative;
             overflow: hidden;
             text-align: center;
-            font-size: 0.7rem;
+            font-size: 0.65rem;
+            flex-shrink: 0;
         }
 
         .image-section img {
             width: 100%;
             height: 100%;
             object-fit: cover;
-            border-radius: 4px;
+            border-radius: 3px;
         }
 
         .section-block {
-            margin-bottom: 8px;
+            margin-bottom: 4px;
             background-color: transparent;
-            padding: 2px 0;
+            padding: 0;
             border: none;
         }
 
         .axis-item {
-            margin-bottom: 4px;
+            margin-bottom: 3px;
         }
 
         .axis-name {
-            font-size: 9px;
+            font-size: 8px;
             font-weight: bold;
             color: var(--text-main);
+            line-height: 1.2;
         }
 
+        /* MEDIUM | STYLE | PURPOSE の説明文章を微小サイズで復活表示 */
         .axis-desc {
-            display: none;
+            display: block;
+            font-size: 6.5px;
+            color: var(--text-sub);
+            line-height: 1.2;
+            margin-top: 1px;
         }
 
         .desc-sentence {
-            display: block;
+            display: inline;
         }
 
         .desc-keywords {
             display: block;
-            font-size: 7px;
+            font-size: 6px;
             color: #888888;
-            margin-top: 1px;
+            margin-top: 0px;
         }
 
         .all-scores-graph-section {
             background-color: transparent;
-            padding: 4px 0;
-            margin-bottom: 6px;
+            padding-top: 2px;
+            margin-top: 2px;
             border-top: 1px dashed var(--border-color);
         }
 
         .graphs-wrapper {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
-            gap: 6px;
+            gap: 4px;
             align-items: start;
         }
 
@@ -651,10 +674,10 @@
         }
 
         .graph-category-title {
-            font-size: 7.5px;
+            font-size: 7px;
             font-weight: bold;
             color: var(--text-sub);
-            margin: 4px 0 2px 0;
+            margin: 1px 0;
             letter-spacing: 0.02em;
             text-align: center;
             white-space: nowrap;
@@ -665,23 +688,23 @@
         .graph-row {
             display: flex;
             align-items: center;
-            margin-bottom: 2px;
-            font-size: 7px;
+            margin-bottom: 1px;
+            font-size: 6px;
         }
 
         .graph-label {
-            width: 20px;
+            width: 16px;
             font-weight: bold;
             text-align: right;
             margin-right: 2px;
             flex-shrink: 0;
-            font-size: 6.5px;
+            font-size: 6px;
         }
 
         .graph-bar-container {
             flex-grow: 1;
-            background-color: #f0f0f0;
-            height: 5px;
+            background-color: rgba(0, 0, 0, 0.06);
+            height: 4px;
             position: relative;
             overflow: hidden;
         }
@@ -692,10 +715,10 @@
         }
 
         .graph-score-text {
-            width: 20px;
+            width: 14px;
             text-align: right;
             margin-left: 2px;
-            font-size: 6px;
+            font-size: 5.5px;
             color: var(--text-sub);
             flex-shrink: 0;
         }
@@ -774,7 +797,7 @@
                 <!-- ① タイトル -->
                 <div class="card-header">
                     <p class="app-title">512 TYPES</p>
-                    <h2 style="margin:0; font-size: 14px;">私という作風</h2>
+                    <h2 style="margin:0; font-size: 13px;">私という作風</h2>
                 </div>
 
                 <!-- ② 3軸グリッド -->
@@ -789,7 +812,7 @@
                     <span id="res-image-placeholder">[ あなたを象徴する一枚 (16:9) ]<br>画像をここに配置</span>
                 </div>
 
-                <!-- ⑤ 3軸の解説 -->
+                <!-- ⑤ 3軸の解説（文字サイズ小さめで復活） -->
                 <div class="section-block">
                     <div id="res-axis-details"></div>
                 </div>
@@ -1159,36 +1182,36 @@ const QUESTIONS = [
 ];
 
 const DATA_PURPOSE = {
-    "美": { catchPhrase: "美に狂い", title: "美をかたちづくる人", text: "世界に、美しいものを存在させることを創作の目的とする傾向。何を伝えるかよりも、まずそれ自体が美しいかを重視する。色, 形, 構図, 素材, 空間, 音, 言葉などを磨き上げ, 調和や完成度の高いものを生み出しようとする。", keywords: "美・調和・洗練・完成度・造形・感性" },
-    "探究": { catchPhrase: "問いの奴隷となり", title: "真理を追い求める人", text: "まだ知らないものを発見し、世界への理解を広げることを創作の目的とする傾向。正解をつくるよりも、未知を見つけることに創作の価値を感じる。実験, 研究, 観察, 試行錯誤を通して、既存の常識を問い直す。作品そのものだけでなく、制作の過程で得られる発見を重視することもある。", keywords: "発見・実験・研究・未知・仮説・革新" },
-    "伝達": { catchPhrase: "真実を言い触らし", title: "メッセージを届ける人", text: "情報, 知識, 思想, 物語などを、他者へ届けることを創作の目的とする傾向。自分が何を感じただけでなく、相手に何が伝わったかを重視する。文章, 映像, 図解, デザイン, 演説, 教育など, 意味や情報を媒介する表現と相性がよい。伝わることそのものを作品の完成度の一部として捉えやすい。", keywords: "情報・知識・意味・説明・共有・メッセージ" },
-    "共感": { catchPhrase: "孤独を解剖し", title: "感情を分かち合う人", text: "人と人の間に感情的なつながりを作り出すことを創作の目的とする傾向。理解させることより、わかる, 同じ気持ちだと感じてもらうことを重視する。自身の経験や感情を作品に込め, それを通して他者との距離を縮めようとする。", keywords: "共鳴・共有・親密さ・感情・人間関係・連帯" },
-    "娯楽": { catchPhrase: "退屈を煽り", title: "遊び心を演出する人", text: "人を楽しませ, 夢中にさせることを目的とする傾向。創作を一種の仕掛けとして捉え, 次は何が起こる？どうしたらもっと面白い？と考える。驚き, 笑い, スリル, 遊び, 没入などを意図的に設計する。", keywords: "楽しさ・遊び・驚き・刺激・笑い・没入" },
-    "思索": { catchPhrase: "常識を斜めに眺め", title: "深い思索をもたらす人", text: "作品を通して, 見る人・読む人自身に考えるきっかけを与えることを創作の目的とする傾向。答えを与えるより, 問いを残すことを重視する。一つの答えに決められない作品や, 複数の解釈が成立する作品にも価値を見出す。", keywords: "問い・哲学・解釈・余白・多義性・内省" },
-    "癒し": { catchPhrase: "絶望を撫で回し", title: "安らぎをもたらす人", text: "人の心を穏やかにし, 安心や安らぎを与えることを創作の目的とする傾向。強い刺激よりも, ここにいていいと感じられる環境や体験をつくろうとする。柔らかな色, 心地よい音, 自然, 温かい物語, 居心地のよい空間などと相性がよい。", keywords: "安心・安らぎ・温もり・休息・心地よさ・回復" },
-    "感動": { catchPhrase: "感情をかき乱し", title: "感情の波を起こす人", text: "人の心を大きく動かし, 記憶に残る体験を生み出すことを創作の目的とする傾向。美しい, おもしろいだけでなく, 忘れられないほど心を動かしたいという欲求が強い。物語の起伏, 劇的な演出, 壮大さ, 意外性, 音楽, 身体表現などを通して感情のピークをつくる。", keywords: "情動・衝撃・高揚・ドラマ・余韻・記憶" }
+    "美": { catchPhrase: "美に狂い", title: "美をかたちづくる人", text: "世界に、美しいものを存在させることを創作の目的とする傾向。何を伝えるかよりも、まずそれ自体が美しいかを重視する。色, 形, 構図, 素材, 空間, 音, 言葉などを磨き上げ, 調和や完成度の高いものを生み出しようとする。" },
+    "探究": { catchPhrase: "問いの奴隷となり", title: "真理を追い求める人", text: "まだ知らないものを発見し、世界への理解を広げることを創作の目的とする傾向。正解をつくるよりも、未知を見つけることに創作の価値を感じる。実験, 研究, 観察, 試行錯誤を通して、既存の常識を問い直す。作品そのものだけでなく、制作の過程で得られる発見を重視することもある。" },
+    "伝達": { catchPhrase: "真実を言い触らし", title: "メッセージを届ける人", text: "情報, 知識, 思想, 物語などを、他者へ届けることを創作の目的とする傾向。自分が何を感じただけでなく、相手に何が伝わったかを重視する。文章, 映像, 図解, デザイン, 演説, 教育など, 意味や情報を媒介する表現と相性がよい。伝わることそのものを作品の完成度の一部として捉えやすい。" },
+    "共感": { catchPhrase: "孤独を解剖し", title: "感情を分かち合う人", text: "人と人の間に感情的なつながりを作り出すことを創作の目的とする傾向。理解させることより、わかる, 同じ気持ちだと感じてもらうことを重視する。自身の経験や感情を作品に込め, それを通して他者との距離を縮めようとする。" },
+    "娯楽": { catchPhrase: "退屈を煽り", title: "遊び心を演出する人", text: "人を楽しませ, 夢中にさせることを目的とする傾向。創作を一種の仕掛けとして捉え, 次は何が起こる？どうしたらもっと面白い？と考える。驚き, 笑い, スリル, 遊び, 没入などを意図的に設計する。" },
+    "思索": { catchPhrase: "常識を斜めに眺め", title: "深い思索をもたらす人", text: "作品を通して, 見る人・読む人自身に考えるきっかけを与えることを創作の目的とする傾向。答えを与えるより, 問いを残すことを重視する。一つの答えに決められない作品や, 複数の解釈が成立する作品にも価値を見出す。" },
+    "癒し": { catchPhrase: "絶望を撫で回し", title: "安らぎをもたらす人", text: "人の心を穏やかにし, 安心や安らぎを与えることを創作の目的とする傾向。強い刺激よりも, ここにいていいと感じられる環境や体験をつくろうとする。柔らかな色, 心地よい音, 自然, 温かい物語, 居心地のよい空間などと相性がよい。" },
+    "感動": { catchPhrase: "感情をかき乱し", title: "感情の波を起こす人", text: "人の心を大きく動かし, 記憶に残る体験を生み出すことを創作の目的とする傾向。美しい, おもしろいだけでなく, 忘れられないほど心を動かしたいという欲求が強い。物語の起伏, 劇的な演出, 壮大さ, 意外性, 音楽, 身体表現などを通して感情のピークをつくる。" }
 };
 
 const DATA_MEDIUM = {
-    "視覚": { catchPhrase: "描き散らかす人", title: "視覚 ｜ 目に映るものを通して表現する", text: "色・形・光・構図など, 目に見えるものを通して表現する。", keywords: "絵画・イラスト・グラフィック・絵本" },
-    "造形": { catchPhrase: "こねくり回す人", title: "造形 ｜ 物そのものを通して表現する", text: "素材・形・立体など, 触れることのできる物を組み合わせて表現する。", keywords: "彫刻・工芸・プロダクト・ファッション" },
-    "空間": { catchPhrase: "でっちあげる人", title: "空間 ｜ 場を通して表現する", text: "建築・場所・配置など, 人が身を置く環境そのものをつくる。", keywords: "建築・インテリア・庭園・展示空間" },
-    "音響": { catchPhrase: "かき鳴らす人", title: "音響 ｜ 音を通して表現する", text: "音・声・リズム・響きなど, 耳で感じるものを通して表現する。", keywords: "作曲・演奏・歌唱・サウンド" },
-    "言語": { catchPhrase: "綴り散らかす人", title: "言語 ｜ 言葉を通して表現する", text: "言葉・文章・物語・概念など, 意味を組み立てることによって表現する。", keywords: "詩・小説・脚本・コピー・評論" },
-    "身体": { catchPhrase: "踊り狂う人", title: "身体 ｜ 身体そのものを通して表現する", text: "動き・演技・所作・存在など, 自らの身体を通して表現する。", keywords: "演劇・ダンス・パフォーマンス・舞台芸術" },
-    "映像": { catchPhrase: "幻覚を見てる人", title: "映像 ｜ 時間と動きを通して表現する", text: "時間・動き・光・編集など, 移ろうイメージを通して表現する。", keywords: "映画・アニメ・動画・フォト" },
-    "体験": { catchPhrase: "引きずりこむ人", title: "体験 ｜ 体験そのものを通して表現する", text: "参加・交流・選択・出来事など, 人が実際に経験することそのものをつくる。", keywords: "ゲーム・アトラクション・インタラクティブアート・イベント" }
+    "視覚": { catchPhrase: "描き散らかす人", title: "視覚 ｜ 目に映るものを通して表現する", text: "色・形・光・構図など, 目に見えるものを通して表現する。" },
+    "造形": { catchPhrase: "こねくり回す人", title: "造形 ｜ 物そのものを通して表現する", text: "素材・形・立体など, 触れることのできる物を組み合わせて表現する。" },
+    "空間": { catchPhrase: "でっちあげる人", title: "空間 ｜ 場を通して表現する", text: "建築・場所・配置など, 人が身を置く環境そのものをつくる。" },
+    "音響": { catchPhrase: "かき鳴らす人", title: "音響 ｜ 音を通して表現する", text: "音・声・リズム・響きなど, 耳で感じるものを通して表現する。" },
+    "言語": { catchPhrase: "綴り散らかす人", title: "言語 ｜ 言葉を通して表現する", text: "言葉・文章・物語・概念など, 意味を組み立てることによって表現する。" },
+    "身体": { catchPhrase: "踊り狂う人", title: "身体 ｜ 身体そのものを通して表現する", text: "動き・演技・所作・存在など, 自らの身体を通して表現する。" },
+    "映像": { catchPhrase: "幻覚を見てる人", title: "映像 ｜ 時間と動きを通して表現する", text: "時間・動き・光・編集など, 移ろうイメージを通して表現する。" },
+    "体験": { catchPhrase: "引きずりこむ人", title: "体験 ｜ 体験そのものを通して表現する", text: "参加・交流・選択・出来事など, 人が実際に経験することそのものをつくる。" }
 };
 
 const DATA_STYLE = {
-    "再現": { catchPhrase: "寸分狂わぬ模造で", title: "再現 ｜ 世界を写し取る人", text: "目の前にある世界を観察し, その姿や本質を捉えようとする創作傾向。自分がどうつくりたいかよりも, 対象はどうなっているのかを重視する。観察, 記録, 写実, 資料性などを通して, 対象の特徴やリアリティを掘り下げる。", keywords: "観察・真実・精密さ・忠実さ・記録" },
-    "理想": { catchPhrase: "あつらえた幻影で", title: "理想 ｜ あるべき世界を描く人", text: "現実をそのまま写すのではなく, こうあってほしいという姿を追い求める創作傾向。現実に存在するものを超えて, より美しく, より良く, より完成された状態を構想する。建築, プロダクト, 未来像, 理想都市などにも現れやすい。", keywords: "理想・完成・調和・秩序・可能性" },
-    "表現": { catchPhrase: "垂れ流す自我で", title: "表現 ｜ 自分を形にする人", text: "感情, 感性, 思想, 個性など, 自分自身の内側を作品として表す創作傾向。何をつくりたいか以上に, 自分は何を感じ, 何を考えているかが創作の出発点になる。独自の視点や個性そのものを作品の価値として捉えやすい。", keywords: "個性・感情・自己・独創性・主観" },
-    "知覚": { catchPhrase: "歪んだレンズ越しに", title: "知覚 ｜ 世界を感じ取る人", text: "世界をどのように感じ, 知覚するかを重視する創作傾向。正確に描くよりも, どう見えるか, どう聞こえるか, どう感じるかを大切にする。光, 色, 音, 温度, 身体感覚, 空間体験などへの関心が強い。", keywords: "感覚・印象・光・身体・体験" },
-    "構成": { catchPhrase: "屁理屈の結晶で", title: "構成 ｜ 世界を組み立てる人", text: "複数の要素を組み合わせ, その関係性から新しい秩序や美を生み出す創作傾向。個々のパーツだけでなく, それらがどう配置され, どう関係するかを重視する。建築, グラフィック, 編集, 音楽, 映像, 都市計画などと相性がよい。", keywords: "秩序・構造・配置・関係・バランス" },
-    "幻想": { catchPhrase: "白昼夢の詭弁で", title: "幻想 ｜ 存在しない世界を生み出す人", text: "現実には存在しないことを想像し, 新しい世界として成立させる創作傾向。夢, 神話, 魔法, 異世界, 童話など, 現実とは異なる世界や可能性を創造する。単なる空想ではなく, 現実には見えないことを可視化することに価値を見出す。", keywords: "想像・夢・神話・異世界・非現実" },
-    "概念": { catchPhrase: "こじらせた思想で", title: "概念 ｜ 見えないものを形にする人", text: "思想, 意味, 問い, 価値観など, 目に見えないものを作品として提示する創作傾向。何が美しいかだけでなく, この作品は何を意味するのかを重視する。作品そのものだけでなく, その背景にある考えや問いが創作の核になることも多い。", keywords: "意味・思想・問い・本質・コンセプト" },
-    "変容": { catchPhrase: "境界を溶かしまぜて", title: "変容 ｜ 世界を書き換える人", text: "既存のものを変形・再解釈・融合し, 新しい価値へと変える創作傾向。ゼロからつくるだけでなく, すでにいるものを別のものへ変えることに創造性を感じる。異なるジャンルを融合したり, 既存の常識を反転させたりすることもある。", keywords: "変化・再解釈・融合・改変・革新" }
+    "再現": { catchPhrase: "寸分狂わぬ模造で", title: "再現 ｜ 世界を写し取る人", text: "目の前にある世界を観察し, その姿や本質を捉えようとする創作傾向。自分がどうつくりたいかよりも, 対象はどうなっているのかを重視する。観察, 記録, 写実, 資料性などを通して, 対象の特徴やリアリティを掘り下げる。" },
+    "理想": { catchPhrase: "あつらえた幻影で", title: "理想 ｜ あるべき世界を描く人", text: "現実をそのまま写すのではなく, こうあってほしいという姿を追い求める創作傾向。現実に存在するものを超えて, より美しく, より良く, より完成された状態を構想する。建築, プロダクト, 未来像, 理想都市などにも現れやすい。" },
+    "表現": { catchPhrase: "垂れ流す自我で", title: "表現 ｜ 自分を形にする人", text: "感情, 感性, 思想, 個性など, 自分自身の内側を作品として表す創作傾向。何をつくりたいか以上に, 自分は何を感じ, 何を考えているかが創作の出発点になる。独自の視点や個性そのものを作品の価値として捉えやすい。" },
+    "知覚": { catchPhrase: "歪んだレンズ越しに", title: "知覚 ｜ 世界を感じ取る人", text: "世界をどのように感じ, 知覚するかを重視する創作傾向。正確に描くよりも, どう見えるか, どう聞こえるか, どう感じるかを大切にする。光, 色, 音, 温度, 身体感覚, 空間体験などへの関心が強い。" },
+    "構成": { catchPhrase: "屁理屈の結晶で", title: "構成 ｜ 世界を組み立てる人", text: "複数の要素を組み合わせ, その関係性から新しい秩序や美を生み出す創作傾向。個々のパーツだけでなく, それらがどう配置され, どう関係するかを重視する。建築, グラフィック, 編集, 音楽, 映像, 都市計画などと相性がよい。" },
+    "幻想": { catchPhrase: "白昼夢の詭弁で", title: "幻想 ｜ 存在しない世界を生み出す人", text: "現実には存在しないことを想像し, 新しい世界として成立させる創作傾向。夢, 神話, 魔法, 異世界, 童話など, 現実とは異なる世界や可能性を創造する。単なる空想ではなく, 現実には見えないことを可視化することに価値を見出す。" },
+    "概念": { catchPhrase: "こじらせた思想で", title: "概念 ｜ 見えないものを形にする人", text: "思想, 意味, 問い, 価値観など, 目に見えないものを作品として提示する創作傾向。何が美しいかだけでなく, この作品は何を意味するのかを重視する。作品そのものだけでなく, その背景にある考えや問いが創作の核になることも多い。" },
+    "変容": { catchPhrase: "境界を溶かしまぜて", title: "変容 ｜ 世界を書き換える人", text: "既存のものを変形・再解釈・融合し, 新しい価値へと変える創作傾向。ゼロからつくるだけでなく, すでにいるものを別のものへ変えることに創造性を感じる。異なるジャンルを融合したり, 既存の常識を反転させたりすることもある。" }
 };
 
 const STYLE_ORDER = ["再現", "理想", "表現", "知覚", "構成", "幻想", "概念", "変容"];
@@ -1250,7 +1273,7 @@ function renderQuestion() {
 
     const instruction = document.createElement('div');
     instruction.className = 'grid-instruction';
-    instruction.textContent = "画像の中から2つ選んでください（選んだ順番に1位2位表示）";
+    instruction.textContent = "画像の中から2つ選んでください（選んだ順番に1位、2位表示）";
     contentArea.appendChild(instruction);
 
     const subInstruction = document.createElement('div');
@@ -1667,7 +1690,6 @@ function downloadResultImage() {
             finalCanvas.toBlob(blob => {
                 const file = new File([blob], `creative-style-result.png`, { type: 'image/png' });
                 
-                // Android等におけるシェア機能のフォールバック対応
                 let sharedSuccessfully = false;
                 if (navigator.canShare && navigator.canShare({ files: [file] })) {
                     navigator.share({
@@ -1677,7 +1699,6 @@ function downloadResultImage() {
                     }).then(() => {
                         sharedSuccessfully = true;
                     }).catch(() => {
-                        // シェアキャンセルやエラー時は通常のダウンロードにフォールバック
                     }).finally(() => {
                         if (!sharedSuccessfully) {
                             triggerDownload(blob);
