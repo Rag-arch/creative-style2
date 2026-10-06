@@ -1364,11 +1364,12 @@ function calculateAndShowResult() {
     const rgbM = hexToRgb(colorM);
     const rgbP = hexToRgb(colorP);
 
+    // 修正箇所：グラデーション定義のCSS構文ミスを解消
     const gradVal = `linear-gradient(135deg, 
         rgba(255, 255, 255, 1) 0%, 
         rgba(${rgbM.r}, ${rgbM.g}, ${rgbM.b}, 0.08) 35%, 
         rgba(${rgbS.r}, ${rgbS.g}, ${rgbS.b}, 0.08) 70%, 
-        rgba(${rgbP.r}, ${rgbP.g}, ${rgbP.b}, ${colorP}, 0.08) 100%)`;
+        rgba(${rgbP.r}, ${rgbP.g}, ${rgbP.b}, 0.08) 100%)`;
 
     document.getElementById('result-card').style.background = gradVal;
 
@@ -1460,7 +1461,6 @@ function renderAllScoresGraphs(res) {
 }
 
 function downloadResultImage() {
-    // モックアップフレームではなく、純粋なカード本体（#result-card）を直接キャプチャして文字潰れや黒背景を防ぐ
     const targetCard = document.getElementById('result-card');
     html2canvas(targetCard, {
         scale: 2,
