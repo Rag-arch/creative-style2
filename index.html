@@ -22,10 +22,10 @@
         :root {
             --bg-color: #ffffff;
             --card-bg: #ffffff;
-            --text-main: #1a1a1a;
-            --text-sub: #666666;
+            --text-main: #111111;
+            --text-sub: #555555;
             --accent-color: #1a1a1a;
-            --border-color: #1a1a1a;
+            --border-color: #dcdcdc;
             --font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", "Segoe UI", "Hiragino Kaku Gothic ProN", "Hiragino Sans", Meiryo, sans-serif;
             --live-grad: #ffffff;
         }
@@ -371,7 +371,7 @@
             100% { opacity: 1; transform: translateY(0) scale(1); }
         }
 
-        /* ▼▼▼ iPhone風モックアップの忠実な再現 (ベゼル・スピーカー・ホームボタン) ▼▼▼ */
+        /* ▼▼▼ iPhone風モックアップの忠実な再現（キャプチャ時はカード部分のみ綺麗に抜く） ▼▼▼ */
         .iphone-frame {
             background-color: #111111;
             border-radius: 46px;
@@ -383,7 +383,6 @@
             margin-bottom: 12px;
         }
 
-        /* 上部スピーカーのバー */
         .iphone-speaker {
             position: absolute;
             top: 18px;
@@ -395,7 +394,6 @@
             border-radius: 3px;
         }
 
-        /* 下部ホームボタン */
         .iphone-home-btn {
             position: absolute;
             bottom: 14px;
@@ -457,7 +455,7 @@
         }
 
         .axis-val-item {
-            font-size: clamp(14px, 4.5vw, 19px);
+            font-size: clamp(13px, 4vw, 17px);
             font-weight: 900;
             letter-spacing: 0.03em;
             white-space: nowrap;
@@ -482,7 +480,7 @@
         .image-section {
             width: 100%;
             aspect-ratio: 16 / 9;
-            background-color: rgba(0, 0, 0, 0.03);
+            background-color: rgba(0, 0, 0, 0.05);
             border-radius: 8px;
             display: flex;
             align-items: center;
@@ -559,11 +557,12 @@
             margin-right: 2px;
             flex-shrink: 0;
             font-size: 6.5px;
+            color: var(--text-main);
         }
 
         .graph-bar-container {
             flex-grow: 1;
-            background-color: #f0f0f0;
+            background-color: rgba(0, 0, 0, 0.08);
             height: 5px;
             position: relative;
             overflow: hidden;
@@ -582,7 +581,8 @@
             text-align: right;
             margin-left: 2px;
             font-size: 6px;
-            color: var(--text-sub);
+            color: var(--text-main);
+            font-weight: bold;
             flex-shrink: 0;
         }
     </style>
@@ -642,7 +642,6 @@
     <!-- RESULT SCREEN -->
     <div id="screen-result" class="screen">
         <div class="result-card-container">
-            <!-- iPhone風モックアップの構造をHTML要素化し、html2canvasできれいにキャプチャできるように修正 -->
             <div class="iphone-frame" id="iphone-frame">
                 <div class="iphone-speaker"></div>
                 
@@ -689,18 +688,18 @@
 
 <script>
 const COLOR_STYLE = {
-    "再現": "#FF6B6B", "理想": "#FFA94D", "表現": "#F06595", "知覚": "#FCC419",
-    "構成": "#748FFC", "幻想": "#B197FC", "概念": "#4DABF7", "変容": "#38D9A9"
+    "再現": "#D9480F", "理想": "#E67700", "表現": "#C2255C", "知覚": "#F59F00",
+    "構成": "#3B5BDB", "幻想": "#7950F2", "概念": "#1C7ED6", "変容": "#0B7285"
 };
 
 const COLOR_MEDIUM = {
-    "視覚": "#FF8787", "造形": "#FFC078", "空間": "#FFD43B", "音響": "#63E6BE",
-    "言語": "#4DABF7", "身体": "#E599F7", "映像": "#F783AC", "体験": "#39D39F"
+    "視覚": "#E03131", "造形": "#D9480F", "空間": "#E67700", "音響": "#099268",
+    "言語": "#1C7ED6", "身体": "#AE3EC9", "映像": "#C2255C", "体験": "#0CA678"
 };
 
 const COLOR_PURPOSE = {
-    "美":   "#F06595", "探究": "#748FFC", "伝達": "#38D9A9", "共感": "#63E6BE",
-    "娯楽": "#FFA94D", "思索": "#B197FC", "癒し": "#20C997", "感動": "#FF6B6B"
+    "美":   "#C2255C", "探究": "#3B5BDB", "伝達": "#0B7285", "共感": "#099268",
+    "娯楽": "#E67700", "思索": "#7950F2", "癒し": "#0CA678", "感動": "#E03131"
 };
 
 const QUESTIONS = [
@@ -1215,7 +1214,7 @@ function updateLiveCardBackground() {
 
     const answeredCount = userAnswers.filter(ans => Array.isArray(ans) && ans.length > 0).length;
     const progressRate = answeredCount / QUESTIONS.length;
-    const colorAlpha = 0.08 + (0.22 * progressRate); // 明るさを維持しつつグラデーションを反映
+    const colorAlpha = 0.03 + (0.08 * progressRate);
 
     const gradVal = `linear-gradient(135deg, 
         rgba(255, 255, 255, 1) 0%, 
@@ -1357,20 +1356,19 @@ function calculateAndShowResult() {
     const mediumData = DATA_MEDIUM[finalMedium];
     const purposeData = DATA_PURPOSE[finalPurpose];
 
-    const colorS = COLOR_STYLE[finalStyle] || "#1a1a1a";
-    const colorM = COLOR_MEDIUM[finalMedium] || "#1a1a1a";
-    const colorP = COLOR_PURPOSE[finalPurpose] || "#1a1a1a";
+    const colorS = COLOR_STYLE[finalStyle] || "#111111";
+    const colorM = COLOR_MEDIUM[finalMedium] || "#111111";
+    const colorP = COLOR_PURPOSE[finalPurpose] || "#111111";
 
     const rgbS = hexToRgb(colorS);
     const rgbM = hexToRgb(colorM);
     const rgbP = hexToRgb(colorP);
 
-    // 最後に暗くなりすぎないようアルファ値を調整した上品な明るいグラデーション
     const gradVal = `linear-gradient(135deg, 
         rgba(255, 255, 255, 1) 0%, 
-        rgba(${rgbM.r}, ${rgbM.g}, ${rgbM.b}, 0.22) 35%, 
-        rgba(${rgbS.r}, ${rgbS.g}, ${rgbS.b}, 0.22) 70%, 
-        rgba(${rgbP.r}, ${rgbP.g}, ${rgbP.b}, 0.22) 100%)`;
+        rgba(${rgbM.r}, ${rgbM.g}, ${rgbM.b}, 0.08) 35%, 
+        rgba(${rgbS.r}, ${rgbS.g}, ${rgbS.b}, 0.08) 70%, 
+        rgba(${rgbP.r}, ${rgbP.g}, ${rgbP.b}, ${colorP}, 0.08) 100%)`;
 
     document.getElementById('result-card').style.background = gradVal;
 
@@ -1432,7 +1430,7 @@ function renderAllScoresGraphs(res) {
         let rowsHtml = '';
         allList.forEach(item => {
             const percentage = Math.round((item.total / maxVal) * 100);
-            const barColor = colorMap[item.key] || '#1a1a1a';
+            const barColor = colorMap[item.key] || '#111111';
             rowsHtml += `
                 <div class="graph-row">
                     <div class="graph-label">${item.key}</div>
@@ -1462,12 +1460,12 @@ function renderAllScoresGraphs(res) {
 }
 
 function downloadResultImage() {
-    // iPhoneモックアップ全体（黒い枠・スピーカー・ホームボタン含む）を対象に指定
-    const frame = document.getElementById('iphone-frame');
-    html2canvas(frame, {
+    // モックアップフレームではなく、純粋なカード本体（#result-card）を直接キャプチャして文字潰れや黒背景を防ぐ
+    const targetCard = document.getElementById('result-card');
+    html2canvas(targetCard, {
         scale: 2,
         useCORS: true,
-        backgroundColor: null
+        backgroundColor: "#ffffff"
     }).then(canvas => {
         const link = document.createElement('a');
         link.download = 'creative-style-result.png';
