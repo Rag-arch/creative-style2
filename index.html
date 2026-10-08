@@ -59,6 +59,28 @@
             letter-spacing: 0.05em;
             line-height: 1.5;
             transition: background-image 0.5s ease;
+            position: relative;
+        }
+
+        /* 2. 回答プログレスの「リキッド・バー」 */
+        .liquid-progress-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: rgba(0, 0, 0, 0.05);
+            z-index: 1000;
+            display: none;
+        }
+        .liquid-progress-container.active {
+            display: block;
+        }
+        .liquid-progress-bar {
+            height: 100%;
+            width: 0%;
+            background: var(--gold-grad);
+            transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         .container {
@@ -366,7 +388,7 @@
             overflow: hidden;
             background: #f0f0f0;
             border-radius: 0;
-            transition: all 0.2s ease;
+            transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1), border-color 0.2s, box-shadow 0.2s;
         }
 
         .grid-item img {
@@ -389,15 +411,21 @@
             word-break: break-all;
         }
 
-        /* 1位・2位 選択時の金・銀スタイル設定 */
-        .grid-item.selected {
-            border-color: #d4af37;
-            box-shadow: 0 0 0 2px #d4af37;
+        /* 1. スプリングアニメーション＆発光シャドウ効果 */
+        @keyframes springPop {
+            0% { transform: scale(1); }
+            40% { transform: scale(0.90); }
+            70% { transform: scale(1.04); }
+            100% { transform: scale(1); }
+        }
+
+        .grid-item.animate-spring {
+            animation: springPop 0.35s ease;
         }
 
         .grid-item.selected-1 {
             border-color: #d4af37;
-            box-shadow: 0 0 0 2px #d4af37;
+            box-shadow: 0 0 12px rgba(212, 175, 55, 0.6), inset 0 0 6px rgba(212, 175, 55, 0.3);
         }
 
         .grid-item.selected-1::after {
@@ -420,7 +448,7 @@
 
         .grid-item.selected-2 {
             border-color: #a0a0a0;
-            box-shadow: 0 0 0 2px #a0a0a0;
+            box-shadow: 0 0 12px rgba(160, 160, 160, 0.6), inset 0 0 6px rgba(160, 160, 160, 0.3);
         }
 
         .grid-item.selected-2::after {
@@ -544,7 +572,6 @@
             margin: 0;
         }
 
-        /* 調整箇所1: タイトルの間隔を広げ、全体のバランスを最適化 */
         .axes-grid-layout {
             display: grid;
             grid-template-columns: 1fr auto 1fr auto 1fr;
@@ -619,7 +646,6 @@
             border-radius: 3px;
         }
 
-        /* 調整箇所2: 説明文ブロックの余白・行間調整 */
         .section-block {
             margin-bottom: 1px;
             background-color: transparent;
@@ -638,12 +664,11 @@
             line-height: 1.15;
         }
 
-        /* MEDIUM | STYLE | PURPOSE の説明文章 */
         .axis-desc {
             display: block;
             font-size: 6px;
             color: var(--text-sub);
-            line-height: 1.15;
+            line-height: 1.4;
             margin-top: 0.5px;
         }
 
@@ -655,10 +680,10 @@
             display: block;
             font-size: 5.5px;
             color: #888888;
-            margin-top: 0px;
+            line-height: 1.3;
+            margin-top: 1px;
         }
 
-        /* グラフセクション上部の無駄な余白をカット */
         .all-scores-graph-section {
             background-color: transparent;
             padding-top: 1px;
@@ -726,9 +751,169 @@
             color: var(--text-sub);
             flex-shrink: 0;
         }
+
+        /* 3. エフェクト演出用Canvasオーバーレイ */
+        #effect-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            pointer-events: none;
+            z-index: 9999;
+            display: none;
+        }
+
+        /* 4. 選択画像一覧確認モーダルスタイル */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(4px);
+            z-index: 2000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+        }
+        .modal-overlay.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+        .modal-content {
+            background: #ffffff;
+            width: 92%;
+            max-width: 560px;
+            max-height: 85vh;
+            border-radius: 8px;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+        .modal-header {
+            padding: 16px 20px;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-shrink: 0;
+        }
+        .modal-title {
+            font-size: 0.95rem;
+            font-weight: 700;
+            letter-spacing: 0.1em;
+        }
+        .modal-close-btn {
+            background: none;
+            border: none;
+            font-size: 1.2rem;
+            cursor: pointer;
+            color: var(--text-sub);
+        }
+        .modal-body {
+            padding: 16px 20px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 0;
+        }
+        .selected-history-question {
+            padding: 4px 0 20px;
+            margin-bottom: 20px;
+            border-bottom: 1px solid #e8e8e8;
+        }
+        .selected-history-question:last-child {
+            margin-bottom: 0;
+            border-bottom: none;
+        }
+        .history-question-title {
+            margin-bottom: 12px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: #b8860b;
+            letter-spacing: 0.04em;
+        }
+        .history-choice-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 14px;
+        }
+        .selected-history-item {
+            min-width: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            gap: 7px;
+        }
+        .history-thumb {
+            width: 100%;
+            max-width: 150px;
+            aspect-ratio: 1 / 1;
+            height: auto;
+            object-fit: cover;
+            border-radius: 6px;
+            border: 1px solid var(--border-color);
+            display: block;
+        }
+        .history-info {
+            width: 100%;
+            font-size: 0.8rem;
+            color: var(--text-main);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+        }
+        .history-rank-badge {
+            display: inline-block;
+            padding: 2px 8px;
+            font-size: 0.68rem;
+            font-weight: bold;
+            border-radius: 4px;
+            line-height: 1.3;
+        }
+        .badge-1 { background: #ffd700; color: #222; }
+        .badge-2 { background: #e0e0e0; color: #222; }
+        .history-caption {
+            width: 100%;
+            font-size: 0.85rem;
+            line-height: 1.4;
+            font-weight: 600;
+            color: var(--text-main);
+            overflow-wrap: anywhere;
+        }
+        @media (max-width: 420px) {
+            .modal-content {
+                width: 94%;
+            }
+            .modal-body {
+                padding: 14px 14px;
+            }
+            .history-choice-grid {
+                gap: 10px;
+            }
+            .history-thumb {
+                max-width: 130px;
+            }
+        }
     </style>
 </head>
 <body>
+
+<!-- 2. 回答プログレスの「リキッド・バー」 -->
+<div class="liquid-progress-container" id="liquid-progress-container">
+    <div class="liquid-progress-bar" id="liquid-progress-bar"></div>
+</div>
+
+<!-- 3. ゴールド粒子エフェクト用Canvas -->
+<canvas id="effect-canvas"></canvas>
 
 <div class="container">
 
@@ -835,11 +1020,26 @@
                 <div>結果画像を保存して、Xでシェアしよう。</div>
             </div>
 
+            <!-- 4. 選択画像一覧モーダルを開くボタン -->
+            <button class="btn btn-secondary" onclick="openSelectionModal()">選んだ画像を確認する</button>
             <button class="btn btn-secondary" onclick="backToImageScreen()">回答や写真を修正する</button>
             <button class="btn btn-secondary" onclick="restart()">最初からやり直す</button>
         </div>
     </div>
 
+</div>
+
+<!-- 4. 選択画像確認用モーダルHTML -->
+<div class="modal-overlay" id="selection-modal" onclick="closeSelectionModalOnOutside(event)">
+    <div class="modal-content">
+        <div class="modal-header">
+            <div class="modal-title">選んだ画像を確認する</div>
+            <button class="modal-close-btn" onclick="closeSelectionModal()">&times;</button>
+        </div>
+        <div class="modal-body" id="modal-history-list">
+            <!-- 動的生成 -->
+        </div>
+    </div>
 </div>
 
 <script>
@@ -991,7 +1191,7 @@ const QUESTIONS = [
         { label: "娯楽", img: "./images/Cb5娯楽.jpg", caption: "破砕タイルの有機的地形" }, 
         { label: "思索", img: "./images/Cb6思索.jpg", caption: "有機的モダニズムの螺旋" },
         { label: "癒し", img: "./images/Cb7癒し.jpg", caption: "ミニマル・ブルータリズム" }, 
-        { label: "感動", img: "./images/Cb8感動.jpg", caption: "古代ローマの完全な幾何学" }
+        { label: "感動", img: "./images/Cb8感動.jpg", caption: "古代ローマの完全な几何学" }
     ]},
     { q: "好きなインテリアは？", category: "PURPOSE", items: [
         { label: "美", img: "./images/Cc1美.jpg", caption: "ストイックなミニマリズム" }, 
@@ -1256,7 +1456,25 @@ function formatDescWithLineBreaks(text, keywords) {
 function showScreen(screenId) {
     document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
     document.getElementById(screenId).classList.add('active');
+    
+    // プログレスバーの表示制御
+    const progressContainer = document.getElementById('liquid-progress-container');
+    if (screenId === 'screen-quiz') {
+        progressContainer.classList.add('active');
+        updateProgressBar();
+    } else {
+        progressContainer.classList.remove('active');
+    }
+
     window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+// 2. リキッド・プログレスバーの更新
+function updateProgressBar() {
+    const progressBar = document.getElementById('liquid-progress-bar');
+    const answeredCount = userAnswers.filter(ans => Array.isArray(ans) && ans.length > 0).length;
+    const progress = (answeredCount / QUESTIONS.length) * 100;
+    progressBar.style.width = `${progress}%`;
 }
 
 function startQuiz() {
@@ -1271,6 +1489,7 @@ function renderQuestion() {
     const qData = QUESTIONS[currentQuestionIndex];
     document.getElementById('q-number').textContent = `Q${currentQuestionIndex + 1} / ${QUESTIONS.length}`;
     document.getElementById('q-title').textContent = qData.q;
+    updateProgressBar();
 
     const contentArea = document.getElementById('q-content-area');
     contentArea.innerHTML = '';
@@ -1307,7 +1526,14 @@ function renderQuestion() {
         }
 
         gridItem.innerHTML = `<img src="${itemData.img}" alt="${itemData.label}" draggable="false">`;
-        gridItem.onclick = () => toggleGridItemSelection(itemData.label);
+        gridItem.onclick = (e) => {
+            // 1. スプリングアニメーション付与
+            gridItem.classList.remove('animate-spring');
+            void gridItem.offsetWidth; // reflow trigger
+            gridItem.classList.add('animate-spring');
+            
+            toggleGridItemSelection(itemData.label);
+        };
         
         gridCell.appendChild(gridItem);
 
@@ -1390,7 +1616,7 @@ function toggleGridItemSelection(label) {
             } else {
                 showScreen('screen-image');
             }
-        }, 300);
+        }, 350);
     }
 }
 
@@ -1648,6 +1874,7 @@ function calculateAndShowResult() {
     showScreen('screen-result');
 }
 
+// 3. ゴールド粒子エフェクト演出付きダウンロード処理
 function downloadResultImage() {
     if (isDownloading) return;
     isDownloading = true;
@@ -1660,6 +1887,64 @@ function downloadResultImage() {
         );
     }
 
+    // ゴールド粒子エフェクトの再生
+    playGoldParticleEffect(() => {
+        executeHtml2CanvasExport();
+    });
+}
+
+function playGoldParticleEffect(onComplete) {
+    const canvas = document.getElementById('effect-canvas');
+    canvas.style.display = 'block';
+    const ctx = canvas.getContext('2d');
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+
+    let particles = [];
+    for (let i = 0; i < 60; i++) {
+        particles.push({
+            x: canvas.width / 2 + (Math.random() - 0.5) * 100,
+            y: canvas.height / 2 + (Math.random() - 0.5) * 100,
+            vx: (Math.random() - 0.5) * 12,
+            vy: (Math.random() - 0.5) * 12 - 2,
+            size: Math.random() * 5 + 2,
+            alpha: 1,
+            color: Math.random() > 0.3 ? '#ffd700' : '#ffffff'
+        });
+    }
+
+    let startTime = performance.now();
+    function animateParticles(time) {
+        let elapsed = time - startTime;
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+        particles.forEach(p => {
+            p.x += p.vx;
+            p.y += p.vy;
+            p.vy += 0.2; // 重力
+            p.alpha = Math.max(0, 1 - (elapsed / 1200));
+
+            ctx.save();
+            ctx.globalAlpha = p.alpha;
+            ctx.fillStyle = p.color;
+            ctx.beginPath();
+            ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.restore();
+        });
+
+        if (elapsed < 1200) {
+            requestAnimationFrame(animateParticles);
+        } else {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            canvas.style.display = 'none';
+            if (onComplete) onComplete();
+        }
+    }
+    requestAnimationFrame(animateParticles);
+}
+
+function executeHtml2CanvasExport() {
     const sourceCard = document.getElementById('result-card');
 
     document.fonts.ready.then(() => {
@@ -1723,6 +2008,72 @@ function triggerDownload(blob) {
     link.download = `creative-style-result.png`;
     link.href = URL.createObjectURL(blob);
     link.click();
+}
+
+// 4. 選択画像一覧モーダルに関する制御
+// 1問を1ブロックとして、その中に1位・2位を横並びで表示
+function openSelectionModal() {
+    const listContainer = document.getElementById('modal-history-list');
+    listContainer.innerHTML = '';
+
+    QUESTIONS.forEach((qData, qIdx) => {
+        const selections = userAnswers[qIdx];
+        if (!Array.isArray(selections) || selections.length === 0) return;
+
+        const questionBlock = document.createElement('div');
+        questionBlock.className = 'selected-history-question';
+
+        const questionTitle = document.createElement('div');
+        questionTitle.className = 'history-question-title';
+        questionTitle.textContent = `Q${qIdx + 1}: ${qData.q}`;
+        questionBlock.appendChild(questionTitle);
+
+        const choiceGrid = document.createElement('div');
+        choiceGrid.className = 'history-choice-grid';
+
+        selections.forEach((selectedLabel, rankIdx) => {
+            const matchedItem = qData.items.find(item => item.label === selectedLabel);
+            if (!matchedItem) return;
+
+            const rankNum = rankIdx + 1;
+            const badgeClass = rankNum === 1 ? 'badge-1' : 'badge-2';
+
+            const itemDiv = document.createElement('div');
+            itemDiv.className = 'selected-history-item';
+
+            itemDiv.innerHTML = `
+                <img class="history-thumb" src="${matchedItem.img}" alt="${matchedItem.label}">
+                <div class="history-info">
+                    <div>
+                        <span class="history-rank-badge ${badgeClass}">${rankNum}位</span>
+                    </div>
+                    <div class="history-caption">${matchedItem.caption || ''}</div>
+                </div>
+            `;
+
+            choiceGrid.appendChild(itemDiv);
+        });
+
+        if (choiceGrid.children.length > 0) {
+            questionBlock.appendChild(choiceGrid);
+            listContainer.appendChild(questionBlock);
+        }
+    });
+
+    if (listContainer.children.length === 0) {
+        listContainer.innerHTML = '<div style="text-align: center; color: var(--text-sub); padding: 20px;">まだ選択された画像がありません。</div>';
+    }
+
+    document.getElementById('selection-modal').classList.add('active');
+}
+function closeSelectionModal() {
+    document.getElementById('selection-modal').classList.remove('active');
+}
+
+function closeSelectionModalOnOutside(event) {
+    if (event.target.id === 'selection-modal') {
+        closeSelectionModal();
+    }
 }
 
 function restart() {
