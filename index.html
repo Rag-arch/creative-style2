@@ -1075,7 +1075,7 @@ const QUESTIONS = [
     { q: "好きな建築は？", category: "STYLE", items: [
         { label: "再現", img: "./images/Ca1再現.jpg", caption: "古典主義のオーダー模倣" }, 
         { label: "理想", img: "./images/Ca2理想.jpg", caption: "ルネサンスの幾何学調和" },
-        { label: "表現", img: "./images/Ca3表現.jpg", caption: "有機的モダニズムの螺旋" }, 
+        { label: "表現", img: "./images/Ca3表現.jpg", caption: "有機적モダニズムの螺旋" }, 
         { label: "知覚", img: "./images/Ca4知覚.jpg", caption: "彫刻的表現主義" },
         { label: "構成", img: "./images/Ca5構成.jpg", caption: "モダニズムの鉄とガラス" }, 
         { label: "幻想", img: "./images/Ca6幻想.jpg", caption: "アール・ヌーヴォーの空間" },
@@ -1701,12 +1701,13 @@ function calculateAndShowResult() {
     const rgbP = hexToRgb(colorP);
 
     const resultCard = document.getElementById('result-card');
-    // 結果カードの背景を明るい白ベース＋淡いトーンに修正
+    
+    // 【修正箇所】rgbaの引数ミスを修正（グラデーションが正しく描画されるように修正）
     resultCard.style.background = `linear-gradient(135deg, 
         rgba(255, 255, 255, 1) 0%, 
         rgba(${rgbM.r}, ${rgbM.g}, ${rgbM.b}, 0.10) 35%, 
         rgba(${rgbS.r}, ${rgbS.g}, ${rgbS.b}, 0.10) 70%, 
-        rgba(${rgbP.r}, ${rgbP.g}, ${rgbP.b}, ${rgbP.r}, 0.10) 100%)`;
+        rgba(${rgbP.r}, ${rgbP.g}, ${rgbP.b}, 0.10) 100%)`;
 
     // 1. 3軸グリッド表示
     const axesGridEl = document.getElementById('res-axes-grid');
