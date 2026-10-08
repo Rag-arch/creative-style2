@@ -514,7 +514,7 @@
         }
 
         .result-card {
-            background-color: #ffffff; /* 常に明るい白ベースを維持 */
+            background-color: #ffffff !important; /* 常に明るい白ベースを絶対に維持 */
             border: 12px solid #111111;
             border-top-width: 36px;
             border-bottom-width: 56px;
@@ -525,7 +525,6 @@
             width: 100%;
             max-width: 360px;
             aspect-ratio: 1 / 1.7;
-            transition: background 0.5s ease;
             overflow: visible;
             color: var(--text-main);
             position: relative;
@@ -751,7 +750,7 @@
             flex-shrink: 0;
         }
 
-        /* 選択画像確認用モーダルスタイル（問題ごとに分けて表形式） */
+        /* 選択画像確認用モーダルスタイル */
         #selected-images-modal {
             display: none;
             position: fixed;
@@ -786,7 +785,6 @@
             margin-bottom: 16px;
             padding-right: 4px;
         }
-        /* 問題別テーブルスタイル */
         .selected-table {
             width: 100%;
             border-collapse: collapse;
@@ -932,13 +930,11 @@
 
 </div>
 
-<!-- 選択した画像確認用モーダル（問題ごとに分けて表形式） -->
+<!-- 選択した画像確認用モーダル -->
 <div id="selected-images-modal">
     <div class="modal-content-box">
         <h3 style="font-size: 1rem; margin-bottom: 12px; text-align: center; font-weight: bold; color: var(--text-main);">問題別 選択画像一覧</h3>
-        <div class="modal-scroll-area" id="selected-modal-scroll">
-            <!-- 動的にテーブルが生成されます -->
-        </div>
+        <div class="modal-scroll-area" id="selected-modal-scroll"></div>
         <button class="btn" onclick="closeSelectedImagesModal()">閉じる</button>
     </div>
 </div>
@@ -1327,7 +1323,6 @@ let uploadedImageData = null;
 let calculatedResultsData = null;
 let isDownloading = false;
 
-// タッチスワイプ用変数
 let touchStartX = 0;
 let touchEndX = 0;
 
@@ -1481,7 +1476,7 @@ function updateLiveCardBackground() {
 
     const answeredCount = userAnswers.filter(ans => Array.isArray(ans) && ans.length > 0).length;
     const progressRate = answeredCount / QUESTIONS.length;
-    const colorAlpha = 0.08 + (0.15 * progressRate); // 暗くならないよう不透明度を調整
+    const colorAlpha = 0.08 + (0.15 * progressRate);
 
     const gradVal = `linear-gradient(135deg, 
         rgba(255, 255, 255, 1) 0%, 
@@ -1702,12 +1697,12 @@ function calculateAndShowResult() {
 
     const resultCard = document.getElementById('result-card');
     
-    // 【修正箇所】rgbaの引数ミスを修正（グラデーションが正しく描画されるように修正）
+    // 【修正完了】背景を純白ベースに保ちつつ、3軸のテーマカラーが美しく重なるグラデーションを指定
     resultCard.style.background = `linear-gradient(135deg, 
-        rgba(255, 255, 255, 1) 0%, 
-        rgba(${rgbM.r}, ${rgbM.g}, ${rgbM.b}, 0.10) 35%, 
-        rgba(${rgbS.r}, ${rgbS.g}, ${rgbS.b}, 0.10) 70%, 
-        rgba(${rgbP.r}, ${rgbP.g}, ${rgbP.b}, 0.10) 100%)`;
+        #ffffff 0%, 
+        rgba(${rgbM.r}, ${rgbM.g}, ${rgbM.b}, 0.12) 35%, 
+        rgba(${rgbS.r}, ${rgbS.g}, ${rgbS.b}, 0.12) 70%, 
+        rgba(${rgbP.r}, ${rgbP.g}, ${rgbP.b}, 0.12) 100%)`;
 
     // 1. 3軸グリッド表示
     const axesGridEl = document.getElementById('res-axes-grid');
@@ -1735,7 +1730,7 @@ function calculateAndShowResult() {
     
     document.getElementById('res-catchphrase').textContent = `${sInfo.catchPhrase} ${mInfo.catchPhrase} ${pInfo.catchPhrase} ${pInfo.title}`;
 
-    // 3. 画像表示（未選択時は非表示にしてプレースホルダー表示）
+    // 3. 画像表示
     const resImage = document.getElementById('res-image');
     const resPlaceholder = document.getElementById('res-image-placeholder');
     if (uploadedImageData) {
@@ -1809,7 +1804,6 @@ function calculateAndShowResult() {
     showScreen('screen-result');
 }
 
-// 選択した画像を確認するモーダル（問題文、順位、画像、キャプションの4情報のみで表示）
 function openSelectedImagesModal() {
     const scrollArea = document.getElementById('selected-modal-scroll');
     scrollArea.innerHTML = '';
