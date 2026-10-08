@@ -9,15 +9,15 @@
     <meta property="og:title" content="私という作風 - 創作の傾向診断">
     <meta property="og:description" content="全32問の質問と画像選択から、あなたの「創作の傾向（3軸の組み合わせ）」を診断します。">
     <meta property="og:type" content="website">
-    <meta property="og:url" content="[https://rag-arch.github.io/creative-style](https://rag-arch.github.io/creative-style)">
-    <meta property="og:image" content="[https://rag-arch.github.io/creative-style/ogp-v3.png](https://rag-arch.github.io/creative-style/ogp-v3.png)">
+    <meta property="og:url" content="https://rag-arch.github.io/creative-style">
+    <meta property="og:image" content="https://rag-arch.github.io/creative-style/ogp-v3.png">
     <meta property="og:site_name" content="私という作風">
 
     <meta name="twitter:card" content="summary_large_image">
     <!-- ▲▲▲ OGP設定ここまで ▲▲▲ -->
 
     <!-- html2canvas ライブラリ (画像ダウンロード機能用) -->
-    <script src="[https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js](https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js)"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <style>
         :root {
             /* 白基調のカラーパレット */
@@ -751,7 +751,7 @@
             flex-shrink: 0;
         }
 
-        /* 選択画像確認用モーダルスタイル */
+        /* 選択画像確認用モーダルスタイル（問題ごとに分けて表形式） */
         #selected-images-modal {
             display: none;
             position: fixed;
@@ -772,7 +772,7 @@
         .modal-content-box {
             background: #ffffff;
             width: 100%;
-            max-width: 520px;
+            max-width: 560px;
             padding: 24px;
             border-radius: 4px;
             position: relative;
@@ -786,22 +786,31 @@
             margin-bottom: 16px;
             padding-right: 4px;
         }
-        .selected-images-grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 8px;
-        }
-        .selected-image-card {
-            aspect-ratio: 1 / 1;
-            border: 1px solid var(--border-color);
-            background: #f0f0f0;
-            position: relative;
-            overflow: hidden;
-        }
-        .selected-image-card img {
+        /* 問題別テーブルスタイル */
+        .selected-table {
             width: 100%;
-            height: 100%;
+            border-collapse: collapse;
+            margin-bottom: 16px;
+            font-size: 0.85rem;
+        }
+        .selected-table th, .selected-table td {
+            border: 1px solid var(--border-color);
+            padding: 8px;
+            text-align: center;
+            vertical-align: middle;
+        }
+        .selected-table th {
+            background: #f4f4f4;
+            font-weight: bold;
+            color: var(--text-main);
+        }
+        .selected-table img {
+            width: 60px;
+            height: 60px;
             object-fit: cover;
+            border-radius: 2px;
+            display: block;
+            margin: 0 auto;
         }
     </style>
 </head>
@@ -862,14 +871,14 @@
         <div class="q-title">あなたを象徴する画像を1枚選んでください（比率16:9固定）</div>
         <div class="file-upload-wrapper">
             <label class="file-label" id="file-label-box" for="char-image-input">
-                <span id="file-label-text">画像ファイルを選択 (ローカル処理)</span>
+                <span id="file-label-text">画像ファイルを選択 (ローカル処理・スキップ可能)</span>
                 <img id="preview-img" class="preview-mini" src="" alt="preview">
             </label>
             <input type="file" id="char-image-input" class="file-input" accept="image/*" onchange="handleImageUpload(event)">
         </div>
         <div class="btn-group">
             <button class="btn btn-secondary" onclick="prevScreenFromImage()">戻る</button>
-            <button class="btn" id="btn-show-result" onclick="calculateAndShowResult()" disabled>結果を見る</button>
+            <button class="btn" id="btn-show-result" onclick="calculateAndShowResult()">結果を見る</button>
         </div>
     </div>
 
@@ -923,19 +932,19 @@
 
 </div>
 
-<!-- 選択した画像確認用モーダル -->
+<!-- 選択した画像確認用モーダル（問題ごとに分けて表形式） -->
 <div id="selected-images-modal">
     <div class="modal-content-box">
-        <h3 style="font-size: 1rem; margin-bottom: 12px; text-align: center; font-weight: bold; color: var(--text-main);">選んだ画像一覧</h3>
-        <div class="modal-scroll-area">
-            <div class="selected-images-grid" id="selected-images-grid"></div>
+        <h3 style="font-size: 1rem; margin-bottom: 12px; text-align: center; font-weight: bold; color: var(--text-main);">問題別 選択画像一覧</h3>
+        <div class="modal-scroll-area" id="selected-modal-scroll">
+            <!-- 動的にテーブルが生成されます -->
         </div>
         <button class="btn" onclick="closeSelectedImagesModal()">閉じる</button>
     </div>
 </div>
 
 <script>
-const GAS_WEB_APP_URL = "[https://script.google.com/macros/s/AKfycbw3FEnDk7Q_cC2neeP7wQshupYrUh8SuO-wBKsXRTFlTnD4Dbb0BA6dzZwL8ok-hN2M/exec](https://script.google.com/macros/s/AKfycbw3FEnDk7Q_cC2neeP7wQshupYrUh8SuO-wBKsXRTFlTnD4Dbb0BA6dzZwL8ok-hN2M/exec)";
+const GAS_WEB_APP_URL = "https://script.google.com/macros/s/AKfycbw3FEnDk7Q_cC2neeP7wQshupYrUh8SuO-wBKsXRTFlTnD4Dbb0BA6dzZwL8ok-hN2M/exec";
 
 const COLOR_STYLE = {
     "再現": "#FF6B6B", "理想": "#FFA94D", "表現": "#F06595", "知覚": "#FCC419",
@@ -1336,7 +1345,6 @@ document.addEventListener('DOMContentLoaded', () => {
 function handleSwipe() {
     const threshold = 50;
     if (touchEndX < touchStartX - threshold) {
-        // 左スワイプ（次の問題へ進む条件が揃っていれば進む）
         const currentSelections = userAnswers[currentQuestionIndex];
         if (Array.isArray(currentSelections) && currentSelections.length === 2) {
             if (currentQuestionIndex < QUESTIONS.length - 1) {
@@ -1347,7 +1355,6 @@ function handleSwipe() {
             }
         }
     } else if (touchEndX > touchStartX + threshold) {
-        // 右スワイプ（前の問題へ戻る）
         prevQuestion();
     }
 }
@@ -1396,7 +1403,6 @@ function renderQuestion() {
     document.getElementById('q-number').textContent = `Q${currentQuestionIndex + 1} / ${QUESTIONS.length}`;
     document.getElementById('q-title').textContent = qData.q;
 
-    // リキッドプログレスバーの更新
     const progressPercent = ((currentQuestionIndex + 1) / QUESTIONS.length) * 100;
     document.getElementById('liquid-progress-bar').style.width = `${progressPercent}%`;
 
@@ -1509,7 +1515,6 @@ function toggleGridItemSelection(label) {
     updateLiveCardBackground();
     renderQuestion();
 
-    // 2つ目の画像を選んだ瞬間に自動で次の問題へ進む（オートスライド進行）
     if (currentSelections.length === 2) {
         setTimeout(() => {
             if (currentQuestionIndex < QUESTIONS.length - 1) {
@@ -1547,8 +1552,7 @@ function restart() {
     calculatedResultsData = null;
     document.getElementById('preview-img').src = '';
     document.getElementById('preview-img').style.display = 'none';
-    document.getElementById('file-label-text').textContent = "画像ファイルを選択 (ローカル処理)";
-    document.getElementById('btn-show-result').disabled = true;
+    document.getElementById('file-label-text').textContent = "画像ファイルを選択 (ローカル処理・スキップ可能)";
     document.getElementById('file-label-box').classList.remove('has-image');
     document.documentElement.style.setProperty('--live-grad', '#ffffff');
     showScreen('screen-start');
@@ -1564,7 +1568,6 @@ function handleImageUpload(event) {
             preview.src = uploadedImageData;
             preview.style.display = 'block';
             document.getElementById('file-label-text').textContent = "画像を変更する";
-            document.getElementById('btn-show-result').disabled = false;
             document.getElementById('file-label-box').classList.add('has-image');
         };
         reader.readAsDataURL(file);
@@ -1682,7 +1685,6 @@ function recordDownloadStats(finalStyle, finalMedium, finalPurpose) {
 }
 
 function calculateAndShowResult() {
-    if (!uploadedImageData) return;
     const res = calculateScores();
     calculatedResultsData = res;
 
@@ -1731,7 +1733,7 @@ function calculateAndShowResult() {
     
     document.getElementById('res-catchphrase').textContent = `${sInfo.catchPhrase} ${mInfo.catchPhrase} ${pInfo.catchPhrase} ${pInfo.title}`;
 
-    // 3. 画像表示
+    // 3. 画像表示（未選択時は非表示にしてプレースホルダー表示）
     const resImage = document.getElementById('res-image');
     const resPlaceholder = document.getElementById('res-image-placeholder');
     if (uploadedImageData) {
@@ -1805,25 +1807,58 @@ function calculateAndShowResult() {
     showScreen('screen-result');
 }
 
-// 選択した画像の確認用モーダルを開く処理（文字表記やラベルなしで画像のみ一覧表示）
+// 選択した画像を確認するモーダル（問題ごとに分けて表形式で表示）
 function openSelectedImagesModal() {
-    const gridEl = document.getElementById('selected-images-grid');
-    gridEl.innerHTML = '';
+    const scrollArea = document.getElementById('selected-modal-scroll');
+    scrollArea.innerHTML = '';
 
     userAnswers.forEach((ansData, qIdx) => {
-        if (Array.isArray(ansData)) {
+        if (Array.isArray(ansData) && ansData.length > 0) {
             const qData = QUESTIONS[qIdx];
-            ansData.forEach(label => {
+            
+            const table = document.createElement('table');
+            table.className = 'selected-table';
+
+            let rowsHtml = `
+                <thead>
+                    <tr>
+                        <th colspan="3" style="text-align: left; background: #eaeaea; font-size: 0.8rem;">Q${qIdx + 1}: ${qData.q} (${qData.category})</th>
+                    </tr>
+                    <tr>
+                        <th style="width: 20%;">順位</th>
+                        <th style="width: 35%;">画像</th>
+                        <th style="width: 45%;">選択項目 / キャプション</th>
+                    </tr>
+                </thead>
+                <tbody>
+            `;
+
+            ansData.forEach((label, idx) => {
                 const item = qData.items.find(i => i.label === label);
+                const rankText = idx === 0 ? "1位 (2pt)" : "2位 (1pt)";
                 if (item) {
-                    const card = document.createElement('div');
-                    card.className = 'selected-image-card';
-                    card.innerHTML = `<img src="${item.img}" alt="選択画像" draggable="false">`;
-                    gridEl.appendChild(card);
+                    rowsHtml += `
+                        <tr>
+                            <td><strong>${rankText}</strong></td>
+                            <td><img src="${item.img}" alt="${item.label}"></td>
+                            <td style="text-align: left; padding-left: 10px;">
+                                <div style="font-weight: bold; color: var(--text-main);">${item.label}</div>
+                                <div style="font-size: 0.75rem; color: var(--text-sub);">${item.caption || ''}</div>
+                            </td>
+                        </tr>
+                    `;
                 }
             });
+
+            rowsHtml += `</tbody>`;
+            table.innerHTML = rowsHtml;
+            scrollArea.appendChild(table);
         }
     });
+
+    if (scrollArea.innerHTML === '') {
+        scrollArea.innerHTML = `<div style="text-align: center; color: var(--text-sub); padding: 20px;">選択された回答がありません。</div>`;
+    }
 
     document.getElementById('selected-images-modal').classList.add('active');
 }
@@ -1836,7 +1871,6 @@ function downloadResultImage() {
     if (isDownloading) return;
     isDownloading = true;
 
-    // 結果画像保存時のエフェクト演出（フラッシュ＆ゴールド粒子風オーバーレイ）
     const flashOverlay = document.createElement('div');
     flashOverlay.style.position = 'fixed';
     flashOverlay.style.top = '0';
