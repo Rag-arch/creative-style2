@@ -20,19 +20,15 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <style>
         :root {
-            /* 白基調のカラーパレット */
             --bg-color: #ffffff;
             --card-bg: rgba(255, 255, 255, 0.85);
             --text-main: #222222;
             --text-sub: #666666;
             --accent-color: #222222;
             --border-color: #e0e0e0;
-            --font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", "Segoe UI", "Hiragino Kaku Gothic ProN", "Hiragino Mincho ProN", "Yu Mincho", serif;
             
-            /* ライブグラデーション用の初期変数 */
             --live-grad: #ffffff;
             
-            /* ゴールド系・シルバー系グラデーション */
             --gold-grad: linear-gradient(135deg, #b8860b 0%, #d4af37 50%, #996515 100%);
             --gold-badge: linear-gradient(135deg, #ffd700 0%, #d4af37 100%);
             --silver-badge: linear-gradient(135deg, #e0e0e0 0%, #a0a0a0 100%);
@@ -59,7 +55,6 @@
             letter-spacing: 0.05em;
             line-height: 1.5;
             transition: background-image 0.5s ease;
-            position: relative;
             overflow-x: hidden;
         }
 
@@ -67,7 +62,6 @@
             width: 100%;
             max-width: 540px;
             margin: 0 auto;
-            position: relative;
         }
 
         .screen {
@@ -81,22 +75,17 @@
             opacity: 1;
         }
 
-        /* ==========================================
-           リキッド・プログレス・バー
-           ========================================== */
+        /* リキッド・プログレスバー */
         .liquid-progress-container {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
-            height: 3px;
+            height: 4px;
             background: rgba(0, 0, 0, 0.05);
             z-index: 1000;
-            display: none;
         }
-        .liquid-progress-container.active {
-            display: block;
-        }
+
         .liquid-progress-bar {
             height: 100%;
             width: 0%;
@@ -104,108 +93,20 @@
             transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
-        /* ==========================================
-           やり直し・見直しドロワー
-           ========================================== */
-        .drawer-toggle-btn {
-            background: none;
-            border: 1px solid var(--border-color);
-            padding: 6px 12px;
-            font-size: 0.75rem;
-            cursor: pointer;
-            color: var(--text-main);
-            letter-spacing: 0.1em;
-            transition: all 0.2s;
-        }
-        .drawer-toggle-btn:hover {
-            background: var(--text-main);
-            color: #fff;
+        /* スプリング・アニメーション定義 */
+        @keyframes springPop {
+            0% { transform: scale(1); }
+            40% { transform: scale(0.92); }
+            70% { transform: scale(1.04); }
+            100% { transform: scale(1); }
         }
 
-        .drawer-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0,0,0,0.4);
-            backdrop-filter: blur(4px);
-            z-index: 2000;
-            display: none;
-            opacity: 0;
-            transition: opacity 0.3s ease;
-        }
-        .drawer-overlay.open {
-            display: block;
-            opacity: 1;
-        }
-
-        .drawer-panel {
-            position: fixed;
-            top: 0;
-            right: -320px;
-            width: 300px;
-            height: 100%;
-            background: #ffffff;
-            z-index: 2001;
-            box-shadow: -5px 0 25px rgba(0,0,0,0.15);
-            transition: right 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            display: flex;
-            flex-direction: column;
-            padding: 20px;
-        }
-        .drawer-panel.open {
-            right: 0;
-        }
-        .drawer-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-bottom: 1px solid var(--border-color);
-            padding-bottom: 12px;
-            margin-bottom: 16px;
-        }
-        .drawer-title {
-            font-size: 0.9rem;
-            font-weight: bold;
-            letter-spacing: 0.1em;
-        }
-        .drawer-close {
-            background: none;
-            border: none;
-            font-size: 1.2rem;
-            cursor: pointer;
-            color: var(--text-main);
-        }
-        .drawer-content {
-            flex-grow: 1;
-            overflow-y: auto;
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-            padding-right: 4px;
-        }
-        .drawer-item {
-            padding: 10px;
-            border: 1px solid var(--border-color);
-            background: #fafafa;
-            font-size: 0.75rem;
-            cursor: pointer;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            transition: all 0.2s;
-        }
-        .drawer-item:hover {
-            border-color: #d4af37;
-            background: #fffdf5;
-        }
-        .drawer-item.answered {
-            border-left: 3px solid #d4af37;
+        .spring-anim {
+            animation: springPop 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
 
         /* ==========================================
-           1. スタート画面専用スタイル（ライトデザイン）
+           1. スタート画面専用スタイル（ガラスモフィズム）
            ========================================== */
         body:has(#screen-start.active) {
             background-color: #fcfcfc !important;
@@ -222,7 +123,9 @@
         }
 
         .ogp-start-card {
-            background: #ffffff;
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
             background-image: 
                 radial-gradient(circle at 80% 20%, rgba(212, 175, 55, 0.12) 0%, transparent 40%),
                 radial-gradient(circle at 20% 80%, rgba(0, 0, 0, 0.02) 0%, transparent 50%);
@@ -247,18 +150,6 @@
             height: 200px;
             border-radius: 50%;
             border: 1px solid rgba(212, 175, 55, 0.25);
-            pointer-events: none;
-        }
-
-        .ogp-start-card::after {
-            content: '';
-            position: absolute;
-            bottom: -80px;
-            right: -20px;
-            width: 240px;
-            height: 240px;
-            border-radius: 50%;
-            background: radial-gradient(circle, rgba(212, 175, 55, 0.15) 0%, rgba(255,255,255,0) 70%);
             pointer-events: none;
         }
 
@@ -378,17 +269,6 @@
             box-shadow: 0 6px 20px rgba(184, 134, 11, 0.25);
         }
 
-        /* ----- ガラスモフィズム対応の質問・アップロード画面枠 ----- */
-        #screen-quiz, #screen-image {
-            background: var(--card-bg);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            border: 1px solid rgba(255, 255, 255, 0.4);
-            border-radius: 6px;
-            padding: 24px 20px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
-        }
-
         /* ----- UI / 質問・画像選択画面 ----- */
         .btn {
             display: inline-block;
@@ -430,7 +310,7 @@
         .btn-secondary {
             border-color: var(--border-color);
             color: var(--text-main);
-            background: #f9f9f9;
+            background: rgba(249, 249, 249, 0.8);
         }
 
         .btn-secondary:hover {
@@ -439,7 +319,6 @@
             border-color: #bbbbbb;
         }
 
-        /* 質問カード共通 */
         .q-header {
             display: flex;
             justify-content: space-between;
@@ -463,13 +342,6 @@
             text-align: center;
             line-height: 1.5;
             color: var(--text-main);
-        }
-
-        /* 8択グリッド用スタイル & スプリング・アニメーション */
-        @keyframes springPop {
-            0% { transform: scale(1); }
-            50% { transform: scale(0.93); }
-            100% { transform: scale(1); }
         }
 
         .grid-instruction {
@@ -532,14 +404,10 @@
             word-break: break-all;
         }
 
-        /* 1位・2位 選択時の金・銀スタイル設定とGlow効果 */
-        .grid-item.selected {
-            animation: springPop 0.3s ease;
-        }
-
+        /* 1位・2位 選択時の金・銀スタイル ＆ 光彩 (Glow) */
         .grid-item.selected-1 {
             border-color: #d4af37;
-            box-shadow: 0 0 12px rgba(212, 175, 55, 0.6);
+            box-shadow: 0 0 16px rgba(212, 175, 55, 0.7), 0 0 0 2px #d4af37;
         }
 
         .grid-item.selected-1::after {
@@ -562,7 +430,7 @@
 
         .grid-item.selected-2 {
             border-color: #a0a0a0;
-            box-shadow: 0 0 10px rgba(160, 160, 160, 0.6);
+            box-shadow: 0 0 14px rgba(160, 160, 160, 0.7), 0 0 0 2px #a0a0a0;
         }
 
         .grid-item.selected-2::after {
@@ -598,7 +466,8 @@
             padding: 30px 20px;
             display: block;
             cursor: pointer;
-            background: #fafafa;
+            background: rgba(250, 250, 250, 0.8);
+            backdrop-filter: blur(8px);
             border-radius: 0;
             transition: background 0.2s, border 0.2s;
             color: var(--text-main);
@@ -619,7 +488,7 @@
             border-radius: 0;
         }
 
-        /* ----- 最終結果カード (iPhone風フレーム調整) & ガラスモフィズム ----- */
+        /* ----- 最終結果カード (iPhone風フレーム・ガラスモフィズム) ----- */
         .result-card-container {
             display: flex;
             justify-content: center;
@@ -688,7 +557,6 @@
             margin: 0;
         }
 
-        /* 3軸グリッドレイアウト */
         .axes-grid-layout {
             display: grid;
             grid-template-columns: 1fr auto 1fr auto 1fr;
@@ -868,56 +736,135 @@
             flex-shrink: 0;
         }
 
-        /* ==========================================
-           保存時のエフェクト用オーバレイ (フラッシュ＆粒子)
-           ========================================== */
-        #save-effect-overlay {
+        /* 選択肢確認モーダル */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(6px);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 2000;
+            padding: 16px;
+        }
+
+        .modal-overlay.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: #ffffff;
+            width: 100%;
+            max-width: 500px;
+            max-height: 85vh;
+            border-radius: 8px;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+        }
+
+        .modal-header {
+            padding: 16px 20px;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: bold;
+        }
+
+        .modal-close-btn {
+            background: none;
+            border: none;
+            font-size: 1.2rem;
+            cursor: pointer;
+            color: var(--text-sub);
+        }
+
+        .modal-body {
+            padding: 16px 20px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .history-item-row {
+            border-bottom: 1px solid #f0f0f0;
+            padding-bottom: 12px;
+        }
+
+        .history-q-title {
+            font-size: 0.85rem;
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+
+        .history-choices {
+            display: flex;
+            gap: 12px;
+        }
+
+        .history-choice-card {
+            flex: 1;
+            background: #f9f9f9;
+            border: 1px solid var(--border-color);
+            padding: 6px;
+            text-align: center;
+        }
+
+        .history-choice-card img {
+            width: 100%;
+            aspect-ratio: 1/1;
+            object-fit: cover;
+            margin-bottom: 4px;
+        }
+
+        .history-choice-card span {
+            font-size: 0.75rem;
+            font-weight: bold;
+        }
+
+        /* 画面フラッシュ＆パーティクル演出用レイヤー */
+        #fx-canvas {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
             pointer-events: none;
-            z-index: 9999;
-            opacity: 0;
-            transition: opacity 0.2s ease;
-            background: rgba(255, 255, 255, 0.9);
-        }
-        #save-effect-overlay.active {
-            opacity: 1;
-        }
-        canvas.particle-canvas {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
+            z-index: 3000;
+            display: none;
         }
     </style>
 </head>
 <body>
 
-<!-- リキッド・プログレス・バー -->
-<div class="liquid-progress-container" id="liquid-progress-container">
+<!-- リキッド・プログレスバー -->
+<div class="liquid-progress-container" id="liquid-progress-container" style="display: none;">
     <div class="liquid-progress-bar" id="liquid-progress-bar"></div>
 </div>
 
-<!-- やり直し・見直しドロワーメニュー -->
-<div class="drawer-overlay" id="drawer-overlay" onclick="toggleDrawer()"></div>
-<div class="drawer-panel" id="drawer-panel">
-    <div class="drawer-header">
-        <div class="drawer-title">回答見直し・ジャンプ</div>
-        <button class="drawer-close" onclick="toggleDrawer()">×</button>
+<canvas id="fx-canvas"></canvas>
+
+<!-- 選択肢確認モーダル -->
+<div class="modal-overlay" id="choices-modal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <span>選んだ選択肢の確認 (全32問)</span>
+            <button class="modal-close-btn" onclick="closeChoicesModal()">×</button>
+        </div>
+        <div class="modal-body" id="modal-choices-list">
+            <!-- 動的生成 -->
+        </div>
     </div>
-    <div class="drawer-content" id="drawer-content-list"></div>
 </div>
 
-<!-- 保存時のフラッシュエフェクト用 -->
-<div id="save-effect-overlay">
-    <canvas class="particle-canvas" id="particle-canvas"></canvas>
-</div>
-
-<div class="container">
+<div class="container" id="swipe-container">
 
     <!-- START SCREEN -->
     <div id="screen-start" class="screen active">
@@ -953,7 +900,6 @@
     <div id="screen-quiz" class="screen">
         <div class="q-header">
             <span class="q-number" id="q-number">Q1 / 32</span>
-            <button class="drawer-toggle-btn" onclick="toggleDrawer()">回答一覧・見直し</button>
         </div>
         <div class="q-title" id="q-title">質問タイトル</div>
         <div id="q-content-area"></div>
@@ -1016,7 +962,8 @@
         </div>
 
         <div class="btn-group" style="margin-bottom: 20px;">
-            <button class="btn" onclick="downloadResultImage()">結果を画像で保存・ダウンロード</button>
+            <button class="btn" onclick="downloadResultImageWithEffect()">結果を画像で保存・ダウンロード</button>
+            <button class="btn btn-secondary" onclick="openChoicesModal()">選んだ選択肢を確認する (64枚)</button>
             
             <div style="text-align: center; margin: 16px 0; font-size: 0.8rem; color: var(--text-sub); letter-spacing: 0.1em;">
                 <div style="font-weight: 700; font-size: 0.75rem; margin-bottom: 3px;">SHARE YOUR STYLE</div>
@@ -1031,7 +978,7 @@
 </div>
 
 <script>
-const GAS_WEB_APP_URL = "";
+const GAS_WEB_APP_URL = "https://script.google.com/macros/s/AKfycbw3FEnDk7Q_cC2neeP7wQshupYrUh8SuO-wBKsXRTFlTnD4Dbb0BA6dzZwL8ok-hN2M/exec";
 
 const COLOR_STYLE = {
     "再現": "#FF6B6B", "理想": "#FFA94D", "表現": "#F06595", "知覚": "#FCC419",
@@ -1414,6 +1361,10 @@ let uploadedImageData = null;
 let calculatedResultsData = null;
 let isDownloading = false;
 
+// スマホスワイプ用タッチ座標変数
+let touchStartX = 0;
+let touchEndX = 0;
+
 function hexToRgb(hex) {
     let cleanHex = hex.replace('#', '');
     if (cleanHex.length === 3) {
@@ -1442,73 +1393,29 @@ function formatDescWithLineBreaks(text, keywords) {
 function showScreen(screenId) {
     document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
     document.getElementById(screenId).classList.add('active');
-    
-    const progContainer = document.getElementById('liquid-progress-container');
-    if (screenId === 'screen-quiz') {
-        progContainer.classList.add('active');
-    } else {
-        progContainer.classList.remove('active');
-    }
-
     window.scrollTo({ top: 0, behavior: 'smooth' });
-}
 
-/* ==========================================
-   ドロワー制御・レンダリング
-   ========================================== */
-function toggleDrawer() {
-    const overlay = document.getElementById('drawer-overlay');
-    const panel = document.getElementById('drawer-panel');
-    const isOpen = panel.classList.contains('open');
-
-    if (isOpen) {
-        panel.classList.remove('open');
-        overlay.classList.remove('open');
+    const progressContainer = document.getElementById('liquid-progress-container');
+    if (screenId === 'screen-quiz') {
+        progressContainer.style.display = 'block';
     } else {
-        renderDrawerList();
-        panel.classList.add('open');
-        overlay.classList.add('open');
+        progressContainer.style.display = 'none';
     }
-}
-
-function renderDrawerList() {
-    const listEl = document.getElementById('drawer-content-list');
-    listEl.innerHTML = '';
-
-    QUESTIONS.forEach((q, idx) => {
-        const ans = userAnswers[idx];
-        const isAns = Array.isArray(ans) && ans.length > 0;
-        const item = document.createElement('div');
-        item.className = `drawer-item ${isAns ? 'answered' : ''}`;
-        
-        let ansText = "未回答";
-        if (isAns) {
-            ansText = `1位:${ans[0]}${ans[1] ? ' / 2位:' + ans[1] : ''}`;
-        }
-
-        item.innerHTML = `<span>Q${idx + 1}: ${q.q}</span><span style="color:${isAns ? '#b8860b' : '#888'}">${ansText}</span>`;
-        item.onclick = () => {
-            currentQuestionIndex = idx;
-            toggleDrawer();
-            renderQuestion();
-        };
-        listEl.appendChild(item);
-    });
 }
 
 function updateProgressBar() {
-    const answeredCount = userAnswers.filter(ans => Array.isArray(ans) && ans.length === 2).length;
-    const rate = (answeredCount / QUESTIONS.length) * 100;
-    document.getElementById('liquid-progress-bar').style.width = `${rate}%`;
+    const answeredCount = userAnswers.filter(ans => Array.isArray(ans) && ans.length > 0).length;
+    const pct = (answeredCount / QUESTIONS.length) * 100;
+    document.getElementById('liquid-progress-bar').style.width = `${pct}%`;
 }
 
 function startQuiz() {
     currentQuestionIndex = 0;
     userAnswers = [];
     updateLiveCardBackground();
-    updateProgressBar();
     renderQuestion();
     showScreen('screen-quiz');
+    setupSwipeHandler();
 }
 
 function renderQuestion() {
@@ -1543,11 +1450,10 @@ function renderQuestion() {
         gridCell.className = 'grid-cell';
 
         const gridItem = document.createElement('div');
-        gridItem.className = 'grid-item';
+        gridItem.className = 'grid-item spring-anim';
         
         const selectionIndex = currentSelections.indexOf(itemData.label);
         if (selectionIndex > -1) {
-            gridItem.classList.add('selected');
             gridItem.classList.add(`selected-${selectionIndex + 1}`);
         }
 
@@ -1574,6 +1480,40 @@ function renderQuestion() {
     } else {
         prevBtn.textContent = "一つ戻る";
         prevBtn.onclick = () => prevQuestion();
+    }
+}
+
+// 左右スワイプ操作の設定
+function setupSwipeHandler() {
+    const container = document.getElementById('swipe-container');
+    container.addEventListener('touchstart', e => {
+        touchStartX = e.changedTouches[0].screenX;
+    }, {passive: true});
+
+    container.addEventListener('touchend', e => {
+        touchEndX = e.changedTouches[0].screenX;
+        handleSwipeGesture();
+    }, {passive: true});
+}
+
+function handleSwipeGesture() {
+    const screenQuiz = document.getElementById('screen-quiz');
+    if (!screenQuiz.classList.contains('active')) return;
+
+    const threshold = 50;
+    if (touchEndX < touchStartX - threshold) {
+        // 左スワイプ（進む：もし2つ選択済みなら次の問題へ）
+        if (userAnswers[currentQuestionIndex] && userAnswers[currentQuestionIndex].length === 2) {
+            if (currentQuestionIndex < QUESTIONS.length - 1) {
+                currentQuestionIndex++;
+                renderQuestion();
+            } else {
+                showScreen('screen-image');
+            }
+        }
+    } else if (touchEndX > touchStartX + threshold) {
+        // 右スワイプ（戻る）
+        prevQuestion();
     }
 }
 
@@ -1627,6 +1567,7 @@ function toggleGridItemSelection(label) {
     updateLiveCardBackground();
     renderQuestion();
 
+    // 2つ選んだ瞬間に自動で次の問題へサクサク進む
     if (currentSelections.length === 2) {
         setTimeout(() => {
             if (currentQuestionIndex < QUESTIONS.length - 1) {
@@ -1635,7 +1576,7 @@ function toggleGridItemSelection(label) {
             } else {
                 showScreen('screen-image');
             }
-        }, 350);
+        }, 280);
     }
 }
 
@@ -1644,6 +1585,8 @@ function prevQuestion() {
         currentQuestionIndex--;
         updateLiveCardBackground();
         renderQuestion();
+    } else {
+        showScreen('screen-start');
     }
 }
 
@@ -1817,10 +1760,10 @@ function calculateAndShowResult() {
 
     const resultCard = document.getElementById('result-card');
     resultCard.style.background = `linear-gradient(135deg, 
-        rgba(255, 255, 255, 1) 0%, 
-        rgba(${rgbM.r}, ${rgbM.g}, ${rgbM.b}, 0.22) 35%, 
-        rgba(${rgbS.r}, ${rgbS.g}, ${rgbS.b}, 0.22) 70%, 
-        rgba(${rgbP.r}, ${rgbP.g}, ${rgbP.b}, 0.22) 100%)`;
+        rgba(255, 255, 255, 0.9) 0%, 
+        rgba(${rgbM.r}, ${rgbM.g}, ${rgbM.b}, 0.25) 35%, 
+        rgba(${rgbS.r}, ${rgbS.g}, ${rgbS.b}, 0.25) 70%, 
+        rgba(${rgbP.r}, ${rgbP.g}, ${rgbP.b}, 0.25) 100%)`;
 
     // 1. 3軸グリッド表示
     const axesGridEl = document.getElementById('res-axes-grid');
@@ -1880,7 +1823,7 @@ function calculateAndShowResult() {
     // 5. 全項目スコアグラフ
     const graphEl = document.getElementById('res-all-scores-graph');
     
-    function buildCategoryGraphHtml(catName, catTitle, colorMap, orderList, fullMap) {
+    function buildCategoryGraphHtml(catTitle, colorMap, orderList, fullMap) {
         let maxVal = 0;
         orderList.forEach(k => {
             if (fullMap[k].total > maxVal) maxVal = fullMap[k].total;
@@ -1913,100 +1856,136 @@ function calculateAndShowResult() {
 
     graphEl.innerHTML = `
         <div class="graphs-wrapper">
-            ${buildCategoryGraphHtml("MEDIUM", "MEDIUM", COLOR_MEDIUM, MEDIUM_ORDER, res.medium.fullMap)}
-            ${buildCategoryGraphHtml("STYLE", "STYLE", COLOR_STYLE, STYLE_ORDER, res.style.fullMap)}
-            ${buildCategoryGraphHtml("PURPOSE", "PURPOSE", COLOR_PURPOSE, PURPOSE_ORDER, res.purpose.fullMap)}
+            ${buildCategoryGraphHtml("MEDIUM", COLOR_MEDIUM, MEDIUM_ORDER, res.medium.fullMap)}
+            ${buildCategoryGraphHtml("STYLE", COLOR_STYLE, STYLE_ORDER, res.style.fullMap)}
+            ${buildCategoryGraphHtml("PURPOSE", COLOR_PURPOSE, PURPOSE_ORDER, res.purpose.fullMap)}
         </div>
     `;
 
     showScreen('screen-result');
 }
 
-/* ==========================================
-   シェア・保存時のエフェクト演出（フラッシュ＆粒子）
-   ==========================================
-*/
-function triggerSaveEffect(callback) {
-    const overlay = document.getElementById('save-effect-overlay');
-    const canvas = document.getElementById('particle-canvas');
+// 選択肢確認モーダルを開く処理（全32問の選択結果・64枚表示）
+function openChoicesModal() {
+    const listEl = document.getElementById('modal-choices-list');
+    listEl.innerHTML = '';
+
+    QUESTIONS.forEach((qData, qIdx) => {
+        const ans = userAnswers[qIdx] || [];
+        const item1Label = ans[0];
+        const item2Label = ans[1];
+
+        const item1Obj = qData.items.find(i => i.label === item1Label);
+        const item2Obj = qData.items.find(i => i.label === item2Label);
+
+        const row = document.createElement('div');
+        row.className = 'history-item-row';
+        row.innerHTML = `
+            <div class="history-q-title">Q${qIdx + 1}. ${qData.q}</div>
+            <div class="history-choices">
+                <div class="history-choice-card">
+                    <img src="${item1Obj ? item1Obj.img : ''}" alt="1位">
+                    <span>1位: ${item1Label || '未選択'}</span>
+                </div>
+                <div class="history-choice-card">
+                    <img src="${item2Obj ? item2Obj.img : ''}" alt="2位">
+                    <span>2位: ${item2Label || '未選択'}</span>
+                </div>
+            </div>
+        `;
+        listEl.appendChild(row);
+    });
+
+    document.getElementById('choices-modal').classList.add('active');
+}
+
+function closeChoicesModal() {
+    document.getElementById('choices-modal').classList.remove('active');
+}
+
+// 結果画像保存時のエフェクト演出（フラッシュ＋ゴールド粒子パーティクル）
+function downloadResultImageWithEffect() {
+    if (isDownloading) return;
+    isDownloading = true;
+
+    const canvas = document.getElementById('fx-canvas');
+    canvas.style.display = 'block';
     const ctx = canvas.getContext('2d');
-    
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
 
-    // ゴールド粒子の初期化
-    const particles = [];
-    for (let i = 0; i < 40; i++) {
+    // ゴールド粒子生成
+    let particles = [];
+    for (let i = 0; i < 80; i++) {
         particles.push({
-            x: canvas.width / 2 + (Math.random() - 0.5) * 100,
-            y: canvas.height / 2 + (Math.random() - 0.5) * 100,
-            vx: (Math.random() - 0.5) * 8,
-            vy: (Math.random() - 0.5) * 8 - 2,
-            size: Math.random() * 4 + 2,
-            alpha: 1,
-            color: Math.random() > 0.5 ? '#d4af37' : '#ffd700'
+            x: window.innerWidth / 2,
+            y: window.innerHeight / 2,
+            vx: (Math.random() - 0.5) * 16,
+            vy: (Math.random() - 0.5) * 16,
+            radius: Math.random() * 4 + 2,
+            alpha: 1.0,
+            color: Math.random() > 0.3 ? '#d4af37' : '#ffd700'
         });
     }
 
-    overlay.classList.add('active');
-
-    let animationId;
-    function renderParticles() {
+    let startTime = performance.now();
+    function animateParticles(time) {
+        let elapsed = time - startTime;
         ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+        // 画面フラッシュ（最初少し白く光る）
+        if (elapsed < 200) {
+            ctx.fillStyle = `rgba(255, 255, 255, ${0.8 * (1 - elapsed / 200)})`;
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+        }
+
         particles.forEach(p => {
             p.x += p.vx;
             p.y += p.vy;
-            p.alpha -= 0.02;
+            p.alpha -= 0.015;
             if (p.alpha < 0) p.alpha = 0;
 
             ctx.save();
             ctx.globalAlpha = p.alpha;
             ctx.fillStyle = p.color;
             ctx.beginPath();
-            ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+            ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
             ctx.fill();
             ctx.restore();
         });
 
-        if (particles.some(p => p.alpha > 0)) {
-            animationId = requestAnimationFrame(renderParticles);
+        if (elapsed < 800) {
+            requestAnimationFrame(animateParticles);
+        } else {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            canvas.style.display = 'none';
+            executeDownload();
         }
     }
-    renderParticles();
 
-    setTimeout(() => {
-        overlay.classList.remove('active');
-        cancelAnimationFrame(animationId);
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-        if (callback) callback();
-    }, 450);
+    requestAnimationFrame(animateParticles);
 }
 
-function downloadResultImage() {
-    if (isDownloading) return;
-    isDownloading = true;
+function executeDownload() {
+    const res = calculatedResultsData || calculateScores();
+    recordDownloadStats(res.style.rank1.key, res.medium.rank1.key, res.purpose.rank1.key);
 
-    triggerSaveEffect(() => {
-        const res = calculatedResultsData || calculateScores();
-        recordDownloadStats(res.style.rank1.key, res.medium.rank1.key, res.purpose.rank1.key);
-
-        const cardElement = document.getElementById('result-card');
-        
-        html2canvas(cardElement, {
-            scale: 3,
-            useCORS: true,
-            backgroundColor: null
-        }).then(canvas => {
-            const link = document.createElement('a');
-            link.download = `my-creative-style-${res.style.rank1.key}-${res.medium.rank1.key}-${res.purpose.rank1.key}.png`;
-            link.href = canvas.toDataURL('image/png');
-            link.click();
-            isDownloading = false;
-        }).catch(err => {
-            console.error("画像生成エラー:", err);
-            alert("画像の保存に失敗しました。");
-            isDownloading = false;
-        });
+    const cardElement = document.getElementById('result-card');
+    
+    html2canvas(cardElement, {
+        scale: 3,
+        useCORS: true,
+        backgroundColor: null
+    }).then(canvas => {
+        const link = document.createElement('a');
+        link.download = `my-creative-style-${res.style.rank1.key}-${res.medium.rank1.key}-${res.purpose.rank1.key}.png`;
+        link.href = canvas.toDataURL('image/png');
+        link.click();
+        isDownloading = false;
+    }).catch(err => {
+        console.error("画像生成エラー:", err);
+        alert("画像の保存に失敗しました。");
+        isDownloading = false;
     });
 }
 </script>
