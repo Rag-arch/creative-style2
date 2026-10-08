@@ -425,7 +425,13 @@
 
         .grid-item.selected-1 {
             border-color: #d4af37;
-            box-shadow: 0 0 12px rgba(212, 175, 55, 0.6), inset 0 0 6px rgba(212, 175, 55, 0.3);
+            overflow: visible;
+            z-index: 2;
+            box-shadow:
+                0 0 10px rgba(212, 175, 55, 0.85),
+                0 0 22px rgba(212, 175, 55, 0.55),
+                inset 0 0 8px rgba(212, 175, 55, 0.35);
+            filter: drop-shadow(0 0 5px rgba(212, 175, 55, 0.55));
         }
 
         .grid-item.selected-1::after {
@@ -448,7 +454,13 @@
 
         .grid-item.selected-2 {
             border-color: #a0a0a0;
-            box-shadow: 0 0 12px rgba(160, 160, 160, 0.6), inset 0 0 6px rgba(160, 160, 160, 0.3);
+            overflow: visible;
+            z-index: 2;
+            box-shadow:
+                0 0 10px rgba(180, 180, 180, 0.85),
+                0 0 22px rgba(160, 160, 160, 0.55),
+                inset 0 0 8px rgba(190, 190, 190, 0.35);
+            filter: drop-shadow(0 0 5px rgba(180, 180, 180, 0.55));
         }
 
         .grid-item.selected-2::after {
@@ -1527,12 +1539,27 @@ function renderQuestion() {
 
         gridItem.innerHTML = `<img src="${itemData.img}" alt="${itemData.label}" draggable="false">`;
         gridItem.onclick = (e) => {
-            // 1. スプリングアニメーション付与
-            gridItem.classList.remove('animate-spring');
-            void gridItem.offsetWidth; // reflow trigger
-            gridItem.classList.add('animate-spring');
-            
+            // 選択状態の更新で renderQuestion() がDOMを再生成するため、
+            // 再生成された要素に対して springPop を適用する。
             toggleGridItemSelection(itemData.label);
+
+            requestAnimationFrame(() => {
+                const target = Array.from(document.querySelectorAll('.grid-item'))
+                    .find(el => {
+                        const img = el.querySelector('img');
+                        return img && img.alt === itemData.label;
+                    });
+
+                if (target) {
+                    target.classList.remove('animate-spring');
+                    void target.offsetWidth; // reflow trigger
+                    target.classList.add('animate-spring');
+
+                    target.addEventListener('animationend', () => {
+                        target.classList.remove('animate-spring');
+                    }, { once: true });
+                }
+            });
         };
         
         gridCell.appendChild(gridItem);
