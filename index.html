@@ -514,7 +514,6 @@
         }
 
         .result-card {
-            background-color: #ffffff !important; /* 常に明るい白ベースを絶対に維持 */
             border: 12px solid #111111;
             border-top-width: 36px;
             border-bottom-width: 56px;
@@ -1072,7 +1071,7 @@ const QUESTIONS = [
         { label: "再現", img: "./images/Ca1再現.jpg", caption: "古典主義のオーダー模倣" }, 
         { label: "理想", img: "./images/Ca2理想.jpg", caption: "ルネサンスの幾何学調和" },
         { label: "表現", img: "./images/Ca3表現.jpg", caption: "有機적モダニズムの螺旋" }, 
-        { label: "知覚", img: "./images/Ca4知覚.jpg", caption: "彫刻的表現主義" },
+        { label: "知覚", img: "./images/Ca4知覚.jpg", caption: "彫刻적表現主義" },
         { label: "構成", img: "./images/Ca5構成.jpg", caption: "モダニズムの鉄とガラス" }, 
         { label: "幻想", img: "./images/Ca6幻想.jpg", caption: "アール・ヌーヴォーの空間" },
         { label: "概念", img: "./images/Ca7概念.jpg", caption: "ユニバーサル・スペース" }, 
@@ -1086,7 +1085,7 @@ const QUESTIONS = [
         { label: "娯楽", img: "./images/Cb5娯楽.jpg", caption: "古典主義ガッレリア" }, 
         { label: "思索", img: "./images/Cb6思索.jpg", caption: "古典主義とハイテック" },
         { label: "癒し", img: "./images/Cb7癒し.jpg", caption: "ミニマル・ブルータリズム" }, 
-        { label: "感動", img: "./images/Cb8感動.jpg", caption: "古代ローマの完全な幾何学" }
+        { label: "感動", img: "./images/Cb8感動.jpg", caption: "古代ローマの完全な几何学" }
     ]},
     { q: "好きなインテリアは？", category: "PURPOSE", items: [
         { label: "美", img: "./images/Cc1美.jpg", caption: "ストイックなミニマリズム" }, 
@@ -1697,12 +1696,12 @@ function calculateAndShowResult() {
 
     const resultCard = document.getElementById('result-card');
     
-    // 【修正完了】背景を純白ベースに保ちつつ、3軸のテーマカラーが美しく重なるグラデーションを指定
+    // 診断カードの背景に3軸のグラデーションを美しく反映（白飛びを防止し、かつ透明感のあるカラーグラデーションを維持）
     resultCard.style.background = `linear-gradient(135deg, 
         #ffffff 0%, 
-        rgba(${rgbM.r}, ${rgbM.g}, ${rgbM.b}, 0.12) 35%, 
-        rgba(${rgbS.r}, ${rgbS.g}, ${rgbS.b}, 0.12) 70%, 
-        rgba(${rgbP.r}, ${rgbP.g}, ${rgbP.b}, 0.12) 100%)`;
+        rgba(${rgbM.r}, ${rgbM.g}, ${rgbM.b}, 0.15) 35%, 
+        rgba(${rgbS.r}, ${rgbS.g}, ${rgbS.b}, 0.15) 70%, 
+        rgba(${rgbP.r}, ${rgbP.g}, ${rgbP.b}, 0.15) 100%)`;
 
     // 1. 3軸グリッド表示
     const axesGridEl = document.getElementById('res-axes-grid');
@@ -1866,48 +1865,26 @@ function downloadResultImage() {
     if (isDownloading) return;
     isDownloading = true;
 
-    const flashOverlay = document.createElement('div');
-    flashOverlay.style.position = 'fixed';
-    flashOverlay.style.top = '0';
-    flashOverlay.style.left = '0';
-    flashOverlay.style.width = '100vw';
-    flashOverlay.style.height = '100vh';
-    flashOverlay.style.background = 'radial-gradient(circle, #ffffff 0%, rgba(212,175,55,0.85) 50%, rgba(0,0,0,0.95) 100%)';
-    flashOverlay.style.zIndex = '99999';
-    flashOverlay.style.opacity = '0';
-    flashOverlay.style.transition = 'opacity 0.3s ease';
-    document.body.appendChild(flashOverlay);
+    const res = calculatedResultsData || calculateScores();
+    recordDownloadStats(res.style.rank1.key, res.medium.rank1.key, res.purpose.rank1.key);
 
-    setTimeout(() => { flashOverlay.style.opacity = '1'; }, 20);
-
-    setTimeout(() => {
-        const res = calculatedResultsData || calculateScores();
-        recordDownloadStats(res.style.rank1.key, res.medium.rank1.key, res.purpose.rank1.key);
-
-        const cardElement = document.getElementById('result-card');
-        
-        html2canvas(cardElement, {
-            scale: 3,
-            useCORS: true,
-            backgroundColor: null
-        }).then(canvas => {
-            const link = document.createElement('a');
-            link.download = `my-creative-style-${res.style.rank1.key}-${res.medium.rank1.key}-${res.purpose.rank1.key}.png`;
-            link.href = canvas.toDataURL('image/png');
-            link.click();
-
-            flashOverlay.style.opacity = '0';
-            setTimeout(() => {
-                flashOverlay.remove();
-                isDownloading = false;
-            }, 300);
-        }).catch(err => {
-            console.error("画像生成エラー:", err);
-            alert("画像の保存に失敗しました。");
-            flashOverlay.remove();
-            isDownloading = false;
-        });
-    }, 500);
+    const cardElement = document.getElementById('result-card');
+    
+    html2canvas(cardElement, {
+        scale: 3,
+        useCORS: true,
+        backgroundColor: null
+    }).then(canvas => {
+        const link = document.createElement('a');
+        link.download = `my-creative-style-${res.style.rank1.key}-${res.medium.rank1.key}-${res.purpose.rank1.key}.png`;
+        link.href = canvas.toDataURL('image/png');
+        link.click();
+        isDownloading = false;
+    }).catch(err => {
+        console.error("画像生成エラー:", err);
+        alert("画像の保存に失敗しました。");
+        isDownloading = false;
+    });
 }
 </script>
 
