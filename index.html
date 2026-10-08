@@ -22,7 +22,7 @@
         :root {
             /* 白基調のカラーパレット */
             --bg-color: #ffffff;
-            --card-bg: #ffffff;
+            --card-bg: rgba(255, 255, 255, 0.85);
             --text-main: #222222;
             --text-sub: #666666;
             --accent-color: #222222;
@@ -59,12 +59,15 @@
             letter-spacing: 0.05em;
             line-height: 1.5;
             transition: background-image 0.5s ease;
+            position: relative;
+            overflow-x: hidden;
         }
 
         .container {
             width: 100%;
             max-width: 540px;
             margin: 0 auto;
+            position: relative;
         }
 
         .screen {
@@ -76,6 +79,129 @@
         .screen.active {
             display: block;
             opacity: 1;
+        }
+
+        /* ==========================================
+           リキッド・プログレス・バー
+           ========================================== */
+        .liquid-progress-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: rgba(0, 0, 0, 0.05);
+            z-index: 1000;
+            display: none;
+        }
+        .liquid-progress-container.active {
+            display: block;
+        }
+        .liquid-progress-bar {
+            height: 100%;
+            width: 0%;
+            background: var(--gold-grad);
+            transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        /* ==========================================
+           やり直し・見直しドロワー
+           ========================================== */
+        .drawer-toggle-btn {
+            background: none;
+            border: 1px solid var(--border-color);
+            padding: 6px 12px;
+            font-size: 0.75rem;
+            cursor: pointer;
+            color: var(--text-main);
+            letter-spacing: 0.1em;
+            transition: all 0.2s;
+        }
+        .drawer-toggle-btn:hover {
+            background: var(--text-main);
+            color: #fff;
+        }
+
+        .drawer-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.4);
+            backdrop-filter: blur(4px);
+            z-index: 2000;
+            display: none;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        .drawer-overlay.open {
+            display: block;
+            opacity: 1;
+        }
+
+        .drawer-panel {
+            position: fixed;
+            top: 0;
+            right: -320px;
+            width: 300px;
+            height: 100%;
+            background: #ffffff;
+            z-index: 2001;
+            box-shadow: -5px 0 25px rgba(0,0,0,0.15);
+            transition: right 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            display: flex;
+            flex-direction: column;
+            padding: 20px;
+        }
+        .drawer-panel.open {
+            right: 0;
+        }
+        .drawer-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 12px;
+            margin-bottom: 16px;
+        }
+        .drawer-title {
+            font-size: 0.9rem;
+            font-weight: bold;
+            letter-spacing: 0.1em;
+        }
+        .drawer-close {
+            background: none;
+            border: none;
+            font-size: 1.2rem;
+            cursor: pointer;
+            color: var(--text-main);
+        }
+        .drawer-content {
+            flex-grow: 1;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            padding-right: 4px;
+        }
+        .drawer-item {
+            padding: 10px;
+            border: 1px solid var(--border-color);
+            background: #fafafa;
+            font-size: 0.75rem;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.2s;
+        }
+        .drawer-item:hover {
+            border-color: #d4af37;
+            background: #fffdf5;
+        }
+        .drawer-item.answered {
+            border-left: 3px solid #d4af37;
         }
 
         /* ==========================================
@@ -252,6 +378,17 @@
             box-shadow: 0 6px 20px rgba(184, 134, 11, 0.25);
         }
 
+        /* ----- ガラスモフィズム対応の質問・アップロード画面枠 ----- */
+        #screen-quiz, #screen-image {
+            background: var(--card-bg);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            border-radius: 6px;
+            padding: 24px 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+        }
+
         /* ----- UI / 質問・画像選択画面 ----- */
         .btn {
             display: inline-block;
@@ -328,7 +465,13 @@
             color: var(--text-main);
         }
 
-        /* 8択グリッド用スタイル */
+        /* 8択グリッド用スタイル & スプリング・アニメーション */
+        @keyframes springPop {
+            0% { transform: scale(1); }
+            50% { transform: scale(0.93); }
+            100% { transform: scale(1); }
+        }
+
         .grid-instruction {
             font-size: 0.85rem;
             text-align: center;
@@ -389,15 +532,14 @@
             word-break: break-all;
         }
 
-        /* 1位・2位 選択時の金・銀スタイル設定 */
+        /* 1位・2位 選択時の金・銀スタイル設定とGlow効果 */
         .grid-item.selected {
-            border-color: #d4af37;
-            box-shadow: 0 0 0 2px #d4af37;
+            animation: springPop 0.3s ease;
         }
 
         .grid-item.selected-1 {
             border-color: #d4af37;
-            box-shadow: 0 0 0 2px #d4af37;
+            box-shadow: 0 0 12px rgba(212, 175, 55, 0.6);
         }
 
         .grid-item.selected-1::after {
@@ -420,7 +562,7 @@
 
         .grid-item.selected-2 {
             border-color: #a0a0a0;
-            box-shadow: 0 0 0 2px #a0a0a0;
+            box-shadow: 0 0 10px rgba(160, 160, 160, 0.6);
         }
 
         .grid-item.selected-2::after {
@@ -477,7 +619,7 @@
             border-radius: 0;
         }
 
-        /* ----- 最終結果カード (iPhone風フレーム調整) ----- */
+        /* ----- 最終結果カード (iPhone風フレーム調整) & ガラスモフィズム ----- */
         .result-card-container {
             display: flex;
             justify-content: center;
@@ -488,11 +630,13 @@
 
         .result-card {
             background-color: var(--card-bg);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
             border: 12px solid #111111;
             border-top-width: 36px;
             border-bottom-width: 56px;
             border-radius: 36px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.25);
             padding: 8px 10px 4px 10px;
             margin-bottom: 12px;
             width: 100%;
@@ -544,7 +688,7 @@
             margin: 0;
         }
 
-        /* 調整箇所1: タイトルの間隔を広げ、全体のバランスを最適化 */
+        /* 3軸グリッドレイアウト */
         .axes-grid-layout {
             display: grid;
             grid-template-columns: 1fr auto 1fr auto 1fr;
@@ -619,7 +763,6 @@
             border-radius: 3px;
         }
 
-        /* 調整箇所2: 説明文ブロックの余白・行間調整 */
         .section-block {
             margin-bottom: 1px;
             background-color: transparent;
@@ -638,7 +781,6 @@
             line-height: 1.15;
         }
 
-        /* MEDIUM | STYLE | PURPOSE の説明文章 */
         .axis-desc {
             display: block;
             font-size: 6px;
@@ -658,7 +800,6 @@
             margin-top: 0px;
         }
 
-        /* グラフセクション上部の無駄な余白をカット */
         .all-scores-graph-section {
             background-color: transparent;
             padding-top: 1px;
@@ -726,13 +867,59 @@
             color: var(--text-sub);
             flex-shrink: 0;
         }
+
+        /* ==========================================
+           保存時のエフェクト用オーバレイ (フラッシュ＆粒子)
+           ========================================== */
+        #save-effect-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 9999;
+            opacity: 0;
+            transition: opacity 0.2s ease;
+            background: rgba(255, 255, 255, 0.9);
+        }
+        #save-effect-overlay.active {
+            opacity: 1;
+        }
+        canvas.particle-canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
     </style>
 </head>
 <body>
 
+<!-- リキッド・プログレス・バー -->
+<div class="liquid-progress-container" id="liquid-progress-container">
+    <div class="liquid-progress-bar" id="liquid-progress-bar"></div>
+</div>
+
+<!-- やり直し・見直しドロワーメニュー -->
+<div class="drawer-overlay" id="drawer-overlay" onclick="toggleDrawer()"></div>
+<div class="drawer-panel" id="drawer-panel">
+    <div class="drawer-header">
+        <div class="drawer-title">回答見直し・ジャンプ</div>
+        <button class="drawer-close" onclick="toggleDrawer()">×</button>
+    </div>
+    <div class="drawer-content" id="drawer-content-list"></div>
+</div>
+
+<!-- 保存時のフラッシュエフェクト用 -->
+<div id="save-effect-overlay">
+    <canvas class="particle-canvas" id="particle-canvas"></canvas>
+</div>
+
 <div class="container">
 
-    <!-- START SCREEN (白ベースデザイン) -->
+    <!-- START SCREEN -->
     <div id="screen-start" class="screen active">
         <div class="ogp-start-card">
             <div class="ogp-header-meta">
@@ -766,6 +953,7 @@
     <div id="screen-quiz" class="screen">
         <div class="q-header">
             <span class="q-number" id="q-number">Q1 / 32</span>
+            <button class="drawer-toggle-btn" onclick="toggleDrawer()">回答一覧・見直し</button>
         </div>
         <div class="q-title" id="q-title">質問タイトル</div>
         <div id="q-content-area"></div>
@@ -843,8 +1031,7 @@
 </div>
 
 <script>
-// ご自身のGoogle Apps Script（GAS）ウェブアプリのURL
-const GAS_WEB_APP_URL = "https://script.google.com/macros/s/AKfycbw3FEnDk7Q_cC2neeP7wQshupYrUh8SuO-wBKsXRTFlTnD4Dbb0BA6dzZwL8ok-hN2M/exec";
+const GAS_WEB_APP_URL = "";
 
 const COLOR_STYLE = {
     "再現": "#FF6B6B", "理想": "#FFA94D", "表現": "#F06595", "知覚": "#FCC419",
@@ -861,7 +1048,6 @@ const COLOR_PURPOSE = {
     "娯楽": "#FFA94D", "思索": "#B197FC", "癒し": "#20C997", "感動": "#FF6B6B"
 };
 
-// 全32問の質問データ
 const QUESTIONS = [
     { q: "好きな分野は？", category: "MEDIUM", items: [
         { label: "視覚", img: "./images/A1視覚.jpg", caption: "絵画" }, 
@@ -1256,13 +1442,71 @@ function formatDescWithLineBreaks(text, keywords) {
 function showScreen(screenId) {
     document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
     document.getElementById(screenId).classList.add('active');
+    
+    const progContainer = document.getElementById('liquid-progress-container');
+    if (screenId === 'screen-quiz') {
+        progContainer.classList.add('active');
+    } else {
+        progContainer.classList.remove('active');
+    }
+
     window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+/* ==========================================
+   ドロワー制御・レンダリング
+   ========================================== */
+function toggleDrawer() {
+    const overlay = document.getElementById('drawer-overlay');
+    const panel = document.getElementById('drawer-panel');
+    const isOpen = panel.classList.contains('open');
+
+    if (isOpen) {
+        panel.classList.remove('open');
+        overlay.classList.remove('open');
+    } else {
+        renderDrawerList();
+        panel.classList.add('open');
+        overlay.classList.add('open');
+    }
+}
+
+function renderDrawerList() {
+    const listEl = document.getElementById('drawer-content-list');
+    listEl.innerHTML = '';
+
+    QUESTIONS.forEach((q, idx) => {
+        const ans = userAnswers[idx];
+        const isAns = Array.isArray(ans) && ans.length > 0;
+        const item = document.createElement('div');
+        item.className = `drawer-item ${isAns ? 'answered' : ''}`;
+        
+        let ansText = "未回答";
+        if (isAns) {
+            ansText = `1位:${ans[0]}${ans[1] ? ' / 2位:' + ans[1] : ''}`;
+        }
+
+        item.innerHTML = `<span>Q${idx + 1}: ${q.q}</span><span style="color:${isAns ? '#b8860b' : '#888'}">${ansText}</span>`;
+        item.onclick = () => {
+            currentQuestionIndex = idx;
+            toggleDrawer();
+            renderQuestion();
+        };
+        listEl.appendChild(item);
+    });
+}
+
+function updateProgressBar() {
+    const answeredCount = userAnswers.filter(ans => Array.isArray(ans) && ans.length === 2).length;
+    const rate = (answeredCount / QUESTIONS.length) * 100;
+    document.getElementById('liquid-progress-bar').style.width = `${rate}%`;
 }
 
 function startQuiz() {
     currentQuestionIndex = 0;
     userAnswers = [];
     updateLiveCardBackground();
+    updateProgressBar();
     renderQuestion();
     showScreen('screen-quiz');
 }
@@ -1271,6 +1515,7 @@ function renderQuestion() {
     const qData = QUESTIONS[currentQuestionIndex];
     document.getElementById('q-number').textContent = `Q${currentQuestionIndex + 1} / ${QUESTIONS.length}`;
     document.getElementById('q-title').textContent = qData.q;
+    updateProgressBar();
 
     const contentArea = document.getElementById('q-content-area');
     contentArea.innerHTML = '';
@@ -1390,7 +1635,7 @@ function toggleGridItemSelection(label) {
             } else {
                 showScreen('screen-image');
             }
-        }, 300);
+        }, 350);
     }
 }
 
@@ -1410,6 +1655,20 @@ function prevScreenFromImage() {
 
 function backToImageScreen() {
     showScreen('screen-image');
+}
+
+function restart() {
+    currentQuestionIndex = 0;
+    userAnswers = [];
+    uploadedImageData = null;
+    calculatedResultsData = null;
+    document.getElementById('preview-img').src = '';
+    document.getElementById('preview-img').style.display = 'none';
+    document.getElementById('file-label-text').textContent = "画像ファイルを選択 (ローカル処理)";
+    document.getElementById('btn-show-result').disabled = true;
+    document.getElementById('file-label-box').classList.remove('has-image');
+    document.documentElement.style.setProperty('--live-grad', '#ffffff');
+    showScreen('screen-start');
 }
 
 function handleImageUpload(event) {
@@ -1559,184 +1818,196 @@ function calculateAndShowResult() {
     const resultCard = document.getElementById('result-card');
     resultCard.style.background = `linear-gradient(135deg, 
         rgba(255, 255, 255, 1) 0%, 
-        rgba(${rgbM.r}, ${rgbM.g}, ${rgbM.b}, 0.35) 35%, 
-        rgba(${rgbS.r}, ${rgbS.g}, ${rgbS.b}, 0.35) 70%, 
-        rgba(${rgbP.r}, ${rgbP.g}, ${rgbP.b}, 0.35) 100%)`;
+        rgba(${rgbM.r}, ${rgbM.g}, ${rgbM.b}, 0.22) 35%, 
+        rgba(${rgbS.r}, ${rgbS.g}, ${rgbS.b}, 0.22) 70%, 
+        rgba(${rgbP.r}, ${rgbP.g}, ${rgbP.b}, 0.22) 100%)`;
 
-    document.getElementById('res-axes-grid').innerHTML = `
-        <div class="axis-col-1 axis-label-item">[MEDIUM]</div>
-        <div class="axis-sep-1 axis-separator" style="visibility:hidden;">×</div>
-        <div class="axis-col-2 axis-label-item">[STYLE]</div>
-        <div class="axis-sep-2 axis-separator" style="visibility:hidden;">×</div>
-        <div class="axis-col-3 axis-label-item">[PURPOSE]</div>
-
-        <div class="axis-col-1 axis-val-item" style="color: ${colorM}">${finalMedium}</div>
-        <div class="axis-sep-1 axis-separator">×</div>
-        <div class="axis-col-2 axis-val-item" style="color: ${colorS}">${finalStyle}</div>
-        <div class="axis-sep-2 axis-separator">×</div>
-        <div class="axis-col-3 axis-val-item" style="color: ${colorP}">${finalPurpose}</div>
+    // 1. 3軸グリッド表示
+    const axesGridEl = document.getElementById('res-axes-grid');
+    axesGridEl.innerHTML = `
+        <div class="axis-col-1" style="text-align: center;">
+            <div class="axis-label-item">MEDIUM</div>
+            <div class="axis-val-item" style="color: ${colorM};">${finalMedium}</div>
+        </div>
+        <div class="axis-sep-1 axis-separator">/</div>
+        <div class="axis-col-2" style="text-align: center;">
+            <div class="axis-label-item">STYLE</div>
+            <div class="axis-val-item" style="color: ${colorS};">${finalStyle}</div>
+        </div>
+        <div class="axis-sep-2 axis-separator">/</div>
+        <div class="axis-col-3" style="text-align: center;">
+            <div class="axis-label-item">PURPOSE</div>
+            <div class="axis-val-item" style="color: ${colorP};">${finalPurpose}</div>
+        </div>
     `;
 
-    const dataP = DATA_PURPOSE[finalPurpose];
-    const dataS = DATA_STYLE[finalStyle];
-    const dataMed = DATA_MEDIUM[finalMedium];
+    // 2. キャッチコピー
+    const pInfo = DATA_PURPOSE[finalPurpose] || { catchPhrase: "", title: "" };
+    const mInfo = DATA_MEDIUM[finalMedium] || { catchPhrase: "" };
+    const sInfo = DATA_STYLE[finalStyle] || { catchPhrase: "" };
     
-    document.getElementById('res-catchphrase').textContent = `${dataP.catchPhrase}、${dataS.catchPhrase}${dataMed.catchPhrase}`;
+    document.getElementById('res-catchphrase').textContent = `${sInfo.catchPhrase} ${mInfo.catchPhrase} ${pInfo.catchPhrase} ${pInfo.title}`;
 
-    const resImg = document.getElementById('res-image');
-    resImg.src = uploadedImageData;
-    resImg.style.display = 'block';
-    document.getElementById('res-image-placeholder').style.display = 'none';
+    // 3. 画像表示
+    const resImage = document.getElementById('res-image');
+    const resPlaceholder = document.getElementById('res-image-placeholder');
+    if (uploadedImageData) {
+        resImage.src = uploadedImageData;
+        resImage.style.display = 'block';
+        resPlaceholder.style.display = 'none';
+    } else {
+        resImage.style.display = 'none';
+        resPlaceholder.style.display = 'block';
+    }
 
-    const formattedDescS = formatDescWithLineBreaks(dataS.text, dataS.keywords);
-    const formattedDescMed = formatDescWithLineBreaks(dataMed.text, dataMed.keywords);
-    const formattedDescP = formatDescWithLineBreaks(dataP.text, dataP.keywords);
-
-    document.getElementById('res-axis-details').innerHTML = `
+    // 4. 3軸の解説詳細
+    const detailsEl = document.getElementById('res-axis-details');
+    detailsEl.innerHTML = `
         <div class="axis-item">
-            <div class="axis-name">MEDIUM：<span style="color: ${colorM}">${finalMedium}</span> ｜ ${dataMed.title.split(' ｜ ')[1]}</div>
-            <div class="axis-desc">${formattedDescMed}</div>
+            <div class="axis-name" style="color: ${colorM};">■ MEDIUM：${finalMedium}</div>
+            <span class="axis-desc">${formatDescWithLineBreaks(mInfo.text, mInfo.title)}</span>
         </div>
         <div class="axis-item">
-            <div class="axis-name">STYLE：<span style="color: ${colorS}">${finalStyle}</span> ｜ ${dataS.title.split(' ｜ ')[1]}</div>
-            <div class="axis-desc">${formattedDescS}</div>
+            <div class="axis-name" style="color: ${colorS};">■ STYLE：${finalStyle}</div>
+            <span class="axis-desc">${formatDescWithLineBreaks(sInfo.text, sInfo.title)}</span>
         </div>
         <div class="axis-item">
-            <div class="axis-name">PURPOSE：<span style="color: ${colorP}">${finalPurpose}</span> ｜ ${dataP.title}</div>
-            <div class="axis-desc">${formattedDescP}</div>
+            <div class="axis-name" style="color: ${colorP};">■ PURPOSE：${finalPurpose}</div>
+            <span class="axis-desc">${formatDescWithLineBreaks(pInfo.text, pInfo.title)}</span>
         </div>
     `;
 
-    function generateSingleCategoryGraphHTML(categoryName, orderList, fullMap, colorDict) {
-        let maxScore = 1;
+    // 5. 全項目スコアグラフ
+    const graphEl = document.getElementById('res-all-scores-graph');
+    
+    function buildCategoryGraphHtml(catName, catTitle, colorMap, orderList, fullMap) {
+        let maxVal = 0;
         orderList.forEach(k => {
-            if (fullMap[k].total > maxScore) maxScore = fullMap[k].total;
+            if (fullMap[k].total > maxVal) maxVal = fullMap[k].total;
         });
+        if (maxVal === 0) maxVal = 1;
 
-        let html = `<div class="graph-category-title">${categoryName}</div>`;
+        let rowsHtml = '';
         orderList.forEach(k => {
             const score = fullMap[k].total;
-            const percentage = (score / maxScore) * 100;
-            const barColor = colorDict[k] || "#222222";
-            html += `
+            const pct = Math.round((score / maxVal) * 100);
+            const barColor = colorMap[k] || '#222222';
+            rowsHtml += `
                 <div class="graph-row">
-                    <div class="graph-label">${k}</div>
+                    <span class="graph-label">${k}</span>
                     <div class="graph-bar-container">
-                        <div class="graph-bar-fill" style="width: ${percentage}%; background-color: ${barColor};"></div>
+                        <div class="graph-bar-fill" style="width: ${pct}%; background-color: ${barColor};"></div>
                     </div>
-                    <div class="graph-score-text">${score}</div>
+                    <span class="graph-score-text">${score}</span>
                 </div>
             `;
         });
-        return html;
+
+        return `
+            <div class="graph-column">
+                <div class="graph-category-title">${catTitle}</div>
+                ${rowsHtml}
+            </div>
+        `;
     }
 
-    const colMedium = generateSingleCategoryGraphHTML("MEDIUM", MEDIUM_ORDER, res.medium.fullMap, COLOR_MEDIUM);
-    const colStyle = generateSingleCategoryGraphHTML("STYLE", STYLE_ORDER, res.style.fullMap, COLOR_STYLE);
-    const colPurpose = generateSingleCategoryGraphHTML("PURPOSE", PURPOSE_ORDER, res.purpose.fullMap, COLOR_PURPOSE);
-
-    const graphHtml = `
+    graphEl.innerHTML = `
         <div class="graphs-wrapper">
-            <div class="graph-column">${colMedium}</div>
-            <div class="graph-column">${colStyle}</div>
-            <div class="graph-column">${colPurpose}</div>
+            ${buildCategoryGraphHtml("MEDIUM", "MEDIUM", COLOR_MEDIUM, MEDIUM_ORDER, res.medium.fullMap)}
+            ${buildCategoryGraphHtml("STYLE", "STYLE", COLOR_STYLE, STYLE_ORDER, res.style.fullMap)}
+            ${buildCategoryGraphHtml("PURPOSE", "PURPOSE", COLOR_PURPOSE, PURPOSE_ORDER, res.purpose.fullMap)}
         </div>
     `;
 
-    document.getElementById('res-all-scores-graph').innerHTML = graphHtml;
-
     showScreen('screen-result');
+}
+
+/* ==========================================
+   シェア・保存時のエフェクト演出（フラッシュ＆粒子）
+   ==========================================
+*/
+function triggerSaveEffect(callback) {
+    const overlay = document.getElementById('save-effect-overlay');
+    const canvas = document.getElementById('particle-canvas');
+    const ctx = canvas.getContext('2d');
+    
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+
+    // ゴールド粒子の初期化
+    const particles = [];
+    for (let i = 0; i < 40; i++) {
+        particles.push({
+            x: canvas.width / 2 + (Math.random() - 0.5) * 100,
+            y: canvas.height / 2 + (Math.random() - 0.5) * 100,
+            vx: (Math.random() - 0.5) * 8,
+            vy: (Math.random() - 0.5) * 8 - 2,
+            size: Math.random() * 4 + 2,
+            alpha: 1,
+            color: Math.random() > 0.5 ? '#d4af37' : '#ffd700'
+        });
+    }
+
+    overlay.classList.add('active');
+
+    let animationId;
+    function renderParticles() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        particles.forEach(p => {
+            p.x += p.vx;
+            p.y += p.vy;
+            p.alpha -= 0.02;
+            if (p.alpha < 0) p.alpha = 0;
+
+            ctx.save();
+            ctx.globalAlpha = p.alpha;
+            ctx.fillStyle = p.color;
+            ctx.beginPath();
+            ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.restore();
+        });
+
+        if (particles.some(p => p.alpha > 0)) {
+            animationId = requestAnimationFrame(renderParticles);
+        }
+    }
+    renderParticles();
+
+    setTimeout(() => {
+        overlay.classList.remove('active');
+        cancelAnimationFrame(animationId);
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        if (callback) callback();
+    }, 450);
 }
 
 function downloadResultImage() {
     if (isDownloading) return;
     isDownloading = true;
 
-    if (calculatedResultsData) {
-        recordDownloadStats(
-            calculatedResultsData.style.rank1.key,
-            calculatedResultsData.medium.rank1.key,
-            calculatedResultsData.purpose.rank1.key
-        );
-    }
+    triggerSaveEffect(() => {
+        const res = calculatedResultsData || calculateScores();
+        recordDownloadStats(res.style.rank1.key, res.medium.rank1.key, res.purpose.rank1.key);
 
-    const sourceCard = document.getElementById('result-card');
-
-    document.fonts.ready.then(() => {
-        html2canvas(sourceCard, {
-            scale: 2,
+        const cardElement = document.getElementById('result-card');
+        
+        html2canvas(cardElement, {
+            scale: 3,
             useCORS: true,
-            backgroundColor: null,
-            windowWidth: 540
-        }).then(sourceCanvas => {
-            const targetWidth = 1080;
-            const targetHeight = 1920;
-            const finalCanvas = document.createElement('canvas');
-            finalCanvas.width = targetWidth;
-            finalCanvas.height = targetHeight;
-            const ctx = finalCanvas.getContext('2d');
-
-            ctx.fillStyle = "#ffffff";
-            ctx.fillRect(0, 0, targetWidth, targetHeight);
-
-            const cardBgColor = sourceCard.style.background;
-            if (cardBgColor) {
-                ctx.fillStyle = cardBgColor;
-                ctx.fillRect(0, 0, targetWidth, targetHeight);
-            }
-
-            ctx.drawImage(
-                sourceCanvas, 
-                0, 0, sourceCanvas.width, sourceCanvas.height, 
-                0, 0, targetWidth, targetHeight
-            );
-
-            finalCanvas.toBlob(blob => {
-                const file = new File([blob], `creative-style-result.png`, { type: 'image/png' });
-                
-                let sharedSuccessfully = false;
-                if (navigator.canShare && navigator.canShare({ files: [file] })) {
-                    navigator.share({
-                        files: [file],
-                        title: '私という作風',
-                        text: '私の創作診断結果です！'
-                    }).then(() => {
-                        sharedSuccessfully = true;
-                    }).catch(() => {
-                    }).finally(() => {
-                        if (!sharedSuccessfully) {
-                            triggerDownload(blob);
-                        }
-                        isDownloading = false;
-                    });
-                } else {
-                    triggerDownload(blob);
-                    setTimeout(() => { isDownloading = false; }, 500);
-                }
-            }, 'image/png');
-        }).catch(() => { isDownloading = false; });
+            backgroundColor: null
+        }).then(canvas => {
+            const link = document.createElement('a');
+            link.download = `my-creative-style-${res.style.rank1.key}-${res.medium.rank1.key}-${res.purpose.rank1.key}.png`;
+            link.href = canvas.toDataURL('image/png');
+            link.click();
+            isDownloading = false;
+        }).catch(err => {
+            console.error("画像生成エラー:", err);
+            alert("画像の保存に失敗しました。");
+            isDownloading = false;
+        });
     });
-}
-
-function triggerDownload(blob) {
-    const link = document.createElement('a');
-    link.download = `creative-style-result.png`;
-    link.href = URL.createObjectURL(blob);
-    link.click();
-}
-
-function restart() {
-    currentQuestionIndex = 0;
-    userAnswers = [];
-    uploadedImageData = null;
-    calculatedResultsData = null;
-    isDownloading = false;
-    document.getElementById('preview-img').style.display = 'none';
-    document.getElementById('preview-img').src = '';
-    document.getElementById('file-label-text').textContent = "画像ファイルを選択 (ローカル処理)";
-    document.getElementById('btn-show-result').disabled = true;
-    document.getElementById('file-label-box').classList.remove('has-image');
-    showScreen('screen-start');
 }
 </script>
 
