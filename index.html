@@ -21,7 +21,7 @@
     <style>
         :root {
             /* 白基調のカラーパレット */
-            --bg-color: #ffffff;
+            --bg-color: #f8f9fa;
             --card-bg: #ffffff;
             --text-main: #222222;
             --text-sub: #666666;
@@ -530,6 +530,9 @@
             display: flex;
             flex-direction: column;
             justify-content: space-between;
+            
+            /* ▼▼▼ 修正：暗さを解消し、グラデーションが綺麗に映える明るい白ベース基調に変更 ▼▼▼ */
+            background-color: #ffffff;
         }
 
         .result-card::before {
@@ -652,7 +655,7 @@
         }
 
         .axis-item {
-            margin-bottom: 12px;
+            margin-bottom: 10px;
         }
 
         .axis-name {
@@ -677,7 +680,7 @@
         .desc-keywords {
             display: block;
             font-size: 5.5px;
-            color: #888888;
+            color: #777777;
             margin-top: 0px;
         }
 
@@ -729,7 +732,7 @@
 
         .graph-bar-container {
             flex-grow: 1;
-            background-color: rgba(0, 0, 0, 0.06);
+            background-color: rgba(0, 0, 0, 0.08);
             height: 3.5px;
             position: relative;
             overflow: hidden;
@@ -1475,7 +1478,7 @@ function updateLiveCardBackground() {
 
     const answeredCount = userAnswers.filter(ans => Array.isArray(ans) && ans.length > 0).length;
     const progressRate = answeredCount / QUESTIONS.length;
-    const colorAlpha = 0.08 + (0.15 * progressRate);
+    const colorAlpha = 0.04 + (0.08 * progressRate);
 
     const gradVal = `linear-gradient(135deg, 
         rgba(255, 255, 255, 1) 0%, 
@@ -1696,12 +1699,12 @@ function calculateAndShowResult() {
 
     const resultCard = document.getElementById('result-card');
     
-    // 診断カードの背景に3軸のグラデーションを美しく反映（白飛びを防止し、かつ透明感のあるカラーグラデーションを維持）
+    // 診断カードの背景に3軸のグラデーションをクリアかつ美しく反映
     resultCard.style.background = `linear-gradient(135deg, 
         #ffffff 0%, 
-        rgba(${rgbM.r}, ${rgbM.g}, ${rgbM.b}, 0.15) 35%, 
-        rgba(${rgbS.r}, ${rgbS.g}, ${rgbS.b}, 0.15) 70%, 
-        rgba(${rgbP.r}, ${rgbP.g}, ${rgbP.b}, 0.15) 100%)`;
+        rgba(${rgbM.r}, ${rgbM.g}, ${rgbM.b}, 0.08) 35%, 
+        rgba(${rgbS.r}, ${rgbS.g}, ${rgbS.b}, 0.08) 70%, 
+        rgba(${rgbP.r}, ${rgbP.g}, ${rgbP.b}, 0.08) 100%)`;
 
     // 1. 3軸グリッド表示
     const axesGridEl = document.getElementById('res-axes-grid');
