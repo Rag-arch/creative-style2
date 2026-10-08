@@ -514,7 +514,7 @@
         }
 
         .result-card {
-            background-color: var(--card-bg);
+            background-color: #ffffff; /* 常に明るい白ベースを維持 */
             border: 12px solid #111111;
             border-top-width: 36px;
             border-bottom-width: 56px;
@@ -1481,7 +1481,7 @@ function updateLiveCardBackground() {
 
     const answeredCount = userAnswers.filter(ans => Array.isArray(ans) && ans.length > 0).length;
     const progressRate = answeredCount / QUESTIONS.length;
-    const colorAlpha = 0.15 + (0.45 * progressRate);
+    const colorAlpha = 0.08 + (0.15 * progressRate); // 暗くならないよう不透明度を調整
 
     const gradVal = `linear-gradient(135deg, 
         rgba(255, 255, 255, 1) 0%, 
@@ -1701,11 +1701,12 @@ function calculateAndShowResult() {
     const rgbP = hexToRgb(colorP);
 
     const resultCard = document.getElementById('result-card');
+    // 結果カードの背景を明るい白ベース＋淡いトーンに修正
     resultCard.style.background = `linear-gradient(135deg, 
         rgba(255, 255, 255, 1) 0%, 
-        rgba(${rgbM.r}, ${rgbM.g}, ${rgbM.b}, 0.22) 35%, 
-        rgba(${rgbS.r}, ${rgbS.g}, ${rgbS.b}, 0.22) 70%, 
-        rgba(${rgbP.r}, ${rgbP.g}, ${rgbP.b}, 0.22) 100%)`;
+        rgba(${rgbM.r}, ${rgbM.g}, ${rgbM.b}, 0.10) 35%, 
+        rgba(${rgbS.r}, ${rgbS.g}, ${rgbS.b}, 0.10) 70%, 
+        rgba(${rgbP.r}, ${rgbP.g}, ${rgbP.b}, ${rgbP.r}, 0.10) 100%)`;
 
     // 1. 3軸グリッド表示
     const axesGridEl = document.getElementById('res-axes-grid');
