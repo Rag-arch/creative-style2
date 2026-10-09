@@ -1097,14 +1097,14 @@ function playSnippet(audioSrc) {
         console.log("自動再生ブロックまたは読み込みエラー:", e);
     });
 
-    // 3秒間（3000ミリ秒）経過したら自動で停止
+    // 6秒間（6000ミリ秒）経過したら自動で停止
     audioStopTimer = setTimeout(() => {
         if (currentAudio) {
             currentAudio.pause();
             currentAudio.currentTime = 0;
             currentAudio = null;
         }
-    }, 3000);
+    }, 6000);
 }
 
 // 全32問の質問データ
@@ -1550,7 +1550,12 @@ function renderQuestion() {
 
     const subInstruction = document.createElement('div');
     subInstruction.className = 'grid-sub-instruction';
-    subInstruction.textContent = "※問題内の画像はAI生成画像です。";
+    // 17, 18, 19問目（インデックス: 16, 17, 18）の場合は音に関する注意書きを表示
+    if (currentQuestionIndex >= 16 && currentQuestionIndex <= 18) {
+        subInstruction.textContent = "※選択すると音楽が流れます";
+    } else {
+        subInstruction.textContent = "※問題内の画像はAI生成画像です。";
+    }
     contentArea.appendChild(subInstruction);
 
     const optionsGrid = document.createElement('div');
