@@ -411,6 +411,41 @@
             word-break: break-all;
         }
 
+        /* オーディオプレイヤーボタン（選択肢右下） */
+        .audio-btn {
+            position: absolute;
+            bottom: 4px;
+            right: 4px;
+            width: 26px;
+            height: 26px;
+            background: rgba(0, 0, 0, 0.6);
+            border: 1px solid rgba(255, 255, 255, 0.8);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 5;
+            color: #ffffff;
+            font-size: 11px;
+            transition: background 0.2s, transform 0.1s;
+        }
+        .audio-btn:hover {
+            background: rgba(184, 134, 11, 0.9);
+            transform: scale(1.08);
+        }
+        .audio-btn.playing {
+            background: #b8860b;
+            border-color: #ffd700;
+            box-shadow: 0 0 6px #ffd700;
+            animation: pulseAudio 1.2s infinite;
+        }
+        @keyframes pulseAudio {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.12); }
+            100% { transform: scale(1); }
+        }
+
         /* 1. スプリングアニメーション＆発光シャドウ効果 */
         @keyframes springPop {
             0% { transform: scale(1); }
@@ -450,6 +485,7 @@
             font-weight: bold;
             box-shadow: 0 1px 4px rgba(0,0,0,0.3);
             border: 1px solid #ffffff;
+            z-index: 6;
         }
 
         .grid-item.selected-2 {
@@ -479,6 +515,7 @@
             font-weight: bold;
             box-shadow: 0 1px 4px rgba(0,0,0,0.3);
             border: 1px solid #ffffff;
+            z-index: 6;
         }
 
         /* 画像アップロード画面 */
@@ -1073,38 +1110,109 @@ const COLOR_PURPOSE = {
     "娯楽": "#FFA94D", "思索": "#B197FC", "癒し": "#20C997", "感動": "#FF6B6B"
 };
 
-// 現在再生中のオーディオインスタンスを管理する変数
+// 現在再生中のオーディオオブジェクトとアクティブなボタン要素を管理
 let currentAudio = null;
+let currentAudioBtn = null;
 let audioStopTimer = null;
 
-// 音源再生関数（ユーザーのクリックをトリガーに数秒間再生し自動停止する）
-function playSnippet(audioSrc) {
+// 音源のトグル再生関数（押すと再生、もう一度押すまたは別ボタンを押すとストップ）
+function toggleSnippet(audioSrc, btnElement, event) {
+    // 伝播を止めてカード自体の選択イベント（画像選択）が発火しないようにする
+    if (event) {
+        event.stopPropagation();
+    }
     if (!audioSrc) return;
-    
-    // 既に流れている音楽があれば停止・リセット
+
+    // すでに同じ音声が再生中の場合はストップする
+    if (currentAudio && currentAudioBtn === btnElement) {
+        currentAudio.pause();
+        currentAudio.currentTime = 0;
+        currentAudio = null;
+        if (currentAudioBtn) {
+            currentAudioBtn.classList.remove('playing');
+            currentAudioBtn.innerHTML = '♫';
+            currentAudioBtn = null;
+        }
+        if (audioStopTimer) {
+        clearTimeout(audioStopTimer);
+        audioStopTimer = null;
+    }
+        return;
+    }
+
+    // 別の音声が流れている場合は停止してリセット
     if (currentAudio) {
         currentAudio.pause();
         currentAudio.currentTime = 0;
         currentAudio = null;
+        if (currentAudioBtn) {
+            currentAudioBtn.classList.remove('playing');
+            currentAudioBtn.innerHTML = '♫';
+            currentAudioBtn = null;
+        }
     }
     if (audioStopTimer) {
         clearTimeout(audioStopTimer);
         audioStopTimer = null;
     }
 
+    // 新しい音声を再生
     currentAudio = new Audio(audioSrc);
+    currentAudioBtn = btnElement;
+    currentAudioBtn.classList.add('playing');
+    currentAudioBtn.innerHTML = '■'; // 停止アイコンなどに変化
+
     currentAudio.play().catch(e => {
         console.log("自動再生ブロックまたは読み込みエラー:", e);
+        if (currentAudioBtn) {
+            currentAudioBtn.classList.remove('playing');
+            currentAudioBtn.innerHTML = '♫';
+        }
+        currentAudio = null;
+        currentAudioBtn = null;
     });
 
-    // 6秒間（6000ミリ秒）経過したら自動で停止
+    // 音声終了時の処理
+    currentAudio.onended = () => {
+        if (currentAudioBtn) {
+            currentAudioBtn.classList.remove('playing');
+            currentAudioBtn.innerHTML = '♫';
+        }
+        currentAudio = null;
+        currentAudioBtn = null;
+    };
+
+    // 安全のため最大15秒で自動停止するタイマー
     audioStopTimer = setTimeout(() => {
         if (currentAudio) {
             currentAudio.pause();
             currentAudio.currentTime = 0;
             currentAudio = null;
         }
+        if (currentAudioBtn) {
+            currentAudioBtn.classList.remove('playing');
+            currentAudioBtn.innerHTML = '♫';
+            currentAudioBtn = null;
+        }
     }, 15000);
+}
+
+// 画面遷移や問題切り替え時に音声が鳴り続けないよう停止するヘルパー
+function stopAllAudio() {
+    if (currentAudio) {
+        currentAudio.pause();
+        currentAudio.currentTime = 0;
+        currentAudio = null;
+    }
+    if (currentAudioBtn) {
+        currentAudioBtn.classList.remove('playing');
+        currentAudioBtn.innerHTML = '♫';
+        currentAudioBtn = null;
+    }
+    if (audioStopTimer) {
+        clearTimeout(audioStopTimer);
+        audioStopTimer = null;
+    }
 }
 
 // 全32問の質問データ
@@ -1269,7 +1377,7 @@ const QUESTIONS = [
         { label: "映像", img: "./images/D7映像.jpg", caption: "アニメーション" }, 
         { label: "体験", img: "./images/D8体験.jpg", caption: "ゲーム" }
     ]},
-    // ★ 17問目：好きな器楽は？（パブリックドメインのフリー演奏音源を各 audio プロパティに紐付け）
+    // ★ 17問目：好きな器楽は？
     { q: "好きな器楽は？", category: "STYLE", items: [
         { label: "再現", img: "./images/Da1再現.jpg", caption: "四季「春」", audio: "./audio/a1再現.mp3" }, 
         { label: "理想", img: "./images/Da2理想.jpg", caption: "アイネ・クライネ・ナハトムジーク", audio: "./audio/a2理想.mp3" },
@@ -1503,6 +1611,9 @@ function formatDescWithLineBreaks(text, keywords) {
 }
 
 function showScreen(screenId) {
+    // 画面切り替え時に音楽を停止
+    stopAllAudio();
+
     document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
     document.getElementById(screenId).classList.add('active');
     
@@ -1535,6 +1646,9 @@ function startQuiz() {
 }
 
 function renderQuestion() {
+    // 質問切り替え時に音楽を停止
+    stopAllAudio();
+
     const qData = QUESTIONS[currentQuestionIndex];
     document.getElementById('q-number').textContent = `Q${currentQuestionIndex + 1} / ${QUESTIONS.length}`;
     document.getElementById('q-title').textContent = qData.q;
@@ -1550,9 +1664,9 @@ function renderQuestion() {
 
     const subInstruction = document.createElement('div');
     subInstruction.className = 'grid-sub-instruction';
-    // 17, 18, 19問目（インデックス: 16, 17, 18）の場合は音に関する注意書きを表示
+    // 17, 18, 19問目（インデックス: 16, 17, 18）の場合の説明
     if (currentQuestionIndex >= 16 && currentQuestionIndex <= 18) {
-        subInstruction.textContent = "※選択すると音楽が流れます";
+        subInstruction.textContent = "※右下のオーディオボタン（♫）を押すと音楽の試聴ができます";
     } else {
         subInstruction.textContent = "※問題内の画像はAI生成画像です。";
     }
@@ -1580,14 +1694,19 @@ function renderQuestion() {
         }
 
         gridItem.innerHTML = `<img src="${itemData.img}" alt="${itemData.label}" draggable="false">`;
-        gridItem.onclick = (e) => {
-            // 音源が設定されている場合（17, 18, 19問目など）、クリックをトリガーに数秒間音楽を再生
-            if (itemData.audio) {
-                playSnippet(itemData.audio);
-            }
+        
+        // オーディオが存在する場合は右下にオーディオボタンを挿入
+        if (itemData.audio) {
+            const audioBtn = document.createElement('div');
+            audioBtn.className = 'audio-btn';
+            audioBtn.innerHTML = '♫';
+            audioBtn.title = "音楽を再生/停止";
+            audioBtn.onclick = (e) => toggleSnippet(itemData.audio, audioBtn, e);
+            gridItem.appendChild(audioBtn);
+        }
 
-            // 選択状態の更新で renderQuestion() がDOMを再生成するため、
-            // 再生成された要素に対して springPop を適用する。
+        // カード自体のクリック（選択判定）
+        gridItem.onclick = (e) => {
             toggleGridItemSelection(itemData.label);
 
             requestAnimationFrame(() => {
@@ -2150,6 +2269,7 @@ function closeSelectionModalOnOutside(event) {
 }
 
 function restart() {
+    stopAllAudio();
     currentQuestionIndex = 0;
     userAnswers = [];
     uploadedImageData = null;
