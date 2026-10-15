@@ -988,7 +988,7 @@
             </div>
 
             <div class="ogp-description">
-                全512通りの組み合わせから、あなたの「創作の傾向」を紐解く全32問の診断です。
+                全512通りの組み合わせから、あなたの「創作の傾向」を紐解く診断です。
                 <span class="note">※本診断で使用している画像はAIによって生成されています。</span>
             </div>
 
@@ -999,7 +999,7 @@
     <!-- QUIZ SCREEN -->
     <div id="screen-quiz" class="screen">
         <div class="q-header">
-            <span class="q-number" id="q-number">Q1 / 32</span>
+            <span class="q-number" id="q-number">Q1 / 16</span>
         </div>
         <div class="q-title" id="q-title">質問タイトル</div>
         <div id="q-content-area"></div>
@@ -1579,7 +1579,10 @@ const STYLE_ORDER = ["再現", "理想", "表現", "知覚", "構成", "幻想",
 const MEDIUM_ORDER = ["視覚", "造形", "空間", "音響", "言語", "身体", "映像", "体験"];
 const PURPOSE_ORDER = ["美", "探究", "伝達", "共感", "娯楽", "思索", "癒し", "感動"];
 
-let currentQuestionIndex = 0;
+// ★ 1〜16問目を非表示にするための設定（開始インデックスを16＝17問目に指定）
+const START_QUESTION_INDEX = 16; 
+
+let currentQuestionIndex = START_QUESTION_INDEX;
 let userAnswers = [];
 let uploadedImageData = null;
 let calculatedResultsData = null;
@@ -1629,16 +1632,17 @@ function showScreen(screenId) {
     window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
-// 2. リキッド・プログレスバーの更新
+// 2. リキッド・プログレスバーの更新（全16問としての進捗に調整）
 function updateProgressBar() {
     const progressBar = document.getElementById('liquid-progress-bar');
-    const answeredCount = userAnswers.filter(ans => Array.isArray(ans) && ans.length > 0).length;
-    const progress = (answeredCount / QUESTIONS.length) * 100;
+    const totalActiveQuestions = QUESTIONS.length - START_QUESTION_INDEX;
+    const answeredCount = userAnswers.slice(START_QUESTION_INDEX).filter(ans => Array.isArray(ans) && ans.length > 0).length;
+    const progress = (answeredCount / totalActiveQuestions) * 100;
     progressBar.style.width = `${progress}%`;
 }
 
 function startQuiz() {
-    currentQuestionIndex = 0;
+    currentQuestionIndex = START_QUESTION_INDEX;
     userAnswers = [];
     updateLiveCardBackground();
     renderQuestion();
@@ -1650,7 +1654,10 @@ function renderQuestion() {
     stopAllAudio();
 
     const qData = QUESTIONS[currentQuestionIndex];
-    document.getElementById('q-number').textContent = `Q${currentQuestionIndex + 1} / ${QUESTIONS.length}`;
+    const displayNum = currentQuestionIndex - START_QUESTION_INDEX + 1;
+    const totalDisplayNum = QUESTIONS.length - START_QUESTION_INDEX;
+
+    document.getElementById('q-number').textContent = `Q${displayNum} / ${totalDisplayNum}`;
     document.getElementById('q-title').textContent = qData.q;
     updateProgressBar();
 
@@ -1664,7 +1671,6 @@ function renderQuestion() {
 
     const subInstruction = document.createElement('div');
     subInstruction.className = 'grid-sub-instruction';
-    // 17, 18, 19問目（インデックス: 16, 17, 18）の場合の説明
     if (currentQuestionIndex >= 16 && currentQuestionIndex <= 18) {
         subInstruction.textContent = "※右下のオーディオボタン（♫）を押すと音楽の試聴ができます";
     } else {
@@ -1695,7 +1701,6 @@ function renderQuestion() {
 
         gridItem.innerHTML = `<img src="${itemData.img}" alt="${itemData.label}" draggable="false">`;
         
-        // オーディオが存在する場合は右下にオーディオボタンを挿入
         if (itemData.audio) {
             const audioBtn = document.createElement('div');
             audioBtn.className = 'audio-btn';
@@ -1705,7 +1710,6 @@ function renderQuestion() {
             gridItem.appendChild(audioBtn);
         }
 
-        // カード自体のクリック（選択判定）
         gridItem.onclick = (e) => {
             toggleGridItemSelection(itemData.label);
 
@@ -1718,7 +1722,7 @@ function renderQuestion() {
 
                 if (target) {
                     target.classList.remove('animate-spring');
-                    void target.offsetWidth; // reflow trigger
+                    void target.offsetWidth; 
                     target.classList.add('animate-spring');
 
                     target.addEventListener('animationend', () => {
@@ -1742,7 +1746,7 @@ function renderQuestion() {
     contentArea.appendChild(optionsGrid);
 
     const prevBtn = document.getElementById('btn-prev-q');
-    if (currentQuestionIndex === 0) {
+    if (currentQuestionIndex === START_QUESTION_INDEX) {
         prevBtn.textContent = "TOPへ戻る";
         prevBtn.onclick = () => showScreen('screen-start');
     } else {
@@ -1765,8 +1769,9 @@ function updateLiveCardBackground() {
     const rgbM = hexToRgb(colorM);
     const rgbP = hexToRgb(colorP);
 
-    const answeredCount = userAnswers.filter(ans => Array.isArray(ans) && ans.length > 0).length;
-    const progressRate = answeredCount / QUESTIONS.length;
+    const totalActiveQuestions = QUESTIONS.length - START_QUESTION_INDEX;
+    const answeredCount = userAnswers.slice(START_QUESTION_INDEX).filter(ans => Array.isArray(ans) && ans.length > 0).length;
+    const progressRate = answeredCount / totalActiveQuestions;
     const colorAlpha = 0.15 + (0.45 * progressRate);
 
     const gradVal = `linear-gradient(135deg, 
@@ -1814,7 +1819,7 @@ function toggleGridItemSelection(label) {
 }
 
 function prevQuestion() {
-    if (currentQuestionIndex > 0) {
+    if (currentQuestionIndex > START_QUESTION_INDEX) {
         currentQuestionIndex--;
         updateLiveCardBackground();
         renderQuestion();
@@ -1856,6 +1861,8 @@ function calculateScores() {
     PURPOSE_ORDER.forEach(k => scoreMap.PURPOSE[k] = { total: 0, mainCount: 0, subCount: 0, grid1Count: 0, grid2Count: 0 });
 
     userAnswers.forEach((ansData, qIdx) => {
+        // 1〜16問目（非表示区間）の回答はスコア計算から除外
+        if (qIdx < START_QUESTION_INDEX) return;
         if (ansData === undefined) return;
         const qData = QUESTIONS[qIdx];
 
@@ -2080,7 +2087,6 @@ function downloadResultImage() {
         );
     }
 
-    // ゴールド粒子エフェクトの再生
     playGoldParticleEffect(() => {
         executeHtml2CanvasExport();
     });
@@ -2114,7 +2120,7 @@ function playGoldParticleEffect(onComplete) {
         particles.forEach(p => {
             p.x += p.vx;
             p.y += p.vy;
-            p.vy += 0.2; // 重力
+            p.vy += 0.2; 
             p.alpha = Math.max(0, 1 - (elapsed / 1200));
 
             ctx.save();
@@ -2209,6 +2215,7 @@ function openSelectionModal() {
     listContainer.innerHTML = '';
 
     QUESTIONS.forEach((qData, qIdx) => {
+        if (qIdx < START_QUESTION_INDEX) return;
         const selections = userAnswers[qIdx];
         if (!Array.isArray(selections) || selections.length === 0) return;
 
@@ -2217,7 +2224,8 @@ function openSelectionModal() {
 
         const questionTitle = document.createElement('div');
         questionTitle.className = 'history-question-title';
-        questionTitle.textContent = `Q${qIdx + 1}: ${qData.q}`;
+        const displayNum = qIdx - START_QUESTION_INDEX + 1;
+        questionTitle.textContent = `Q${displayNum}: ${qData.q}`;
         questionBlock.appendChild(questionTitle);
 
         const choiceGrid = document.createElement('div');
@@ -2270,7 +2278,7 @@ function closeSelectionModalOnOutside(event) {
 
 function restart() {
     stopAllAudio();
-    currentQuestionIndex = 0;
+    currentQuestionIndex = START_QUESTION_INDEX;
     userAnswers = [];
     uploadedImageData = null;
     calculatedResultsData = null;
