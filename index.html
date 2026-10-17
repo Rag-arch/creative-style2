@@ -7,7 +7,7 @@
 
     <!-- ▼▼▼ OGP・X用カード設定 ▼▼▼ -->
     <meta property="og:title" content="私という作風 - 創作の傾向診断">
-    <meta property="og:description" content="全32問の質問と画像選択から、あなたの「創作の傾向（3軸の組み合わせ）」を診断します。">
+    <meta property="og:description" content="あなたの「創作の傾向（3軸の組み合わせ）」を診断します。">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://rag-arch.github.io/creative-style">
     <meta property="og:image" content="https://rag-arch.github.io/creative-style/ogp-v3.png">
@@ -103,13 +103,15 @@
         /* ==========================================
            1. スタート画面専用スタイル（ライトデザイン）
            ========================================== */
-        body:has(#screen-start.active) {
+        body:has(#screen-start.active),
+        body:has(#screen-branch.active) {
             background-color: #fcfcfc !important;
             background-image: none !important;
             padding: 0;
         }
 
-        #screen-start.active {
+        #screen-start.active,
+        #screen-branch.active {
             display: flex;
             justify-content: center;
             align-items: center;
@@ -272,6 +274,68 @@
             color: #ffffff;
             border-color: #b8860b;
             box-shadow: 0 6px 20px rgba(184, 134, 11, 0.25);
+        }
+
+        /* 分岐画面専用スタイル（横並び正方形カードボタン） */
+        .branch-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+
+        .btn-branch-square {
+            width: 100%;
+            aspect-ratio: 1 / 1;
+            background: #ffffff;
+            border: 1px solid rgba(212, 175, 55, 0.4);
+            border-radius: 4px;
+            padding: 12px;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: space-between;
+            transition: all 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
+            position: relative;
+            overflow: hidden;
+            text-decoration: none;
+        }
+
+        .btn-branch-square:hover {
+            border-color: #b8860b;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(184, 134, 11, 0.2);
+        }
+
+        .btn-branch-square img {
+            width: 100%;
+            height: auto;
+            max-height: 72%;
+            object-fit: cover;
+            border-radius: 2px;
+            border: 1px solid var(--border-color);
+            transition: transform 0.3s ease;
+        }
+
+        .btn-branch-square:hover img {
+            transform: scale(1.02);
+        }
+
+        .btn-branch-square .branch-text {
+            font-family: "Hiragino Mincho ProN", "Yu Mincho", "游明朝", serif;
+            font-size: 0.82rem;
+            font-weight: 600;
+            color: #222222;
+            letter-spacing: 0.08em;
+            text-align: center;
+            line-height: 1.3;
+            margin-top: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-grow: 1;
         }
 
         /* ----- UI / 質問・画像選択画面 ----- */
@@ -992,7 +1056,40 @@
                 <span class="note">※本診断で使用している画像はAIによって生成されています。</span>
             </div>
 
-            <button class="btn-start-gold" onclick="startQuiz()">診断を開始する</button>
+            <button class="btn-start-gold" onclick="goToBranchScreen()">診断を開始する</button>
+        </div>
+    </div>
+
+    <!-- BRANCH SCREEN (ルート選択画面) -->
+    <div id="screen-branch" class="screen">
+        <div class="ogp-start-card">
+            <div class="ogp-header-meta">
+                <div class="ogp-tag-group">
+                    <span class="ogp-sub-en">SELECT YOUR PATH</span>
+                    <span class="ogp-types-badge">ROUTE SELECT</span>
+                </div>
+                <div class="ogp-vertical-title">
+                    <div class="ogp-main-title">私という作風</div>
+                    <div class="ogp-version">VER.2</div>
+                </div>
+            </div>
+
+            <div class="ogp-main-question" style="margin: 20px 0 24px 0;">
+                <span class="ogp-question-line" style="font-size: 1.35rem;">あなたの創作・鑑賞の軸はどちら？</span>
+            </div>
+
+            <div class="branch-grid">
+                <button class="btn-branch-square" onclick="selectRoute('visual')">
+                    <img src="./images/A.jpg" alt="空間と視覚の芸術" draggable="false">
+                    <span class="branch-text">空間と視覚の芸術</span>
+                </button>
+                <button class="btn-branch-square" onclick="selectRoute('time')">
+                    <img src="./images/B.jpg" alt="時間と展開の芸術" draggable="false">
+                    <span class="branch-text">時間と展開の芸術</span>
+                </button>
+            </div>
+
+            <button class="btn btn-secondary" onclick="showScreen('screen-start')">戻る</button>
         </div>
     </div>
 
@@ -1117,13 +1214,11 @@ let audioStopTimer = null;
 
 // 音源のトグル再生関数（押すと再生、もう一度押すまたは別ボタンを押すとストップ）
 function toggleSnippet(audioSrc, btnElement, event) {
-    // 伝播を止めてカード自体の選択イベント（画像選択）が発火しないようにする
     if (event) {
         event.stopPropagation();
     }
     if (!audioSrc) return;
 
-    // すでに同じ音声が再生中の場合はストップする
     if (currentAudio && currentAudioBtn === btnElement) {
         currentAudio.pause();
         currentAudio.currentTime = 0;
@@ -1134,13 +1229,12 @@ function toggleSnippet(audioSrc, btnElement, event) {
             currentAudioBtn = null;
         }
         if (audioStopTimer) {
-        clearTimeout(audioStopTimer);
-        audioStopTimer = null;
-    }
+            clearTimeout(audioStopTimer);
+            audioStopTimer = null;
+        }
         return;
     }
 
-    // 別の音声が流れている場合は停止してリセット
     if (currentAudio) {
         currentAudio.pause();
         currentAudio.currentTime = 0;
@@ -1156,11 +1250,10 @@ function toggleSnippet(audioSrc, btnElement, event) {
         audioStopTimer = null;
     }
 
-    // 新しい音声を再生
     currentAudio = new Audio(audioSrc);
     currentAudioBtn = btnElement;
     currentAudioBtn.classList.add('playing');
-    currentAudioBtn.innerHTML = '■'; // 停止アイコンなどに変化
+    currentAudioBtn.innerHTML = '■';
 
     currentAudio.play().catch(e => {
         console.log("自動再生ブロックまたは読み込みエラー:", e);
@@ -1172,7 +1265,6 @@ function toggleSnippet(audioSrc, btnElement, event) {
         currentAudioBtn = null;
     });
 
-    // 音声終了時の処理
     currentAudio.onended = () => {
         if (currentAudioBtn) {
             currentAudioBtn.classList.remove('playing');
@@ -1182,7 +1274,6 @@ function toggleSnippet(audioSrc, btnElement, event) {
         currentAudioBtn = null;
     };
 
-    // 安全のため最大15秒で自動停止するタイマー
     audioStopTimer = setTimeout(() => {
         if (currentAudio) {
             currentAudio.pause();
@@ -1197,7 +1288,6 @@ function toggleSnippet(audioSrc, btnElement, event) {
     }, 20000);
 }
 
-// 画面遷移や問題切り替え時に音声が鳴り続けないよう停止するヘルパー
 function stopAllAudio() {
     if (currentAudio) {
         currentAudio.pause();
@@ -1216,7 +1306,7 @@ function stopAllAudio() {
 }
 
 // 全32問の質問データ
-const QUESTIONS = [
+const ALL_QUESTIONS = [
     { q: "好きな分野は？", category: "MEDIUM", items: [
         { label: "視覚", img: "./images/A1視覚.jpg", caption: "絵画" }, 
         { label: "造形", img: "./images/A2造形.jpg", caption: "彫刻" },
@@ -1377,7 +1467,6 @@ const QUESTIONS = [
         { label: "映像", img: "./images/D7映像.jpg", caption: "アニメーション" }, 
         { label: "体験", img: "./images/D8体験.jpg", caption: "ゲーム" }
     ]},
-    // ★ 17問目：好きな器楽は？
     { q: "好きな器楽は？", category: "STYLE", items: [
         { label: "再現", img: "./images/Da1再現.jpg", caption: "四季「春」", audio: "./audio/a1再現.mp3" }, 
         { label: "理想", img: "./images/Da2理想.jpg", caption: "アイネ・クライネ・ナハトムジーク", audio: "./audio/a2理想.mp3" },
@@ -1388,7 +1477,6 @@ const QUESTIONS = [
         { label: "概念", img: "./images/Da7概念.jpg", caption: "4分33秒", audio: "./audio/a7概念.mp3" }, 
         { label: "変容", img: "./images/Da8変容.jpg", caption: "運命", audio: "./audio/a8変容.mp3" }
     ]},
-     // ★ 18問目：好きな歌曲は？
     { q: "好きな器楽は？", category: "STYLE", items: [
         { label: "再現", img: "./images/Db1再現.jpg", caption: "朝", audio: "./audio/b1再現.mp3" }, 
         { label: "理想", img: "./images/Db2理想.jpg", caption: "ジュピター", audio: "./audio/b2理想.mp3" },
@@ -1399,7 +1487,6 @@ const QUESTIONS = [
         { label: "概念", img: "./images/Db7概念.jpg", caption: "展覧会の絵「プロムナード」", audio: "./audio/b7概念.mp3" }, 
         { label: "変容", img: "./images/Db8変容.jpg", caption: "パガニーニの主題による狂詩曲Op.43", audio: "./audio/b8変容.mp3" }
     ]},
-    // ★ 19問目：好きな劇音楽は？
     { q: "好きな声楽は？",  category: "PURPOSE", items: [
         { label: "美", img: "./images/Dc1美.jpg", caption: "アヴェ・マリア", audio: "./audio/c1美.mp3" }, 
         { label: "探究", img: "./images/Dc2探求.jpg", caption: "トゥーランドット", audio: "./audio/c2探求.mp3" },
@@ -1420,7 +1507,7 @@ const QUESTIONS = [
         { label: "映像", img: "./images/E7映像.jpg", caption: "３D映画" }, 
         { label: "体験", img: "./images/E8体験.jpg", caption: "没入型インスタレーション" }
     ]},
-   { q: "好きな詩は？", category: "STYLE", items: [
+    { q: "好きな詩は？", category: "STYLE", items: [
         { label: "再現", img: "./images/Ea1再現.jpg", caption: "魔王" }, 
         { label: "理想", img: "./images/Ea2理想.jpg", caption: "フィガロの結婚" },
         { label: "表現", img: "./images/Ea3表現.jpg", caption: "詩人の恋" }, 
@@ -1430,7 +1517,7 @@ const QUESTIONS = [
         { label: "概念", img: "./images/Ea7概念.jpg", caption: "月に憑かれたピエロ" }, 
         { label: "変容", img: "./images/Ea8変容.jpg", caption: "アルト・ラプソディ" }
     ]},
-   { q: "好きな戯曲は？", category: "PURPOSE", items: [
+    { q: "好きな戯曲は？", category: "PURPOSE", items: [
         { label: "美", img: "./images/Eb1美.jpg", caption: "ファウスト" }, 
         { label: "探究", img: "./images/Eb2探求.jpg", caption: "ゴドーを待ちながら" },
         { label: "伝達", img: "./images/Eb3伝達.jpg", caption: "オイディプス王" }, 
@@ -1579,10 +1666,8 @@ const STYLE_ORDER = ["再現", "理想", "表現", "知覚", "構成", "幻想",
 const MEDIUM_ORDER = ["視覚", "造形", "空間", "音響", "言語", "身体", "映像", "体験"];
 const PURPOSE_ORDER = ["美", "探究", "伝達", "共感", "娯楽", "思索", "癒し", "感動"];
 
-// ★ 1〜16問目を非表示にするための設定（開始インデックスを16＝17問目に指定）
-const START_QUESTION_INDEX = 16; 
-
-let currentQuestionIndex = START_QUESTION_INDEX;
+let QUESTIONS = []; // 選択されたルートに応じて絞り込まれる質問配列
+let currentQuestionIndex = 0;
 let userAnswers = [];
 let uploadedImageData = null;
 let calculatedResultsData = null;
@@ -1614,13 +1699,11 @@ function formatDescWithLineBreaks(text, keywords) {
 }
 
 function showScreen(screenId) {
-    // 画面切り替え時に音楽を停止
     stopAllAudio();
 
     document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
     document.getElementById(screenId).classList.add('active');
     
-    // プログレスバーの表示制御
     const progressContainer = document.getElementById('liquid-progress-container');
     if (screenId === 'screen-quiz') {
         progressContainer.classList.add('active');
@@ -1632,32 +1715,43 @@ function showScreen(screenId) {
     window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
-// 2. リキッド・プログレスバーの更新（全16問としての進捗に調整）
 function updateProgressBar() {
     const progressBar = document.getElementById('liquid-progress-bar');
-    const totalActiveQuestions = QUESTIONS.length - START_QUESTION_INDEX;
-    const answeredCount = userAnswers.slice(START_QUESTION_INDEX).filter(ans => Array.isArray(ans) && ans.length > 0).length;
-    const progress = (answeredCount / totalActiveQuestions) * 100;
+    const answeredCount = userAnswers.filter(ans => Array.isArray(ans) && ans.length > 0).length;
+    const progress = QUESTIONS.length > 0 ? (answeredCount / QUESTIONS.length) * 100 : 0;
     progressBar.style.width = `${progress}%`;
 }
 
-function startQuiz() {
-    currentQuestionIndex = START_QUESTION_INDEX;
-    userAnswers = [];
+function goToBranchScreen() {
+    showScreen('screen-branch');
+}
+
+function selectRoute(routeType) {
+    if (routeType === 'visual') {
+        // 1〜15問目（インデックス 0〜14） + 32問目（インデックス 31）
+        const indices = [...Array(15).keys(), 31];
+        QUESTIONS = indices.map(i => ALL_QUESTIONS[i]);
+    } else if (routeType === 'time') {
+        // 16〜31問目（インデックス 15〜30）
+        const indices = [];
+        for (let i = 15; i <= 30; i++) {
+            indices.push(i);
+        }
+        QUESTIONS = indices.map(i => ALL_QUESTIONS[i]);
+    }
+
+    currentQuestionIndex = 0;
+    userAnswers = new Array(QUESTIONS.length);
     updateLiveCardBackground();
     renderQuestion();
     showScreen('screen-quiz');
 }
 
 function renderQuestion() {
-    // 質問切り替え時に音楽を停止
     stopAllAudio();
 
     const qData = QUESTIONS[currentQuestionIndex];
-    const displayNum = currentQuestionIndex - START_QUESTION_INDEX + 1;
-    const totalDisplayNum = QUESTIONS.length - START_QUESTION_INDEX;
-
-    document.getElementById('q-number').textContent = `Q${displayNum} / ${totalDisplayNum}`;
+    document.getElementById('q-number').textContent = `Q${currentQuestionIndex + 1} / ${QUESTIONS.length}`;
     document.getElementById('q-title').textContent = qData.q;
     updateProgressBar();
 
@@ -1671,7 +1765,10 @@ function renderQuestion() {
 
     const subInstruction = document.createElement('div');
     subInstruction.className = 'grid-sub-instruction';
-    if (currentQuestionIndex >= 16 && currentQuestionIndex <= 18) {
+    
+    // 現在の問題オブジェクトが音声を持っているかチェック
+    const hasAudio = qData.items.some(item => item.audio);
+    if (hasAudio) {
         subInstruction.textContent = "※右下のオーディオボタン（♫）を押すと音楽の試聴ができます";
     } else {
         subInstruction.textContent = "※問題内の画像はAI生成画像です。";
@@ -1722,7 +1819,7 @@ function renderQuestion() {
 
                 if (target) {
                     target.classList.remove('animate-spring');
-                    void target.offsetWidth; 
+                    void target.offsetWidth;
                     target.classList.add('animate-spring');
 
                     target.addEventListener('animationend', () => {
@@ -1746,9 +1843,9 @@ function renderQuestion() {
     contentArea.appendChild(optionsGrid);
 
     const prevBtn = document.getElementById('btn-prev-q');
-    if (currentQuestionIndex === START_QUESTION_INDEX) {
-        prevBtn.textContent = "TOPへ戻る";
-        prevBtn.onclick = () => showScreen('screen-start');
+    if (currentQuestionIndex === 0) {
+        prevBtn.textContent = "ルート選択へ戻る";
+        prevBtn.onclick = () => showScreen('screen-branch');
     } else {
         prevBtn.textContent = "一つ戻る";
         prevBtn.onclick = () => prevQuestion();
@@ -1769,9 +1866,8 @@ function updateLiveCardBackground() {
     const rgbM = hexToRgb(colorM);
     const rgbP = hexToRgb(colorP);
 
-    const totalActiveQuestions = QUESTIONS.length - START_QUESTION_INDEX;
-    const answeredCount = userAnswers.slice(START_QUESTION_INDEX).filter(ans => Array.isArray(ans) && ans.length > 0).length;
-    const progressRate = answeredCount / totalActiveQuestions;
+    const answeredCount = userAnswers.filter(ans => Array.isArray(ans) && ans.length > 0).length;
+    const progressRate = QUESTIONS.length > 0 ? answeredCount / QUESTIONS.length : 0;
     const colorAlpha = 0.15 + (0.45 * progressRate);
 
     const gradVal = `linear-gradient(135deg, 
@@ -1819,7 +1915,7 @@ function toggleGridItemSelection(label) {
 }
 
 function prevQuestion() {
-    if (currentQuestionIndex > START_QUESTION_INDEX) {
+    if (currentQuestionIndex > 0) {
         currentQuestionIndex--;
         updateLiveCardBackground();
         renderQuestion();
@@ -1861,10 +1957,9 @@ function calculateScores() {
     PURPOSE_ORDER.forEach(k => scoreMap.PURPOSE[k] = { total: 0, mainCount: 0, subCount: 0, grid1Count: 0, grid2Count: 0 });
 
     userAnswers.forEach((ansData, qIdx) => {
-        // 1〜16問目（非表示区間）の回答はスコア計算から除外
-        if (qIdx < START_QUESTION_INDEX) return;
         if (ansData === undefined) return;
         const qData = QUESTIONS[qIdx];
+        if (!qData) return;
 
         if (Array.isArray(ansData)) {
             const category = qData.category;
@@ -2074,7 +2169,6 @@ function calculateAndShowResult() {
     showScreen('screen-result');
 }
 
-// 3. ゴールド粒子エフェクト演出付きダウンロード処理
 function downloadResultImage() {
     if (isDownloading) return;
     isDownloading = true;
@@ -2120,7 +2214,7 @@ function playGoldParticleEffect(onComplete) {
         particles.forEach(p => {
             p.x += p.vx;
             p.y += p.vy;
-            p.vy += 0.2; 
+            p.vy += 0.2;
             p.alpha = Math.max(0, 1 - (elapsed / 1200));
 
             ctx.save();
@@ -2209,13 +2303,11 @@ function triggerDownload(blob) {
     link.click();
 }
 
-// 4. 選択画像一覧モーダルに関する制御
 function openSelectionModal() {
     const listContainer = document.getElementById('modal-history-list');
     listContainer.innerHTML = '';
 
     QUESTIONS.forEach((qData, qIdx) => {
-        if (qIdx < START_QUESTION_INDEX) return;
         const selections = userAnswers[qIdx];
         if (!Array.isArray(selections) || selections.length === 0) return;
 
@@ -2224,8 +2316,7 @@ function openSelectionModal() {
 
         const questionTitle = document.createElement('div');
         questionTitle.className = 'history-question-title';
-        const displayNum = qIdx - START_QUESTION_INDEX + 1;
-        questionTitle.textContent = `Q${displayNum}: ${qData.q}`;
+        questionTitle.textContent = `Q${qIdx + 1}: ${qData.q}`;
         questionBlock.appendChild(questionTitle);
 
         const choiceGrid = document.createElement('div');
@@ -2266,6 +2357,7 @@ function openSelectionModal() {
 
     document.getElementById('selection-modal').classList.add('active');
 }
+
 function closeSelectionModal() {
     document.getElementById('selection-modal').classList.remove('active');
 }
@@ -2278,8 +2370,9 @@ function closeSelectionModalOnOutside(event) {
 
 function restart() {
     stopAllAudio();
-    currentQuestionIndex = START_QUESTION_INDEX;
+    currentQuestionIndex = 0;
     userAnswers = [];
+    QUESTIONS = [];
     uploadedImageData = null;
     calculatedResultsData = null;
     isDownloading = false;
