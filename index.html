@@ -276,7 +276,7 @@
             box-shadow: 0 6px 20px rgba(184, 134, 11, 0.25);
         }
 
-        /* 分岐画面専用スタイル（横並び正方形カードボタン） */
+        /* 分岐画面専用スタイル（縦長長方形カードボタン） */
         .branch-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -286,7 +286,7 @@
 
         .btn-branch-square {
             width: 100%;
-            aspect-ratio: 1 / 1;
+            aspect-ratio: 1 / 1.35;
             background: #ffffff;
             border: 1px solid rgba(212, 175, 55, 0.4);
             border-radius: 4px;
@@ -311,8 +311,7 @@
 
         .btn-branch-square img {
             width: 100%;
-            height: auto;
-            max-height: 72%;
+            aspect-ratio: 1 / 1;
             object-fit: cover;
             border-radius: 2px;
             border: 1px solid var(--border-color);
@@ -331,7 +330,7 @@
             letter-spacing: 0.08em;
             text-align: center;
             line-height: 1.3;
-            margin-top: 6px;
+            margin-top: 8px;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -412,6 +411,7 @@
             text-align: center;
             line-height: 1.5;
             color: var(--text-main);
+            font-family: "Hiragino Mincho ProN", "Yu Mincho", "游明朝", serif;
         }
 
         /* 8択グリッド用スタイル */
@@ -1074,9 +1074,7 @@
                 </div>
             </div>
 
-            <div class="ogp-main-question" style="margin: 20px 0 24px 0;">
-                <span class="ogp-question-line" style="font-size: 1.35rem;">あなたの創作・鑑賞の軸はどちら？</span>
-            </div>
+            <div class="q-title" style="margin: 20px 0 24px 0;">あなたの創作・鑑賞の軸はどちら？</div>
 
             <div class="branch-grid">
                 <button class="btn-branch-square" onclick="selectRoute('visual')">
