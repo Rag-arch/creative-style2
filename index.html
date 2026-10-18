@@ -618,7 +618,7 @@
             border-radius: 0;
         }
 
-        /* ----- 最終結果カード (iPhone風フレーム調整) ----- */
+        /* ----- 最終結果カード (iPhone風フレーム調整：デフォルト・黒フレーム) ----- */
         .result-card-container {
             display: flex;
             justify-content: center;
@@ -671,6 +671,20 @@
             border: 2px solid #333333;
             border-radius: 50%;
             box-sizing: border-box;
+        }
+
+        /* ----- 最終結果カード (時間と展開の芸術ルート用：白フレーム) ----- */
+        .result-card.white-frame {
+            border-color: #e0e0e0;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+        }
+
+        .result-card.white-frame::before {
+            background-color: #cccccc;
+        }
+
+        .result-card.white-frame::after {
+            border-color: #cccccc;
         }
 
         .card-header {
@@ -1212,6 +1226,7 @@ const COLOR_PURPOSE = {
 let currentAudio = null;
 let currentAudioBtn = null;
 let audioStopTimer = null;
+let currentRouteType = 'visual'; // 選択されたルートを保持する変数
 
 // 音源のトグル再生関数（押すと再生、もう一度押すまたは別ボタンを押すとストップ）
 function toggleSnippet(audioSrc, btnElement, event) {
@@ -1728,6 +1743,7 @@ function goToBranchScreen() {
 }
 
 function selectRoute(routeType) {
+    currentRouteType = routeType; // 選択されたルートを保存
     if (routeType === 'visual') {
         // 1〜15問目（インデックス 0〜14） + 32問目（インデックス 31）
         const indices = [...Array(15).keys(), 31];
@@ -2079,6 +2095,14 @@ function calculateAndShowResult() {
     const rgbP = hexToRgb(colorP);
 
     const resultCard = document.getElementById('result-card');
+    
+    // ルートによってフレームの種類（黒 vs 白）を切り替える処理
+    if (currentRouteType === 'time') {
+        resultCard.classList.add('white-frame');
+    } else {
+        resultCard.classList.remove('white-frame');
+    }
+
     resultCard.style.background = `linear-gradient(135deg, 
         rgba(255, 255, 255, 1) 0%, 
         rgba(${rgbM.r}, ${rgbM.g}, ${rgbM.b}, 0.35) 35%, 
@@ -2377,6 +2401,7 @@ function restart() {
     uploadedImageData = null;
     calculatedResultsData = null;
     isDownloading = false;
+    currentRouteType = 'visual';
     document.getElementById('preview-img').style.display = 'none';
     document.getElementById('preview-img').src = '';
     document.getElementById('file-label-text').textContent = "画像ファイルを選択 (ローカル処理)";
