@@ -1096,11 +1096,11 @@
             <div class="branch-grid">
                 <button class="btn-branch-square" onclick="selectRoute('visual')">
                     <img src="./images/1空間.jpg" alt="空間と視覚の芸術" draggable="false">
-                    <span class="branch-text">モノの美学</span>
+                    <span class="branch-text">モノ/形態</span>
                 </button>
                 <button class="btn-branch-square" onclick="selectRoute('time')">
                     <img src="./images/2時間.jpg" alt="時間と展開の芸術" draggable="false">
-                    <span class="branch-text">コトの美学</span>
+                    <span class="branch-text">コト/展開</span>
                 </button>
             </div>
 
@@ -1433,15 +1433,15 @@ const ALL_QUESTIONS = [
         { label: "癒し", img: "./images/Bd7癒し.jpg", caption: "オーガニック・スローファッション" }, 
         { label: "感動", img: "./images/Bd8感動.jpg", caption: "ドラマチック・シアトリカル" }
     ]},
-    { q: "好きな起源は？", category: "MEDIUM", items: [
-        { label: "視覚", img: "./images/J1視覚.jpg", caption: "壁画" }, 
-        { label: "造形", img: "./images/J2造形.jpg", caption: "粘土" },
-        { label: "空間", img: "./images/J3空間.jpg", caption: "住処" }, 
-        { label: "音響", img: "./images/J4音響.jpg", caption: "角笛" },
-        { label: "言語", img: "./images/J5言語.jpg", caption: "象形文字" }, 
-        { label: "身体", img: "./images/J6身体.jpg", caption: "踊り" },
-        { label: "映像", img: "./images/J7映像.jpg", caption: "影絵" }, 
-        { label: "体験", img: "./images/J8体験.jpg", caption: "反響" }
+    { q: "好きな遊戯は？", category: "MEDIUM", items: [
+        { label: "視覚", img: "./images/F1視覚.jpg", caption: "お絵かき" }, 
+        { label: "造形", img: "./images/F2造形.jpg", caption: "粘土" },
+        { label: "空間", img: "./images/F3空間.jpg", caption: "工作" }, 
+        { label: "音響", img: "./images/F4音響.jpg", caption: "合奏" },
+        { label: "言語", img: "./images/F5言語.jpg", caption: "絵本" }, 
+        { label: "身体", img: "./images/F6身体.jpg", caption: "お遊戯会" },
+        { label: "映像", img: "./images/F7映像.jpg", caption: "紙芝居" }, 
+        { label: "体験", img: "./images/F8体験.jpg", caption: "宝探し" }
     ]},
     { q: "好きな建築は？", category: "STYLE", items: [
         { label: "再現", img: "./images/Ca1再現.jpg", caption: "古典主義" }, 
@@ -1464,14 +1464,14 @@ const ALL_QUESTIONS = [
         { label: "感動", img: "./images/Cb8感動.jpg", caption: "古典主義・神殿" }
     ]},
      { q: "好きな文化は？", category: "MEDIUM", items: [
-        { label: "視覚", img: "./images/G1視覚.jpg", caption: "水墨画" }, 
-        { label: "造形", img: "./images/G2造形.jpg", caption: "木彫" },
-        { label: "空間", img: "./images/G3空間.jpg", caption: "茶室" }, 
-        { label: "音響", img: "./images/G4音響.jpg", caption: "三味線" },
-        { label: "言語", img: "./images/G5言語.jpg", caption: "随筆" }, 
-        { label: "身体", img: "./images/G6身体.jpg", caption: "歌舞伎" },
-        { label: "映像", img: "./images/G7映像.jpg", caption: "江戸映し絵" }, 
-        { label: "体験", img: "./images/G8体験.jpg", caption: "茶道" }
+        { label: "視覚", img: "./images/H1視覚.jpg", caption: "浮世絵" }, 
+        { label: "造形", img: "./images/H2造形.jpg", caption: "木彫" },
+        { label: "空間", img: "./images/H3空間.jpg", caption: "縁側" }, 
+        { label: "音響", img: "./images/H4音響.jpg", caption: "三味線" },
+        { label: "言語", img: "./images/H5言語.jpg", caption: "随筆" }, 
+        { label: "身体", img: "./images/H6身体.jpg", caption: "日本舞踊" },
+        { label: "映像", img: "./images/H7映像.jpg", caption: "手影絵" }, 
+        { label: "体験", img: "./images/H8体験.jpg", caption: "茶道" }
     ]},
     { q: "好きなインテリアは？", category: "PURPOSE", items: [
         { label: "美", img: "./images/Cc1美.jpg", caption: "極限ミニマリズム" }, 
@@ -1554,14 +1554,14 @@ const ALL_QUESTIONS = [
         { label: "体験", img: "./images/B8体験.jpg", caption: "ゲーム" }
     ]},
     { q: "好きな詩は？", category: "STYLE", items: [
-        { label: "再現", img: "./images/Ea1再現.jpg", caption: "魔王" }, 
-        { label: "理想", img: "./images/Ea2理想.jpg", caption: "フィガロの結婚" },
-        { label: "表現", img: "./images/Ea3表現.jpg", caption: "詩人の恋" }, 
-        { label: "知覚", img: "./images/Ea4知覚.jpg", caption: "夢のあとに" },
-        { label: "構成", img: "./images/Ea5構成.jpg", caption: "主よ、人の望みの喜びよ" }, 
-        { label: "幻想", img: "./images/Ea6幻想.jpg", caption: "４つの最後の歌" },
-        { label: "概念", img: "./images/Ea7概念.jpg", caption: "月に憑かれたピエロ" }, 
-        { label: "変容", img: "./images/Ea8変容.jpg", caption: "アルト・ラプソディ" }
+        { label: "再現", img: "./images/Ea1再現.jpg", caption: "魔" }, 
+        { label: "理想", img: "./images/Ea2理想.jpg", caption: "フ" },
+        { label: "表現", img: "./images/Ea3表現.jpg", caption: "詩" }, 
+        { label: "知覚", img: "./images/Ea4知覚.jpg", caption: "夢" },
+        { label: "構成", img: "./images/Ea5構成.jpg", caption: "主" }, 
+        { label: "幻想", img: "./images/Ea6幻想.jpg", caption: "４" },
+        { label: "概念", img: "./images/Ea7概念.jpg", caption: "月" }, 
+        { label: "変容", img: "./images/Ea8変容.jpg", caption: "ア" }
     ]},
     { q: "好きな戯曲は？", category: "PURPOSE", items: [
         { label: "美", img: "./images/Eb1美.jpg", caption: "ファウスト" }, 
@@ -1633,7 +1633,7 @@ const ALL_QUESTIONS = [
         { label: "映像", img: "./images/F7映像.jpg", caption: "紙芝居" }, 
         { label: "体験", img: "./images/F8体験.jpg", caption: "宝探し" }
 　　 ]},
-    { q: "好きな写真は？", category: "STYLE", items: [
+    { q: "好きな映画は？", category: "STYLE", items: [
         { label: "再現", img: "./images/Ga1再現.jpg", caption: "ドキュメンタリー" }, 
         { label: "理想", img: "./images/Ga2理想.jpg", caption: "ピクトリアリズム" },
         { label: "表現", img: "./images/Ga3表現.jpg", caption: "アレ・ブレ・ボケ" }, 
