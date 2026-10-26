@@ -455,7 +455,8 @@
             transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1), border-color 0.2s, box-shadow 0.2s;
         }
 
-        .grid-item img {
+        .grid-item img,
+        .grid-item video {
             width: 100%;
             height: 100%;
             object-fit: cover;
@@ -1289,6 +1290,12 @@ let currentAudioBtn = null;
 let audioStopTimer = null;
 let currentRouteType = 'visual'; // 選択されたルートを保持する変数
 
+// 動画ファイルかどうか判定するヘルパー関数
+function isVideoFile(url) {
+    if (!url) return false;
+    return url.match(/\.(mp4|webm|ogg|mov)($|\?)/i) !== null;
+}
+
 // 音源のトグル再生関数（押すと再生、もう一度押すまたは別ボタンを押すとストップ）
 function toggleSnippet(audioSrc, btnElement, event) {
     if (event) {
@@ -1922,13 +1929,13 @@ function renderQuestion() {
     
     // 現在の問題オブジェクトが音声または動画を持っているかチェック
     const hasAudio = qData.items.some(item => item.audio);
-    const hasVideo = qData.items.some(item => item.video);
+    const hasVideo = qData.items.some(item => item.video || isVideoFile(item.img));
     if (hasAudio && hasVideo) {
-        subInstruction.textContent = "※右下のボタンを押すと試聴/再生ができます";
+        subInstruction.textContent = "※右下のボタンを押すと試聴/拡大再生ができます";
     } else if (hasAudio) {
         subInstruction.textContent = "※右下のオーディオボタン（♫）を押すと音楽の試聴ができます";
     } else if (hasVideo) {
-        subInstruction.textContent = "※右下の再生ボタン（▶）を押すと動画の試聴ができます";
+        subInstruction.textContent = "※右下の再生ボタン（▶）を押すと動画の拡大再生ができます";
     } else {
         subInstruction.textContent = "※問題内の画像はAI生成画像です。";
     }
@@ -1955,7 +1962,12 @@ function renderQuestion() {
             gridItem.classList.add(`selected-${selectionIndex + 1}`);
         }
 
-        gridItem.innerHTML = `<img src="${itemData.img}" alt="${itemData.label}" draggable="false">`;
+        // 動画ファイルか画像ファイルかを自動判定して埋め込み
+        if (isVideoFile(itemData.img)) {
+            gridItem.innerHTML = `<video src="${itemData.img}" autoplay loop muted playsinline data-label="${itemData.label}"></video>`;
+        } else {
+            gridItem.innerHTML = `<img src="${itemData.img}" alt="${itemData.label}" draggable="false">`;
+        }
         
         // 音楽再生ボタン
         if (itemData.audio) {
@@ -1967,24 +1979,28 @@ function renderQuestion() {
             gridItem.appendChild(audioBtn);
         }
 
-        // 動画再生ボタン
-        if (itemData.video) {
+        // 動画拡大再生ボタン（videoプロパティ、またはimgプロパティが動画ファイルの場合）
+        const videoSrc = itemData.video || (isVideoFile(itemData.img) ? itemData.img : null);
+        if (videoSrc) {
             const videoBtn = document.createElement('div');
             videoBtn.className = 'audio-btn';
             videoBtn.innerHTML = '▶';
-            videoBtn.title = "動画を再生";
-            videoBtn.onclick = (e) => openVideoModal(itemData.video, e);
+            videoBtn.title = "動画を拡大再生";
+            videoBtn.onclick = (e) => openVideoModal(videoSrc, e);
             gridItem.appendChild(videoBtn);
         }
 
         gridItem.onclick = (e) => {
+            // 右下の再生ボタンを押した場合は選択トグルを行わない
+            if (e.target.classList.contains('audio-btn')) return;
+
             toggleGridItemSelection(itemData.label);
 
             requestAnimationFrame(() => {
                 const target = Array.from(document.querySelectorAll('.grid-item'))
                     .find(el => {
-                        const img = el.querySelector('img');
-                        return img && img.alt === itemData.label;
+                        const media = el.querySelector('img, video');
+                        return media && (media.alt === itemData.label || media.getAttribute('data-label') === itemData.label);
                     });
 
                 if (target) {
@@ -2510,8 +2526,12 @@ function openSelectionModal() {
             const itemDiv = document.createElement('div');
             itemDiv.className = 'selected-history-item';
 
+            const mediaHTML = isVideoFile(matchedItem.img) 
+                ? `<video class="history-thumb" src="${matchedItem.img}" autoplay loop muted playsinline></video>`
+                : `<img class="history-thumb" src="${matchedItem.img}" alt="${matchedItem.label}">`;
+
             itemDiv.innerHTML = `
-                <img class="history-thumb" src="${matchedItem.img}" alt="${matchedItem.label}">
+                ${mediaHTML}
                 <div class="history-info">
                     <div>
                         <span class="history-rank-badge ${badgeClass}">${rankNum}位</span>
