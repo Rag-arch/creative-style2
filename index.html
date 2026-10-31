@@ -1862,13 +1862,13 @@ function selectRoute(routeType) {
     currentRouteType = routeType; // 選択されたルートを保存
     if (routeType === 'visual') {
         const indices = [];
-        for (let i = 0; i <= 20; i++) {
+        for (let i = 0; i <= 17; i++) {
             indices.push(i);
         }
         QUESTIONS = indices.map(i => ALL_QUESTIONS[i]);
     } else if (routeType === 'time') {
         const indices = [];
-        for (let i = 21; i <= 35; i++) {
+        for (let i = 18; i <= 35; i++) {
             indices.push(i);
         }
         QUESTIONS = indices.map(i => ALL_QUESTIONS[i]);
