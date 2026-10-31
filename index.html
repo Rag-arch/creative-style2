@@ -1931,14 +1931,15 @@ function renderQuestion() {
         currentSelections = [];
     }
 
-    qData.items.forEach((itemData) => {
+    qData.items.forEach((itemData, itemIndex) => {
         const gridCell = document.createElement('div');
         gridCell.className = 'grid-cell';
 
         const gridItem = document.createElement('div');
         gridItem.className = 'grid-item';
         
-        const selectionIndex = currentSelections.indexOf(itemData.label);
+        // ラベルではなく、アイテムのインデックス番号で選択状態を判定
+        const selectionIndex = currentSelections.indexOf(itemIndex);
         if (selectionIndex > -1) {
             gridItem.classList.add('selected');
             gridItem.classList.add(`selected-${selectionIndex + 1}`);
@@ -1947,7 +1948,7 @@ function renderQuestion() {
         // 動画ファイルか画像ファイルかを自動判定して埋め込み（autoplayを外し、最初は静止）
         let videoEl = null;
         if (isVideoFile(itemData.img)) {
-            gridItem.innerHTML = `<video src="${itemData.img}" loop muted playsinline data-label="${itemData.label}"></video>`;
+            gridItem.innerHTML = `<video src="${itemData.img}" loop muted playsinline data-index="${itemIndex}"></video>`;
             videoEl = gridItem.querySelector('video');
         } else {
             gridItem.innerHTML = `<img src="${itemData.img}" alt="${itemData.label}" draggable="false">`;
@@ -1978,13 +1979,14 @@ function renderQuestion() {
             // 右下の再生ボタンを押した場合は選択トグルを行わない
             if (e.target.classList.contains('audio-btn')) return;
 
-            toggleGridItemSelection(itemData.label);
+            // ラベルの代わりにインデックス番号を渡す
+            toggleGridItemSelection(itemIndex);
 
             requestAnimationFrame(() => {
                 const target = Array.from(document.querySelectorAll('.grid-item'))
                     .find(el => {
                         const media = el.querySelector('img, video');
-                        return media && (media.alt === itemData.label || media.getAttribute('data-label') === itemData.label);
+                        return media && (media.alt === itemData.label || media.getAttribute('data-index') === String(itemIndex));
                     });
 
                 if (target) {
@@ -2049,21 +2051,21 @@ function updateLiveCardBackground() {
     document.documentElement.style.setProperty('--live-grad', gradVal);
 }
 
-function toggleGridItemSelection(label) {
+function toggleGridItemSelection(itemIndex) {
     let currentSelections = userAnswers[currentQuestionIndex];
     if (!Array.isArray(currentSelections)) {
         currentSelections = [];
     }
 
-    const index = currentSelections.indexOf(label);
+    const index = currentSelections.indexOf(itemIndex);
     if (index > -1) {
         currentSelections.splice(index, 1);
     } else {
         if (currentSelections.length < 2) {
-            currentSelections.push(label);
+            currentSelections.push(itemIndex);
         } else {
             currentSelections.shift();
-            currentSelections.push(label);
+            currentSelections.push(itemIndex);
         }
     }
 
@@ -2133,15 +2135,19 @@ function calculateScores() {
 
         if (Array.isArray(ansData)) {
             const category = qData.category;
-            ansData.forEach((selectedKey, idx) => {
-                if (scoreMap[category][selectedKey]) {
-                    const points = (idx === 0) ? 2 : 1;
-                    scoreMap[category][selectedKey].total += points;
-                    
-                    if (idx === 0) {
-                        scoreMap[category][selectedKey].grid1Count += 1;
-                    } else {
-                        scoreMap[category][selectedKey].grid2Count += 1;
+            ansData.forEach((itemIndex, idx) => {
+                const itemData = qData.items[itemIndex];
+                if (itemData) {
+                    const selectedKey = itemData.label;
+                    if (scoreMap[category][selectedKey]) {
+                        const points = (idx === 0) ? 2 : 1;
+                        scoreMap[category][selectedKey].total += points;
+                        
+                        if (idx === 0) {
+                            scoreMap[category][selectedKey].grid1Count += 1;
+                        } else {
+                            scoreMap[category][selectedKey].grid2Count += 1;
+                        }
                     }
                 }
             });
@@ -2499,8 +2505,8 @@ function openSelectionModal() {
         const choiceGrid = document.createElement('div');
         choiceGrid.className = 'history-choice-grid';
 
-        selections.forEach((selectedLabel, rankIdx) => {
-            const matchedItem = qData.items.find(item => item.label === selectedLabel);
+        selections.forEach((itemIndex, rankIdx) => {
+            const matchedItem = qData.items[itemIndex];
             if (!matchedItem) return;
 
             const rankNum = rankIdx + 1;
