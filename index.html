@@ -1097,11 +1097,11 @@
             <div class="branch-grid">
                 <button class="btn-branch-square" onclick="selectRoute('visual')">
                     <img src="./images/1空間.jpg" alt="空間と視覚の芸術" draggable="false">
-                    <span class="branch-text">イロ・カタチ</span>
+                    <span class="branch-text">イロ・カタチ (20問)</span>
                 </button>
                 <button class="btn-branch-square" onclick="selectRoute('time')">
                     <img src="./images/2時間.jpg" alt="時間と展開の芸術" draggable="false">
-                    <span class="branch-text">オト・コトバ</span>
+                    <span class="branch-text">オト・コトバ (15問)</span>
                 </button>
             </div>
 
@@ -1578,6 +1578,26 @@ const ALL_QUESTIONS = [
         { label: "幻想", img: "./images/Ga6幻想.jpg", caption: "シュルレアリスム" },
         { label: "概念", img: "./images/Ga7概念.jpg", caption: "コンセプチュアル・アート" }, 
         { label: "変容", img: "./images/Ga8変容.jpg", caption: "実験的写真" }
+　　 ]},
+    { q: "好きな映画は？", category: "PURPOSE", items: [
+        { label: "美", img: "./images/Gb1美.jpg", caption: "SFアドベンチャー" }, 
+        { label: "探究", img: "./images/Gb2探求.jpg", caption: "SFパニック" },
+        { label: "伝達", img: "./images/Gb3伝達.jpg", caption: "ファンタジー" }, 
+        { label: "共感", img: "./images/Gb4共感.jpg", caption: "ヒューマンドラマ" },
+        { label: "娯楽", img: "./images/Gb5娯楽.jpg", caption: "スペース・オペラ" }, 
+        { label: "思索", img: "./images/Gb6思索.jpg", caption: "サイバーパンク" },
+        { label: "癒し", img: "./images/Gb7癒し.jpg", caption: "ファミリー" }, 
+        { label: "感動", img: "./images/Gb8感動.jpg", caption: "ロマンス" }
+    ]},
+    { q: "好きな映像は？", category: "PURPOSE", items: [
+        { label: "美", img: "./images/Gc1美.jpg", caption: "ハイエンドCM・MV" }, 
+        { label: "探究", img: "./images/Gc2探求.jpg", caption: "実験映像" },
+        { label: "伝達", img: "./images/Gc3伝達.jpg", caption: "報道・ドキュメンタリー番組" }, 
+        { label: "共感", img: "./images/Gc4共感.jpg", caption: "TVアニメ" },
+        { label: "娯楽", img: "./images/Gc5娯楽.jpg", caption: "3Dアニメーション" }, 
+        { label: "思索", img: "./images/Gc6思索.jpg", caption: "教育番組" },
+        { label: "癒し", img: "./images/Gc7癒し.jpg", caption: "自然紀行番組・4Kネイチャー" }, 
+        { label: "感動", img: "./images/Gc8感動.jpg", caption: "長編アニメ映画" }
     ]},
     { q: "好きなアートは？", category: "MEDIUM", items: [
         { label: "視覚", img: "./images/I1視覚.jpg", caption: "動的ジェネラティブ表現" }, 
@@ -1699,16 +1719,6 @@ const ALL_QUESTIONS = [
         { label: "癒し", img: "./images/Fb7癒し.jpg", caption: "桜の園" }, 
         { label: "感動", img: "./images/Fb8感動.jpg", caption: "ロミオとジュリエット" }
     ]},
-    { q: "好きなオペラは？",  category: "PURPOSE", items: [
-        { label: "美", img: "./images/Dd1美.jpg", caption: "タイス", audio: "./audio/d1美.mp3" }, 
-        { label: "探究", img: "./images/Dd2探求.jpg", caption: "魔笛", audio: "./audio/d2探求.mp3" },
-        { label: "伝達", img: "./images/Dd3伝達.jpg", caption: "アイーダ", audio: "./audio/d3伝達.mp3" }, 
-        { label: "共感", img: "./images/Dd4共感.jpg", caption: "椿姫", audio: "./audio/d4共感.mp3" },
-        { label: "娯楽", img: "./images/Dd5娯楽.jpg", caption: "フィガロの結婚", audio: "./audio/d5娯楽.mp3" }, 
-        { label: "思索", img: "./images/Dd6思索.jpg", caption: "トゥーランドット", audio: "./audio/d6思索.mp3" },
-        { label: "癒し", img: "./images/Dd7癒し.jpg", caption: "蝶々夫人", audio: "./audio/d7癒し.mp3" }, 
-        { label: "感動", img: "./images/Dd8感動.jpg", caption: "カルメン", audio: "./audio/d8感動.mp3" }
-    ]},
     { q: "好きなミュージカルは？", category: "PURPOSE", items: [
         { label: "美", img: "./images/Fc1美.jpg", caption: "オペラ座の怪人" },
         { label: "探究", img: "./images/Fc2探求.jpg", caption: "ウィキッド" },
@@ -1719,6 +1729,16 @@ const ALL_QUESTIONS = [
         { label: "癒し", img: "./images/Fc7癒し.jpg", caption: "サウンド・オブ・ミュージック" },
         { label: "感動", img: "./images/Fc8感動.jpg", caption: "ライオンキング" }
     ]},
+    { q: "好きなオペラは？",  category: "PURPOSE", items: [
+        { label: "美", img: "./images/Dd1美.jpg", caption: "タイス", audio: "./audio/d1美.mp3" }, 
+        { label: "探究", img: "./images/Dd2探求.jpg", caption: "魔笛", audio: "./audio/d2探求.mp3" },
+        { label: "伝達", img: "./images/Dd3伝達.jpg", caption: "アイーダ", audio: "./audio/d3伝達.mp3" }, 
+        { label: "共感", img: "./images/Dd4共感.jpg", caption: "椿姫", audio: "./audio/d4共感.mp3" },
+        { label: "娯楽", img: "./images/Dd5娯楽.jpg", caption: "フィガロの結婚", audio: "./audio/d5娯楽.mp3" }, 
+        { label: "思索", img: "./images/Dd6思索.jpg", caption: "トゥーランドット", audio: "./audio/d6思索.mp3" },
+        { label: "癒し", img: "./images/Dd7癒し.jpg", caption: "蝶々夫人", audio: "./audio/d7癒し.mp3" }, 
+        { label: "感動", img: "./images/Dd8感動.jpg", caption: "カルメン", audio: "./audio/d8感動.mp3" }
+    ]},
     { q: "好きな文化は？", category: "MEDIUM", items: [
         { label: "音響", img: "./images/G4音響.jpg", caption: "三味線", audio: "./audio/G4音響.mp3" },
         { label: "言語", img: "./images/G5言語.jpg", caption: "随筆" }, 
@@ -1728,36 +1748,6 @@ const ALL_QUESTIONS = [
         { label: "言語", img: "./images/H5言語.jpg", caption: "俳句" }, 
         { label: "身体", img: "./images/H6身体.jpg", caption: "日本舞踊", audio: "./audio/H6身体.mp3" },
         { label: "体験", img: "./images/H8体験.jpg", caption: "盆踊り" }
-    ]},
-    { q: "好きな映画は？", category: "STYLE", items: [
-        { label: "再現", img: "./images/Gd1再現.jpg", caption: "ネオレアリズモ" }, 
-        { label: "理想", img: "./images/Gd2理想.jpg", caption: "テクニカラー" },
-        { label: "表現", img: "./images/Gd3表現.jpg", caption: "ドイツ表現主義" }, 
-        { label: "知覚", img: "./images/Gd4知覚.jpg", caption: "シュルレアリスム" },
-        { label: "構成", img: "./images/Gd5構成.jpg", caption: "アヴァンギャルド" }, 
-        { label: "幻想", img: "./images/Gd6幻想.jpg", caption: "特殊撮影" },
-        { label: "概念", img: "./images/Gd7概念.jpg", caption: "固定撮影" }, 
-        { label: "変容", img: "./images/Gd8変容.jpg", caption: "実験コマ撮りアニメーション" }
-    ]},
-    { q: "好きな映画は？", category: "PURPOSE", items: [
-        { label: "美", img: "./images/Gb1美.jpg", caption: "SFアドベンチャー" }, 
-        { label: "探究", img: "./images/Gb2探求.jpg", caption: "SFパニック" },
-        { label: "伝達", img: "./images/Gb3伝達.jpg", caption: "ファンタジー" }, 
-        { label: "共感", img: "./images/Gb4共感.jpg", caption: "ヒューマンドラマ" },
-        { label: "娯楽", img: "./images/Gb5娯楽.jpg", caption: "スペース・オペラ" }, 
-        { label: "思索", img: "./images/Gb6思索.jpg", caption: "サイバーパンク" },
-        { label: "癒し", img: "./images/Gb7癒し.jpg", caption: "ファミリー" }, 
-        { label: "感動", img: "./images/Gb8感動.jpg", caption: "ロマンス" }
-    ]},
-    { q: "好きな映像は？", category: "PURPOSE", items: [
-        { label: "美", img: "./images/Gc1美.jpg", caption: "ハイエンドCM・MV" }, 
-        { label: "探究", img: "./images/Gc2探求.jpg", caption: "実験映像" },
-        { label: "伝達", img: "./images/Gc3伝達.jpg", caption: "報道・ドキュメンタリー番組" }, 
-        { label: "共感", img: "./images/Gc4共感.jpg", caption: "TVアニメ" },
-        { label: "娯楽", img: "./images/Gc5娯楽.jpg", caption: "3Dアニメーション" }, 
-        { label: "思索", img: "./images/Gc6思索.jpg", caption: "教育番組" },
-        { label: "癒し", img: "./images/Gc7癒し.jpg", caption: "自然紀行番組・4Kネイチャー" }, 
-        { label: "感動", img: "./images/Gc8感動.jpg", caption: "長編アニメ映画" }
     ]},
     { q: "好きなアートは？", category: "MEDIUM", items: [
         { label: "視覚", img: "./images/I1視覚.jpg", caption: "動的ジェネラティブ表現" }, 
@@ -1872,13 +1862,13 @@ function selectRoute(routeType) {
     currentRouteType = routeType; // 選択されたルートを保存
     if (routeType === 'visual') {
         const indices = [];
-        for (let i = 0; i <= 17; i++) {
+        for (let i = 0; i <= 19; i++) {
             indices.push(i);
         }
         QUESTIONS = indices.map(i => ALL_QUESTIONS[i]);
     } else if (routeType === 'time') {
         const indices = [];
-        for (let i = 18; i <= 35; i++) {
+        for (let i = 20; i <= 34; i++) {
             indices.push(i);
         }
         QUESTIONS = indices.map(i => ALL_QUESTIONS[i]);
