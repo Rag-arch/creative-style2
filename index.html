@@ -1748,6 +1748,16 @@ const ALL_QUESTIONS = [
         { label: "言語", img: "./images/H5言語.jpg", caption: "俳句" }, 
         { label: "舞台", img: "./images/H6身体.jpg", caption: "日本舞踊", audio: "./audio/H6身体.mp3" },
         { label: "体験", img: "./images/H8体験.jpg", caption: "盆踊り" }
+    ]},
+    { q: "好きなアートは？", category: "MEDIUM", items: [
+        { label: "視覚", img: "./images/I1視覚.jpg", caption: "動的ジェネラティブ表現" }, 
+        { label: "造形", img: "./images/I2造形.jpg", caption: "鏡面球体オブジェ" },
+        { label: "空間", img: "./images/I3空間.jpg", caption: "イマーシブ空間" }, 
+        { label: "音響", img: "./images/I4音響.jpg", caption: "オーディオビジュアル", audio: "./audio/I4音響.mp3" },
+        { label: "言語", img: "./images/I5言語.jpg", caption: "動的タイポグラフィ" }, 
+        { label: "舞台", img: "./images/I6身体.jpg", caption: "モーションキャプチャ", audio: "./audio/I6身体.mp3" },
+        { label: "映像", img: "./images/I7映像.jpg", caption: "マルチチャンネル" }, 
+        { label: "体験", img: "./images/I8体験.jpg", caption: "水銀テーブル型UX" }
     ]}
 ];
 
@@ -1858,7 +1868,7 @@ function selectRoute(routeType) {
         QUESTIONS = indices.map(i => ALL_QUESTIONS[i]);
     } else if (routeType === 'time') {
         const indices = [];
-        for (let i = 20; i <= 33; i++) {
+        for (let i = 20; i <= 34; i++) {
             indices.push(i);
         }
         QUESTIONS = indices.map(i => ALL_QUESTIONS[i]);
