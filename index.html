@@ -286,7 +286,7 @@
 
         .btn-branch-square {
             width: 100%;
-            aspect-ratio: 3 / 4; /* 縦長の長方形に変更 */
+            aspect-ratio: 3 / 4;
             background: #ffffff;
             border: 1px solid rgba(212, 175, 55, 0.4);
             border-radius: 4px;
@@ -311,7 +311,7 @@
 
         .btn-branch-square img {
             width: 100%;
-            aspect-ratio: 1 / 1; /* 中の画像を正方形に維持 */
+            aspect-ratio: 1 / 1;
             object-fit: cover;
             border-radius: 2px;
             border: 1px solid var(--border-color);
@@ -323,7 +323,6 @@
         }
 
         .btn-branch-square .branch-text {
-            /* 質問ページと同じサンセリフ系フォント、サイズ・ウェイトに統一 */
             font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", "Segoe UI", "Hiragino Kaku Gothic ProN", "Hiragino Sans", Meiryo, sans-serif;
             font-size: 0.95rem;
             font-weight: 700;
@@ -476,7 +475,7 @@
             word-break: break-all;
         }
 
-        /* オーディオ・ビデオプレイヤーボタン（選択肢右下） */
+        /* オーディオ・ビデオプレイヤーボタン */
         .audio-btn {
             position: absolute;
             bottom: 4px;
@@ -511,7 +510,6 @@
             100% { transform: scale(1); }
         }
 
-        /* 1. スプリングアニメーション＆発光シャドウ効果 */
         @keyframes springPop {
             0% { transform: scale(1); }
             40% { transform: scale(0.90); }
@@ -619,7 +617,45 @@
             border-radius: 0;
         }
 
-        /* ----- 最終結果カード (iPhone風フレーム調整：デフォルト・黒フレーム) ----- */
+        /* ----- Cパターン用：結果表示切り替えタブ ----- */
+        .result-view-tabs {
+            display: flex;
+            justify-content: center;
+            gap: 6px;
+            margin-bottom: 12px;
+            width: 100%;
+            max-width: 360px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .tab-btn {
+            flex: 1;
+            padding: 8px 4px;
+            font-size: 0.72rem;
+            font-weight: bold;
+            border: 1px solid #d4af37;
+            background: #ffffff;
+            color: #666666;
+            cursor: pointer;
+            border-radius: 4px;
+            transition: all 0.2s ease;
+            text-align: center;
+            white-space: nowrap;
+        }
+        .tab-btn.active {
+            background: var(--gold-grad);
+            color: #ffffff;
+            border-color: #b8860b;
+            box-shadow: 0 2px 8px rgba(184, 134, 11, 0.3);
+        }
+        .tab-btn:disabled {
+            border-color: #e0e0e0;
+            background: #f5f5f5;
+            color: #bbbbbb;
+            cursor: not-allowed;
+        }
+
+        /* ----- 最終結果カード (iPhone風フレーム調整) ----- */
         .result-card-container {
             display: flex;
             justify-content: center;
@@ -674,19 +710,20 @@
             box-sizing: border-box;
         }
 
-        /* ----- 最終結果カード (時間と展開の芸術ルート用：白フレーム) ----- */
+        /* ルート・統合ごとのフレームカラー切り替え */
         .result-card.white-frame {
             border-color: #e0e0e0;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
         }
+        .result-card.white-frame::before { background-color: #cccccc; }
+        .result-card.white-frame::after { border-color: #cccccc; }
 
-        .result-card.white-frame::before {
-            background-color: #cccccc;
+        .result-card.gold-frame {
+            border-color: #d4af37;
+            box-shadow: 0 10px 30px rgba(212, 175, 55, 0.25);
         }
-
-        .result-card.white-frame::after {
-            border-color: #cccccc;
-        }
+        .result-card.gold-frame::before { background-color: #b8860b; }
+        .result-card.gold-frame::after { border-color: #b8860b; }
 
         .card-header {
             text-align: center;
@@ -1045,7 +1082,7 @@
 
 <div class="container">
 
-    <!-- START SCREEN (白ベースデザイン) -->
+    <!-- START SCREEN -->
     <div id="screen-start" class="screen active">
         <div class="ogp-start-card">
             <div class="ogp-header-meta">
@@ -1075,7 +1112,7 @@
         </div>
     </div>
 
-    <!-- BRANCH SCREEN (ルート選択画面) -->
+    <!-- BRANCH SCREEN -->
     <div id="screen-branch" class="screen">
         <div class="ogp-start-card">
             <div class="ogp-header-meta">
@@ -1089,7 +1126,6 @@
                 </div>
             </div>
 
-            <!-- 質問ページ（q-title等）と同じフォント・文字サイズ（約1.15rem）に合わせた見出し -->
             <div class="q-title" style="margin: 20px 0 24px 0; font-size: 1.15rem; font-weight: 700; text-align: center;">
                 あなたの創作･鑑賞タイプでルートを選択
             </div>
@@ -1142,12 +1178,20 @@
 
     <!-- RESULT SCREEN -->
     <div id="screen-result" class="screen">
+        
+        <!-- ▼ Cパターン追加：結果切り替えタブ ▼ -->
+        <div class="result-view-tabs" id="result-view-tabs">
+            <button class="tab-btn" id="tab-btn-visual" onclick="switchResultDisplay('visual')">イロ・カタチ</button>
+            <button class="tab-btn" id="tab-btn-time" onclick="switchResultDisplay('time')">オト・コトバ</button>
+            <button class="tab-btn" id="tab-btn-all" onclick="switchResultDisplay('all')">全統合（合算）</button>
+        </div>
+
         <div class="result-card-container">
             <div class="result-card" id="result-card">
                 
                 <!-- ① タイトル -->
                 <div class="card-header">
-                    <p class="app-title">512 TYPES</p>
+                    <p class="app-title" id="res-app-subtitle">512 TYPES</p>
                     <h2 style="margin:0; font-size: 12px;">私という作風</h2>
                 </div>
 
@@ -1182,7 +1226,9 @@
                 <div>結果画像を保存して、Xでシェアしよう。</div>
             </div>
 
-            <!-- 4. 選択画像一覧モーダルを開くボタン -->
+            <!-- もう一方のルートへの挑戦導線ボタン -->
+            <button class="btn" id="btn-play-other-route" style="display:none; background: #b8860b; border-color: #b8860b;" onclick="startOtherRoute()">もう一方のルートも診断して「合算結果」を見る</button>
+            
             <button class="btn btn-secondary" onclick="openSelectionModal()">選んだ画像を確認する</button>
             <button class="btn btn-secondary" onclick="backToImageScreen()">回答や写真を修正する</button>
             <button class="btn btn-secondary" onclick="restart()">最初からやり直す</button>
@@ -1191,21 +1237,18 @@
 
 </div>
 
-<!-- 4. 選択画像確認用モーダルHTML -->
+<!-- 選択画像確認用モーダルHTML -->
 <div class="modal-overlay" id="selection-modal" onclick="closeSelectionModalOnOutside(event)">
     <div class="modal-content">
         <div class="modal-header">
             <div class="modal-title">選んだ画像を確認する</div>
             <button class="modal-close-btn" onclick="closeSelectionModal()">&times;</button>
         </div>
-        <div class="modal-body" id="modal-history-list">
-            <!-- 動的生成 -->
-        </div>
+        <div class="modal-body" id="modal-history-list"></div>
     </div>
 </div>
 
 <script>
-// ご自身のGoogle Apps Script（GAS）ウェブアプリのURL
 const GAS_WEB_APP_URL = "https://script.google.com/macros/s/AKfycbw3FEnDk7Q_cC2neeP7wQshupYrUh8SuO-wBKsXRTFlTnD4Dbb0BA6dzZwL8ok-hN2M/exec";
 
 const COLOR_STYLE = {
@@ -1223,28 +1266,25 @@ const COLOR_PURPOSE = {
     "娯楽": "#FFA94D", "思索": "#B197FC", "癒し": "#20C997", "感動": "#FF6B6B"
 };
 
-// 現在再生中のオーディオオブジェクトとアクティブなボタン要素を管理
 let currentAudio = null;
 let currentAudioBtn = null;
 let audioStopTimer = null;
-
-// グリッド内で現在再生中の動画要素とボタンを管理
 let currentPlayingVideo = null;
 let currentVideoBtn = null;
 
-let currentRouteType = 'visual'; // 選択されたルートを保持する変数
+let currentRouteType = 'visual'; // 'visual', 'time'
+let activeDisplayTarget = 'visual'; // 'visual', 'time', 'all'
 
-// 動画ファイルかどうか判定するヘルパー関数
+// 全35問に対する回答を保存する配列（インデックス 0～34）
+let globalUserAnswers = new Array(35);
+
 function isVideoFile(url) {
     if (!url) return false;
     return url.match(/\.(mp4|webm|ogg|mov)($|\?)/i) !== null;
 }
 
-// 音源のトグル再生関数（押すと再生、もう一度押すまたは別ボタンを押すとストップ）
 function toggleSnippet(audioSrc, btnElement, event) {
-    if (event) {
-        event.stopPropagation();
-    }
+    if (event) event.stopPropagation();
     if (!audioSrc) return;
 
     if (currentAudio && currentAudioBtn === btnElement) {
@@ -1256,10 +1296,7 @@ function toggleSnippet(audioSrc, btnElement, event) {
             currentAudioBtn.innerHTML = '♫';
             currentAudioBtn = null;
         }
-        if (audioStopTimer) {
-            clearTimeout(audioStopTimer);
-            audioStopTimer = null;
-        }
+        if (audioStopTimer) { clearTimeout(audioStopTimer); audioStopTimer = null; }
         return;
     }
 
@@ -1273,10 +1310,7 @@ function toggleSnippet(audioSrc, btnElement, event) {
             currentAudioBtn = null;
         }
     }
-    if (audioStopTimer) {
-        clearTimeout(audioStopTimer);
-        audioStopTimer = null;
-    }
+    if (audioStopTimer) { clearTimeout(audioStopTimer); audioStopTimer = null; }
 
     currentAudio = new Audio(audioSrc);
     currentAudioBtn = btnElement;
@@ -1284,7 +1318,7 @@ function toggleSnippet(audioSrc, btnElement, event) {
     currentAudioBtn.innerHTML = '■';
 
     currentAudio.play().catch(e => {
-        console.log("自動再生ブロックまたは読み込みエラー:", e);
+        console.log("自動再生エラー:", e);
         if (currentAudioBtn) {
             currentAudioBtn.classList.remove('playing');
             currentAudioBtn.innerHTML = '♫';
@@ -1316,14 +1350,10 @@ function toggleSnippet(audioSrc, btnElement, event) {
     }, 20000);
 }
 
-// グリッド内での動画再生/停止トグル関数
 function toggleGridVideo(videoElement, btnElement, event) {
-    if (event) {
-        event.stopPropagation();
-    }
+    if (event) event.stopPropagation();
     if (!videoElement) return;
 
-    // すでにこの動画が再生中なら停止する
     if (currentPlayingVideo === videoElement) {
         videoElement.pause();
         videoElement.currentTime = 0;
@@ -1337,7 +1367,6 @@ function toggleGridVideo(videoElement, btnElement, event) {
         return;
     }
 
-    // 他の動画が再生中なら停止する
     if (currentPlayingVideo) {
         currentPlayingVideo.pause();
         currentPlayingVideo.currentTime = 0;
@@ -1348,7 +1377,6 @@ function toggleGridVideo(videoElement, btnElement, event) {
         }
     }
 
-    // 新しい動画を再生
     currentPlayingVideo = videoElement;
     currentVideoBtn = btnElement;
     currentVideoBtn.classList.add('playing');
@@ -1378,7 +1406,6 @@ function toggleGridVideo(videoElement, btnElement, event) {
 }
 
 function stopAllMedia() {
-    // 動画停止
     if (currentPlayingVideo) {
         currentPlayingVideo.pause();
         currentPlayingVideo.currentTime = 0;
@@ -1390,7 +1417,6 @@ function stopAllMedia() {
         currentVideoBtn.innerHTML = '▶';
         currentVideoBtn = null;
     }
-    // オーディオ停止
     if (currentAudio) {
         currentAudio.pause();
         currentAudio.currentTime = 0;
@@ -1407,7 +1433,7 @@ function stopAllMedia() {
     }
 }
 
-// 全34問の質問データ（インデックス 0 〜 33）
+// 全35問の質問データ
 const ALL_QUESTIONS = [
     { q: "好きな分野は？", category: "MEDIUM", items: [
         { label: "視覚", img: "./images/A1視覚.jpg", caption: "絵画" }, 
@@ -1798,7 +1824,7 @@ const STYLE_ORDER = ["再現", "理想", "表現", "知覚", "構成", "幻想",
 const MEDIUM_ORDER = ["視覚", "造形", "空間", "音響", "言語", "舞台", "映像", "体験"];
 const PURPOSE_ORDER = ["美", "探究", "伝達", "共感", "娯楽", "思索", "癒し", "感動"];
 
-let QUESTIONS = []; // 選択されたルートに応じて絞り込まれる質問配列
+let QUESTIONS = [];
 let currentQuestionIndex = 0;
 let userAnswers = [];
 let uploadedImageData = null;
@@ -1832,7 +1858,6 @@ function formatDescWithLineBreaks(text, keywords) {
 
 function showScreen(screenId) {
     stopAllMedia();
-
     document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
     document.getElementById(screenId).classList.add('active');
     
@@ -1859,23 +1884,28 @@ function goToBranchScreen() {
 }
 
 function selectRoute(routeType) {
-    currentRouteType = routeType; // 選択されたルートを保存
+    currentRouteType = routeType;
     if (routeType === 'visual') {
         const indices = [];
-        for (let i = 0; i <= 19; i++) {
-            indices.push(i);
-        }
+        for (let i = 0; i <= 19; i++) indices.push(i);
         QUESTIONS = indices.map(i => ALL_QUESTIONS[i]);
     } else if (routeType === 'time') {
         const indices = [];
-        for (let i = 20; i <= 34; i++) {
-            indices.push(i);
-        }
+        for (let i = 20; i <= 34; i++) indices.push(i);
         QUESTIONS = indices.map(i => ALL_QUESTIONS[i]);
     }
 
     currentQuestionIndex = 0;
     userAnswers = new Array(QUESTIONS.length);
+    
+    // 既存回答の読み込み（保存されている場合）
+    const startIndex = (currentRouteType === 'visual') ? 0 : 20;
+    for (let i = 0; i < QUESTIONS.length; i++) {
+        if (globalUserAnswers[startIndex + i]) {
+            userAnswers[i] = globalUserAnswers[startIndex + i];
+        }
+    }
+
     updateLiveCardBackground();
     renderQuestion();
     showScreen('screen-quiz');
@@ -1929,14 +1959,12 @@ function renderQuestion() {
         gridItem.className = 'grid-item';
         gridItem.setAttribute('data-item-index', itemIndex);
         
-        // ラベルではなく、アイテムのインデックス番号で選択状態を判定
         const selectionIndex = currentSelections.indexOf(itemIndex);
         if (selectionIndex > -1) {
             gridItem.classList.add('selected');
             gridItem.classList.add(`selected-${selectionIndex + 1}`);
         }
 
-        // 動画ファイルか画像ファイルかを自動判定して埋め込み（autoplayを外し、最初は静止）
         let videoEl = null;
         if (isVideoFile(itemData.img)) {
             gridItem.innerHTML = `<video src="${itemData.img}" loop muted playsinline data-index="${itemIndex}"></video>`;
@@ -1945,7 +1973,6 @@ function renderQuestion() {
             gridItem.innerHTML = `<img src="${itemData.img}" alt="${itemData.label}" draggable="false">`;
         }
         
-        // 音楽再生ボタン
         if (itemData.audio) {
             const audioBtn = document.createElement('div');
             audioBtn.className = 'audio-btn';
@@ -1955,7 +1982,6 @@ function renderQuestion() {
             gridItem.appendChild(audioBtn);
         }
 
-        // 動画のグリッド内再生ボタン（▶）
         const videoSrc = itemData.video || (isVideoFile(itemData.img) ? itemData.img : null);
         if (videoSrc && videoEl) {
             const videoBtn = document.createElement('div');
@@ -1967,10 +1993,8 @@ function renderQuestion() {
         }
 
         gridItem.onclick = (e) => {
-            // 右下の再生ボタンを押した場合は選択トグルを行わない
             if (e.target.classList.contains('audio-btn')) return;
 
-            // インデックス番号を渡してトグル処理
             toggleGridItemSelection(itemIndex);
 
             requestAnimationFrame(() => {
@@ -2012,7 +2036,7 @@ function renderQuestion() {
 }
 
 function updateLiveCardBackground() {
-    const res = calculateScores();
+    const res = calculateScores(currentRouteType);
     const finalStyle = res.style.rank1.key;
     const finalMedium = res.medium.rank1.key;
     const finalPurpose = res.purpose.rank1.key;
@@ -2058,6 +2082,10 @@ function toggleGridItemSelection(itemIndex) {
 
     userAnswers[currentQuestionIndex] = currentSelections;
     
+    // 全体回答管理配列にも即時反映
+    const globalIdx = (currentRouteType === 'visual') ? currentQuestionIndex : (20 + currentQuestionIndex);
+    globalUserAnswers[globalIdx] = currentSelections;
+
     updateLiveCardBackground();
     renderQuestion();
 
@@ -2108,17 +2136,30 @@ function handleImageUpload(event) {
     }
 }
 
-function calculateScores() {
+// Cパターン改修：ターゲット指定に応じたスコア集計関数
+function calculateScores(targetRoute) {
     const scoreMap = { STYLE: {}, MEDIUM: {}, PURPOSE: {} };
     
     STYLE_ORDER.forEach(k => scoreMap.STYLE[k] = { total: 0, mainCount: 0, subCount: 0, grid1Count: 0, grid2Count: 0 });
     MEDIUM_ORDER.forEach(k => scoreMap.MEDIUM[k] = { total: 0, mainCount: 0, subCount: 0, grid1Count: 0, grid2Count: 0 });
     PURPOSE_ORDER.forEach(k => scoreMap.PURPOSE[k] = { total: 0, mainCount: 0, subCount: 0, grid1Count: 0, grid2Count: 0 });
 
-    userAnswers.forEach((ansData, qIdx) => {
-        if (ansData === undefined) return;
-        const qData = QUESTIONS[qIdx];
-        if (!qData) return;
+    let startIdx = 0;
+    let endIdx = 34;
+
+    if (targetRoute === 'visual') {
+        startIdx = 0;
+        endIdx = 19;
+    } else if (targetRoute === 'time') {
+        startIdx = 20;
+        endIdx = 34;
+    }
+
+    for (let qIdx = startIdx; qIdx <= endIdx; qIdx++) {
+        const ansData = globalUserAnswers[qIdx];
+        if (ansData === undefined) continue;
+        const qData = ALL_QUESTIONS[qIdx];
+        if (!qData) continue;
 
         if (Array.isArray(ansData)) {
             const category = qData.category;
@@ -2139,7 +2180,7 @@ function calculateScores() {
                 }
             });
         }
-    });
+    }
 
     function getSortedRankList(category, orderList) {
         const catMap = scoreMap[category];
@@ -2206,26 +2247,19 @@ function recordDownloadStats(finalStyle, finalMedium, finalPurpose) {
             fetch(GAS_WEB_APP_URL, {
                 method: "POST",
                 mode: "no-cors",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify({
-                    style: finalStyle,
-                    medium: finalMedium,
-                    purpose: finalPurpose
-                })
-            }).catch(err => {
-                console.error("GAS送信エラー:", err);
-            });
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ style: finalStyle, medium: finalMedium, purpose: finalPurpose })
+            }).catch(err => { console.error("GAS送信エラー:", err); });
         }
     } catch (e) {
         console.error("集計データの保存に失敗しました", e);
     }
 }
 
-function calculateAndShowResult() {
-    if (!uploadedImageData) return;
-    const res = calculateScores();
+// Cパターン改修：指定ターゲットに応じたカード描画処理
+function renderResultCard(targetRoute) {
+    activeDisplayTarget = targetRoute;
+    const res = calculateScores(targetRoute);
     calculatedResultsData = res;
 
     const finalStyle = res.style.rank1.key;
@@ -2241,11 +2275,16 @@ function calculateAndShowResult() {
     const rgbP = hexToRgb(colorP);
 
     const resultCard = document.getElementById('result-card');
-    
-    if (currentRouteType === 'time') {
+    resultCard.classList.remove('white-frame', 'gold-frame');
+
+    if (targetRoute === 'time') {
         resultCard.classList.add('white-frame');
+        document.getElementById('res-app-subtitle').textContent = "512 TYPES ｜ オト・コトバ";
+    } else if (targetRoute === 'all') {
+        resultCard.classList.add('gold-frame');
+        document.getElementById('res-app-subtitle').textContent = "512 TYPES ｜ 全統合作風";
     } else {
-        resultCard.classList.remove('white-frame');
+        document.getElementById('res-app-subtitle').textContent = "512 TYPES ｜ イロ・カタチ";
     }
 
     resultCard.style.background = `linear-gradient(135deg, 
@@ -2272,7 +2311,6 @@ function calculateAndShowResult() {
     const dataS = DATA_STYLE[finalStyle];
     const dataMed = DATA_MEDIUM[finalMedium];
     
-    // D案：[STYLE] [MEDIUM] のシンプル構造へ変更
     document.getElementById('res-catchphrase').textContent = `${dataS.catchPhrase} ${dataMed.catchPhrase}`;
 
     const resImg = document.getElementById('res-image');
@@ -2327,7 +2365,7 @@ function calculateAndShowResult() {
     const colStyle = generateSingleCategoryGraphHTML("STYLE", STYLE_ORDER, res.style.fullMap, COLOR_STYLE);
     const colPurpose = generateSingleCategoryGraphHTML("PURPOSE", PURPOSE_ORDER, res.purpose.fullMap, COLOR_PURPOSE);
 
-    const graphHtml = `
+    document.getElementById('res-all-scores-graph').innerHTML = `
         <div class="graphs-wrapper">
             <div class="graph-column">${colMedium}</div>
             <div class="graph-column">${colStyle}</div>
@@ -2335,9 +2373,45 @@ function calculateAndShowResult() {
         </div>
     `;
 
-    document.getElementById('res-all-scores-graph').innerHTML = graphHtml;
+    // タブ状態更新
+    const hasVisual = globalUserAnswers.slice(0, 20).some(ans => Array.isArray(ans) && ans.length > 0);
+    const hasTime = globalUserAnswers.slice(20, 35).some(ans => Array.isArray(ans) && ans.length > 0);
 
+    const tabVisual = document.getElementById('tab-btn-visual');
+    const tabTime = document.getElementById('tab-btn-time');
+    const tabAll = document.getElementById('tab-btn-all');
+
+    tabVisual.disabled = !hasVisual;
+    tabTime.disabled = !hasTime;
+    tabAll.disabled = !(hasVisual && hasTime);
+
+    tabVisual.classList.toggle('active', targetRoute === 'visual');
+    tabTime.classList.toggle('active', targetRoute === 'time');
+    tabAll.classList.toggle('active', targetRoute === 'all');
+
+    // もう片方のルートへのおすすめボタン制御
+    const playOtherBtn = document.getElementById('btn-play-other-route');
+    if (hasVisual && hasTime) {
+        playOtherBtn.style.display = 'none';
+    } else {
+        playOtherBtn.style.display = 'block';
+        playOtherBtn.textContent = hasVisual ? "「オト・コトバ」も回答して全統合結果を見る" : "「イロ・カタチ」も回答して全統合結果を見る";
+    }
+}
+
+function calculateAndShowResult() {
+    if (!uploadedImageData) return;
+    renderResultCard(currentRouteType);
     showScreen('screen-result');
+}
+
+function switchResultDisplay(targetRoute) {
+    renderResultCard(targetRoute);
+}
+
+function startOtherRoute() {
+    const nextRoute = (currentRouteType === 'visual') ? 'time' : 'visual';
+    selectRoute(nextRoute);
 }
 
 function downloadResultImage() {
@@ -2478,8 +2552,8 @@ function openSelectionModal() {
     const listContainer = document.getElementById('modal-history-list');
     listContainer.innerHTML = '';
 
-    QUESTIONS.forEach((qData, qIdx) => {
-        const selections = userAnswers[qIdx];
+    ALL_QUESTIONS.forEach((qData, qIdx) => {
+        const selections = globalUserAnswers[qIdx];
         if (!Array.isArray(selections) || selections.length === 0) return;
 
         const questionBlock = document.createElement('div');
@@ -2547,11 +2621,13 @@ function restart() {
     stopAllMedia();
     currentQuestionIndex = 0;
     userAnswers = [];
+    globalUserAnswers = new Array(35);
     QUESTIONS = [];
     uploadedImageData = null;
     calculatedResultsData = null;
     isDownloading = false;
     currentRouteType = 'visual';
+    activeDisplayTarget = 'visual';
     document.getElementById('preview-img').style.display = 'none';
     document.getElementById('preview-img').src = '';
     document.getElementById('file-label-text').textContent = "画像ファイルを選択 (ローカル処理)";
