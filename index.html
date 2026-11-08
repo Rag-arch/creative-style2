@@ -740,13 +740,13 @@
         }
 
         .catchphrase {
-            font-size: 8px;
+            font-size: 8.5px;
             font-weight: bold;
             color: var(--text-main);
             margin-bottom: 2px;
             text-align: center;
             word-break: break-all;
-            line-height: 1.2;
+            line-height: 1.25;
         }
 
         .image-section {
@@ -1154,7 +1154,7 @@
                 <!-- ② 3軸グリッド -->
                 <div class="axes-grid-layout" id="res-axes-grid"></div>
 
-                <!-- ③ キャッチコピー -->
+                <!-- ③ キャッチコピー (D案：[STYLE] [MEDIUM]) -->
                 <div class="catchphrase" id="res-catchphrase"></div>
 
                 <!-- ④ あなたを象徴する一枚 -->
@@ -2272,7 +2272,8 @@ function calculateAndShowResult() {
     const dataS = DATA_STYLE[finalStyle];
     const dataMed = DATA_MEDIUM[finalMedium];
     
-    document.getElementById('res-catchphrase').textContent = `${dataP.catchPhrase}、${dataS.catchPhrase}${dataMed.catchPhrase}`;
+    // D案：[STYLE] [MEDIUM] のシンプル構造へ変更
+    document.getElementById('res-catchphrase').textContent = `${dataS.catchPhrase} ${dataMed.catchPhrase}`;
 
     const resImg = document.getElementById('res-image');
     resImg.src = uploadedImageData;
