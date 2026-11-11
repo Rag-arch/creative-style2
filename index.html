@@ -2305,14 +2305,14 @@ function renderResultCard(targetRoute) {
     // ルートごとの透かし画像パスとタイトルの切り替え
     if (targetRoute === 'time') {
         resultCard.classList.add('white-frame');
-        document.getElementById('res-app-subtitle').textContent = "512 TYPES ｜ オト・コトバ";
+        document.getElementById('res-app-subtitle').textContent = "512 TYPES ｜ time";
         if (watermarkEl) watermarkEl.style.backgroundImage = "url('./images/時間.jpg')";
     } else if (targetRoute === 'all') {
         resultCard.classList.add('gold-frame');
-        document.getElementById('res-app-subtitle').textContent = "512 TYPES ｜ 全統合作風";
+        document.getElementById('res-app-subtitle').textContent = "512 TYPES ｜ Composite";
         if (watermarkEl) watermarkEl.style.backgroundImage = "url('./images/総合.jpg')";
     } else {
-        document.getElementById('res-app-subtitle').textContent = "512 TYPES ｜ イロ・カタチ";
+        document.getElementById('res-app-subtitle').textContent = "512 TYPES ｜ space";
         if (watermarkEl) watermarkEl.style.backgroundImage = "url('./images/空間.jpg')";
     }
 
