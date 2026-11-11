@@ -677,12 +677,35 @@
             max-width: 360px;
             aspect-ratio: 1 / 1.7;
             transition: background 0.5s ease;
-            overflow: visible;
+            overflow: hidden;
             color: var(--text-main);
             position: relative;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
+            z-index: 1;
+        }
+
+        /* 透かし画像用レイヤー */
+        .result-card-watermark {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            opacity: 0.12;
+            mix-blend-mode: multiply;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        /* カード内部コンテンツを透かしの上に重ねる */
+        .result-card > *:not(.result-card-watermark) {
+            position: relative;
+            z-index: 1;
         }
 
         .result-card::before {
@@ -695,6 +718,7 @@
             height: 5px;
             background-color: #222222;
             border-radius: 4px;
+            z-index: 2;
         }
 
         .result-card::after {
@@ -708,6 +732,7 @@
             border: 2px solid #333333;
             border-radius: 50%;
             box-sizing: border-box;
+            z-index: 2;
         }
 
         /* ルート・統合ごとのフレームカラー切り替え */
@@ -1189,6 +1214,9 @@
         <div class="result-card-container">
             <div class="result-card" id="result-card">
                 
+                <!-- 透かし画像レイヤー -->
+                <div class="result-card-watermark" id="res-watermark"></div>
+
                 <!-- ① タイトル -->
                 <div class="card-header">
                     <p class="app-title" id="res-app-subtitle">512 TYPES</p>
@@ -1898,7 +1926,6 @@ function selectRoute(routeType) {
     currentQuestionIndex = 0;
     userAnswers = new Array(QUESTIONS.length);
     
-    // 既存回答の読み込み（保存されている場合）
     const startIndex = (currentRouteType === 'visual') ? 0 : 20;
     for (let i = 0; i < QUESTIONS.length; i++) {
         if (globalUserAnswers[startIndex + i]) {
@@ -2082,7 +2109,6 @@ function toggleGridItemSelection(itemIndex) {
 
     userAnswers[currentQuestionIndex] = currentSelections;
     
-    // 全体回答管理配列にも即時反映
     const globalIdx = (currentRouteType === 'visual') ? currentQuestionIndex : (20 + currentQuestionIndex);
     globalUserAnswers[globalIdx] = currentSelections;
 
@@ -2136,7 +2162,6 @@ function handleImageUpload(event) {
     }
 }
 
-// Cパターン改修：ターゲット指定に応じたスコア集計関数
 function calculateScores(targetRoute) {
     const scoreMap = { STYLE: {}, MEDIUM: {}, PURPOSE: {} };
     
@@ -2256,7 +2281,6 @@ function recordDownloadStats(finalStyle, finalMedium, finalPurpose) {
     }
 }
 
-// Cパターン改修：指定ターゲットに応じたカード描画処理
 function renderResultCard(targetRoute) {
     activeDisplayTarget = targetRoute;
     const res = calculateScores(targetRoute);
@@ -2275,16 +2299,21 @@ function renderResultCard(targetRoute) {
     const rgbP = hexToRgb(colorP);
 
     const resultCard = document.getElementById('result-card');
+    const watermarkEl = document.getElementById('res-watermark');
     resultCard.classList.remove('white-frame', 'gold-frame');
 
+    // ルートごとの透かし画像パスとタイトルの切り替え
     if (targetRoute === 'time') {
         resultCard.classList.add('white-frame');
         document.getElementById('res-app-subtitle').textContent = "512 TYPES ｜ オト・コトバ";
+        if (watermarkEl) watermarkEl.style.backgroundImage = "url('./images/時間.jpg')";
     } else if (targetRoute === 'all') {
         resultCard.classList.add('gold-frame');
         document.getElementById('res-app-subtitle').textContent = "512 TYPES ｜ 全統合作風";
+        if (watermarkEl) watermarkEl.style.backgroundImage = "url('./images/総合.jpg')";
     } else {
         document.getElementById('res-app-subtitle').textContent = "512 TYPES ｜ イロ・カタチ";
+        if (watermarkEl) watermarkEl.style.backgroundImage = "url('./images/空間.jpg')";
     }
 
     resultCard.style.background = `linear-gradient(135deg, 
@@ -2373,7 +2402,6 @@ function renderResultCard(targetRoute) {
         </div>
     `;
 
-    // タブ状態更新
     const hasVisual = globalUserAnswers.slice(0, 20).some(ans => Array.isArray(ans) && ans.length > 0);
     const hasTime = globalUserAnswers.slice(20, 35).some(ans => Array.isArray(ans) && ans.length > 0);
 
@@ -2389,7 +2417,6 @@ function renderResultCard(targetRoute) {
     tabTime.classList.toggle('active', targetRoute === 'time');
     tabAll.classList.toggle('active', targetRoute === 'all');
 
-    // もう片方のルートへのおすすめボタン制御
     const playOtherBtn = document.getElementById('btn-play-other-route');
     if (hasVisual && hasTime) {
         playOtherBtn.style.display = 'none';
