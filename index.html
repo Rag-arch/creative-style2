@@ -1294,6 +1294,18 @@ const COLOR_PURPOSE = {
     "娯楽": "#FFA94D", "思索": "#B197FC", "癒し": "#20C997", "感動": "#FF6B6B"
 };
 
+// メディウム8種ごとの透かし画像パス設定
+const WATERMARK_MEDIUM = {
+    "視覚": "./images/watermark_視覚.jpg",
+    "造形": "./images/watermark_造形.jpg",
+    "空間": "./images/watermark_空間.jpg",
+    "音響": "./images/watermark_音響.jpg",
+    "言語": "./images/watermark_言語.jpg",
+    "舞台": "./images/watermark_舞台.jpg",
+    "映像": "./images/watermark_映像.jpg",
+    "体験": "./images/watermark_体験.jpg"
+};
+
 let currentAudio = null;
 let currentAudioBtn = null;
 let audioStopTimer = null;
@@ -1373,8 +1385,8 @@ function toggleSnippet(audioSrc, btnElement, event) {
         if (currentAudioBtn) {
             currentAudioBtn.classList.remove('playing');
             currentAudioBtn.innerHTML = '♫';
-            currentAudioBtn = null;
         }
+        currentAudioBtn = null;
     }, 20000);
 }
 
@@ -2302,18 +2314,21 @@ function renderResultCard(targetRoute) {
     const watermarkEl = document.getElementById('res-watermark');
     resultCard.classList.remove('white-frame', 'gold-frame');
 
-    // ルートごとの透かし画像パスとタイトルの切り替え
+    // ルートごとのフレームカラーとサブタイトルの切り替え
     if (targetRoute === 'time') {
         resultCard.classList.add('white-frame');
         document.getElementById('res-app-subtitle').textContent = "512 TYPES ｜ time";
-        if (watermarkEl) watermarkEl.style.backgroundImage = "url('./images/時間.jpg')";
     } else if (targetRoute === 'all') {
         resultCard.classList.add('gold-frame');
         document.getElementById('res-app-subtitle').textContent = "512 TYPES ｜ Composite";
-        if (watermarkEl) watermarkEl.style.backgroundImage = "url('./images/総合.jpg')";
     } else {
         document.getElementById('res-app-subtitle').textContent = "512 TYPES ｜ space";
-        if (watermarkEl) watermarkEl.style.backgroundImage = "url('./images/空間.jpg')";
+    }
+
+    // メディウム（8種）ごとの透かし画像切り替え
+    if (watermarkEl) {
+        const watermarkUrl = WATERMARK_MEDIUM[finalMedium];
+        watermarkEl.style.backgroundImage = watermarkUrl ? `url('${watermarkUrl}')` : "none";
     }
 
     resultCard.style.background = `linear-gradient(135deg, 
