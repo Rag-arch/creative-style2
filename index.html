@@ -677,7 +677,7 @@
             max-width: 360px;
             aspect-ratio: 1 / 1.7;
             transition: background 0.5s ease;
-            overflow: hidden;
+            /* overflow: hidden を削除し、スマホ枠のスピーカーとホームボタン（::before, ::after）が切り取られないように修正 */
             color: var(--text-main);
             position: relative;
             display: flex;
@@ -693,6 +693,8 @@
             left: 0;
             width: 100%;
             height: 100%;
+            border-radius: 24px;
+            overflow: hidden;
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
