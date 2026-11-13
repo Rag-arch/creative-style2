@@ -617,7 +617,7 @@
             border-radius: 0;
         }
 
-        /* ----- Cパターン用：結果表示切り替えタブ ----- */
+        /* ----- 結果表示切り替えタブ ----- */
         .result-view-tabs {
             display: flex;
             justify-content: center;
@@ -631,7 +631,7 @@
         .tab-btn {
             flex: 1;
             padding: 8px 4px;
-            font-size: 0.72rem;
+            font-size: 0.75rem;
             font-weight: bold;
             border: 1px solid #d4af37;
             background: #ffffff;
@@ -735,20 +735,13 @@
             z-index: 2;
         }
 
-        /* ルート・統合ごとのフレームカラー切り替え */
+        /* ルートごとのフレームカラー切り替え */
         .result-card.white-frame {
             border-color: #e0e0e0;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
         }
         .result-card.white-frame::before { background-color: #cccccc; }
         .result-card.white-frame::after { border-color: #cccccc; }
-
-        .result-card.gold-frame {
-            border-color: #d4af37;
-            box-shadow: 0 10px 30px rgba(212, 175, 55, 0.25);
-        }
-        .result-card.gold-frame::before { background-color: #b8860b; }
-        .result-card.gold-frame::after { border-color: #b8860b; }
 
         .card-header {
             text-align: center;
@@ -1204,11 +1197,10 @@
     <!-- RESULT SCREEN -->
     <div id="screen-result" class="screen">
         
-        <!-- ▼ Cパターン追加：結果切り替えタブ ▼ -->
+        <!-- ▼ 結果切り替えタブ（イロ・カタチ ＆ オト・コトバ） ▼ -->
         <div class="result-view-tabs" id="result-view-tabs">
             <button class="tab-btn" id="tab-btn-visual" onclick="switchResultDisplay('visual')">イロ・カタチ</button>
             <button class="tab-btn" id="tab-btn-time" onclick="switchResultDisplay('time')">オト・コトバ</button>
-            <button class="tab-btn" id="tab-btn-all" onclick="switchResultDisplay('all')">総合</button>
         </div>
 
         <div class="result-card-container">
@@ -1226,7 +1218,7 @@
                 <!-- ② 3軸グリッド -->
                 <div class="axes-grid-layout" id="res-axes-grid"></div>
 
-                <!-- ③ キャッチコピー (D案：[STYLE] [MEDIUM]) -->
+                <!-- ③ キャッチコピー -->
                 <div class="catchphrase" id="res-catchphrase"></div>
 
                 <!-- ④ あなたを象徴する一枚 -->
@@ -1313,7 +1305,7 @@ let currentPlayingVideo = null;
 let currentVideoBtn = null;
 
 let currentRouteType = 'visual'; // 'visual', 'time'
-let activeDisplayTarget = 'visual'; // 'visual', 'time', 'all'
+let activeDisplayTarget = 'visual'; // 'visual', 'time'
 
 // 全35問に対する回答を保存する配列（インデックス 0～34）
 let globalUserAnswers = new Array(35);
@@ -1613,7 +1605,7 @@ const ALL_QUESTIONS = [
         { label: "娯楽", img: "./images/Cc5娯楽.jpg", caption: "幻惑空間" }, 
         { label: "思索", img: "./images/Cc6思索.jpg", caption: "侘寂インテリア" },
         { label: "癒し", img: "./images/Cc7癒し.jpg", caption: "オーガニック・ラグジュアリー" }, 
-        { label: "感動", img: "./images/Cc8感動.jpg", caption: "圧倒的ラグジュアリー" }
+        { label: "感動", img: "./images/Cc8感動.jpg", caption: "圧倒적ラグジュアリー" }
     ]},
     { q: "好きなランドスケープは？", category: "PURPOSE", items: [
         { label: "美", img: "./images/Cd1美.jpg", caption: "フランス式庭園" }, 
@@ -2317,12 +2309,9 @@ function renderResultCard(targetRoute) {
     // ルートごとのフレームカラーとサブタイトルの切り替え
     if (targetRoute === 'time') {
         resultCard.classList.add('white-frame');
-        document.getElementById('res-app-subtitle').textContent = "512 TYPES ｜ time";
-    } else if (targetRoute === 'all') {
-        resultCard.classList.add('gold-frame');
-        document.getElementById('res-app-subtitle').textContent = "512 TYPES ｜ Composite";
+        document.getElementById('res-app-subtitle').textContent = "512 TYPES ｜ オト・コトバ";
     } else {
-        document.getElementById('res-app-subtitle').textContent = "512 TYPES ｜ space";
+        document.getElementById('res-app-subtitle').textContent = "512 TYPES ｜ イロ・カタチ";
     }
 
     // メディウム（8種）ごとの透かし画像切り替え
@@ -2422,22 +2411,19 @@ function renderResultCard(targetRoute) {
 
     const tabVisual = document.getElementById('tab-btn-visual');
     const tabTime = document.getElementById('tab-btn-time');
-    const tabAll = document.getElementById('tab-btn-all');
 
     tabVisual.disabled = !hasVisual;
     tabTime.disabled = !hasTime;
-    tabAll.disabled = !(hasVisual && hasTime);
 
     tabVisual.classList.toggle('active', targetRoute === 'visual');
     tabTime.classList.toggle('active', targetRoute === 'time');
-    tabAll.classList.toggle('active', targetRoute === 'all');
 
     const playOtherBtn = document.getElementById('btn-play-other-route');
     if (hasVisual && hasTime) {
         playOtherBtn.style.display = 'none';
     } else {
         playOtherBtn.style.display = 'block';
-        playOtherBtn.textContent = hasVisual ? "「オト・コトバ」も回答して全統合結果を見る" : "「イロ・カタチ」も回答して全統合結果を見る";
+        playOtherBtn.textContent = hasVisual ? "「オト・コトバ」のルートも診断する" : "「イロ・カタチ」のルートも診断する";
     }
 }
 
