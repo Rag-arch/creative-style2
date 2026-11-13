@@ -1709,6 +1709,16 @@ const ALL_QUESTIONS = [
         { label: "概念", img: "./images/Dc7概念.jpg", caption: "グレゴリオ聖歌「アヴェ・マリア」", audio: "./audio/c7概念.mp3" }, 
         { label: "変容", img: "./images/Dc8変容.jpg", caption: "レクイエム「怒りの日」", audio: "./audio/c8変容.mp3" }
     ]},
+    { q: "好きなポピュラー音楽は？", category: "STYLE", items: [
+        { label: "再現", img: "./images/De1再現.jpg", caption: "フォーク/カントリー", audio: "./audio/p1再現.mp3" }, 
+        { label: "理想", img: "./images/De2理想.jpg", caption: "R&B/ソウル", audio: "./audio/p2理想.mp3" },
+        { label: "表現", img: "./images/De3表現.jpg", caption: "ブルース", audio: "./audio/p3表現.mp3" }, 
+        { label: "知覚", img: "./images/De4知覚.jpg", caption: "レゲエ", audio: "./audio/p4知覚.mp3" },
+        { label: "構成", img: "./images/De5構成.jpg", caption: "エレクトロ/EDM", audio: "./audio/p5構成.mp3" }, 
+        { label: "幻想", img: "./images/De6幻想.jpg", caption: "ジャズ", audio: "./audio/p6幻想.mp3" },
+        { label: "概念", img: "./images/De7概念.jpg", caption: "ヒップホップ/ラップ", audio: "./audio/p7概念.mp3" }, 
+        { label: "変容", img: "./images/De8変容.jpg", caption: "パンク", audio: "./audio/p8変容.mp3" }
+    ]},
     { q: "好きな分野は？", category: "MEDIUM", items: [
         { label: "音響", img: "./images/C4音響.jpg", caption: "管楽器", audio: "./audio/C4音響.mp3" },
         { label: "言語", img: "./images/C5言語.jpg", caption: "物語" }, 
@@ -1925,7 +1935,7 @@ function selectRoute(routeType) {
         QUESTIONS = indices.map(i => ALL_QUESTIONS[i]);
     } else if (routeType === 'time') {
         const indices = [];
-        for (let i = 20; i <= 33; i++) indices.push(i);
+        for (let i = 20; i <= 34; i++) indices.push(i);
         QUESTIONS = indices.map(i => ALL_QUESTIONS[i]);
     }
 
