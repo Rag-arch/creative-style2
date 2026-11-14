@@ -1639,6 +1639,16 @@ const ALL_QUESTIONS = [
         { label: "概念", img: "./images/Ga7概念.jpg", caption: "コンセプチュアル・アート" }, 
         { label: "変容", img: "./images/Ga8変容.jpg", caption: "実験的写真" }
    ]},
+    { q: "好きなアートは？", category: "MEDIUM", items: [
+        { label: "視覚", img: "./images/I1視覚.jpg", caption: "動的ジェネラティブ表現" }, 
+        { label: "造形", img: "./images/I2造形.jpg", caption: "鏡面球体オブジェ" },
+        { label: "空間", img: "./images/I3空間.jpg", caption: "イマーシブ空間" }, 
+        { label: "音響", img: "./images/I4音響.jpg", caption: "オーディオビジュアル", audio: "./audio/I4音響.mp3" },
+        { label: "言語", img: "./images/I5言語.jpg", caption: "動的タイポグラフィ" }, 
+        { label: "舞台", img: "./images/I6身体.jpg", caption: "モーションキャプチャ", audio: "./audio/I6身体.mp3" },
+        { label: "映像", img: "./video/I7映像.mp4", caption: "マルチチャンネル" }, 
+        { label: "体験", img: "./images/I8体験.jpg", caption: "水銀テーブル型UX" }
+    ]},
     { q: "好きな映画は？", category: "STYLE", items: [
         { label: "再現", img: "./images/Gd1再現.jpg", caption: "モンタージュ理論" }, 
         { label: "理想", img: "./images/Gd2理想.jpg", caption: "サイレント映画" },
@@ -1658,16 +1668,6 @@ const ALL_QUESTIONS = [
         { label: "思索", img: "./images/Gc6思索.jpg", caption: "幾何学抽象アニメ" },
         { label: "癒し", img: "./images/Gc7癒し.jpg", caption: "日常の原初記録" }, 
         { label: "感動", img: "./images/Gc8感動.jpg", caption: "投影劇" }
-    ]},
-    { q: "好きなアートは？", category: "MEDIUM", items: [
-        { label: "視覚", img: "./images/I1視覚.jpg", caption: "動的ジェネラティブ表現" }, 
-        { label: "造形", img: "./images/I2造形.jpg", caption: "鏡面球体オブジェ" },
-        { label: "空間", img: "./images/I3空間.jpg", caption: "イマーシブ空間" }, 
-        { label: "音響", img: "./images/I4音響.jpg", caption: "オーディオビジュアル", audio: "./audio/I4音響.mp3" },
-        { label: "言語", img: "./images/I5言語.jpg", caption: "動的タイポグラフィ" }, 
-        { label: "舞台", img: "./images/I6身体.jpg", caption: "モーションキャプチャ", audio: "./audio/I6身体.mp3" },
-        { label: "映像", img: "./video/I7映像.mp4", caption: "マルチチャンネル" }, 
-        { label: "体験", img: "./images/I8体験.jpg", caption: "水銀テーブル型UX" }
     ]},
     { q: "好きな分野は？", category: "MEDIUM", items: [
         { label: "音響", img: "./images/A4音響.jpg", caption: "音楽", audio: "./audio/A4音響.mp3" },
@@ -1931,7 +1931,7 @@ function selectRoute(routeType) {
     currentRouteType = routeType;
     if (routeType === 'visual') {
         const indices = [];
-        for (let i = 0; i <= 19; i++) indices.push(i);
+        for (let i = 0; i <= 17; i++) indices.push(i);
         QUESTIONS = indices.map(i => ALL_QUESTIONS[i]);
     } else if (routeType === 'time') {
         const indices = [];
